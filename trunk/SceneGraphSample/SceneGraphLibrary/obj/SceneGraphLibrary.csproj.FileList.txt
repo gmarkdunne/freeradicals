@@ -1,0 +1,8 @@
+bin\Release\SceneGraphLibrary.dll
+bin\Release\SceneGraphLibrary.pdb
+bin\Release\Microsoft.Xna.Framework.dll
+bin\Release\Microsoft.Xna.Framework.xml
+obj\Release\ResolveAssemblyReference.cache
+obj\Release\SceneGraphLibrary.LICENSE.txt
+obj\Release\SceneGraphLibrary.dll
+obj\Release\SceneGraphLibrary.pdb
