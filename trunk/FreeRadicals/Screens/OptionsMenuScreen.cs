@@ -53,7 +53,6 @@ namespace FreeRadicals.Screens
             motionBlur = WorldRules.MotionBlur;
             neonEffect = WorldRules.NeonEffect;
             fullScreen = WorldRules.FullScreen;
-            currentWallStyle = (int)WorldRules.WallStyle;
             scoreLimit = WorldRules.ScoreLimit;
 
             atomDensityMenuEntry.Selected += AtomDensityMenuEntrySelected;
@@ -159,8 +158,6 @@ namespace FreeRadicals.Screens
             WorldRules.AtomDensity = 
                 (AtomDensity)Enum.Parse(typeof(AtomDensity), 
                                          atomDensity[currentAtomDensity], true);
-            WorldRules.WallStyle = (WallStyle)Enum.Parse(typeof(WallStyle),
-                wallStyle[currentWallStyle], true);
             WorldRules.ScoreLimit = scoreLimit;
             WorldRules.MotionBlur = motionBlur;
             WorldRules.NeonEffect = neonEffect;

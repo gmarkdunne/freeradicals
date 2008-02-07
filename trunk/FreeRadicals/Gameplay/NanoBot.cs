@@ -379,9 +379,9 @@ namespace FreeRadicals.Gameplay
         /// </summary>
         public bool positiveCharge = false;
 
-        private int oxygenAmmo = 30;
-        private int hydrogenAmmo = 10;
-        private int carbonAmmo = 20;
+        private int oxygenAmmo = 0;
+        private int hydrogenAmmo = 20;
+        private int carbonAmmo = 0;
 
         #endregion
 
@@ -739,6 +739,23 @@ namespace FreeRadicals.Gameplay
                 for (int i = 0; i < world.Actors.Count; ++i)
                 {
                     if ((world.Actors[i] is Oxygen) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity -= -distance * 0.02f;
+                            if (world.Actors.Count == i)
+                            {
+                                return;
+                            }
+                        }
+                    }
+                }
+
+                // check if there is an Oxygen Two
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is OxygenTwo) == true)
                     {
                         Vector2 distance = this.position - world.Actors[i].Position;
                         if (distance.Length() <= this.collisionRadius)
@@ -1151,6 +1168,16 @@ namespace FreeRadicals.Gameplay
                 if ((target is Oxygen) == true)
                 {
                     this.oxygenAmmo += 1;
+                    target.Die(target);
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Red));
+                    this.FireGamepadMotors(0.0f, 0.16f);
+                }
+
+                // Touches Oxygen Two
+                if ((target is OxygenTwo) == true)
+                {
+                    this.oxygenAmmo += 2;
                     target.Die(target);
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
                         target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Red));
@@ -1603,7 +1630,6 @@ namespace FreeRadicals.Gameplay
 	                if (aButtonTimer > aButtonHeldToPlay)                   
                     {                       
 		                JoinGame();
-                        world.SpawnFreeRadicals(1, 1, 1, 1);
 		            }              
 		         }              
 		         else            
@@ -1791,21 +1817,25 @@ namespace FreeRadicals.Gameplay
                             (currentKeyboardState.IsKeyDown(Keys.Space) && playerIndex == PlayerIndex.One ))
                         {
                             negativeCharge = true;
+                            UpdateGameLevels();
                         }
                         else if (currentGamePadState.Triggers.Right == 0 || 
                             (currentKeyboardState.IsKeyUp(Keys.Space) && playerIndex == PlayerIndex.One))
                         {
                             negativeCharge = false;
+                            UpdateGameLevels();
                         }
                         if (currentGamePadState.Triggers.Left != 0 || 
                             (currentKeyboardState.IsKeyDown(Keys.LeftAlt) && playerIndex == PlayerIndex.One ) )
                         {
                             positiveCharge = true;
+                            UpdateGameLevels();
                         }
                         else if (currentGamePadState.Triggers.Left == 0 || 
                             (currentKeyboardState.IsKeyUp(Keys.LeftAlt) && playerIndex == PlayerIndex.One))
                         {
                             positiveCharge = false;
+                            UpdateGameLevels();
                         }
 					}             
 				}        
@@ -1861,7 +1891,6 @@ namespace FreeRadicals.Gameplay
                 }
                 else if ((world.Actors[i] is Ozone) == true)
                 {
-                    world.GreenhouseGasesCount += 1;
                     world.OzoneCount += 1;
                 }
                 else if ((world.Actors[i] is NitrousOxide) == true)

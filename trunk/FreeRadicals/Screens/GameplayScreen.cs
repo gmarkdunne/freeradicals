@@ -154,10 +154,10 @@ namespace FreeRadicals.Screens
                 {
                     for (int i = 0; i < world.NanoBots.Length; i++)
                     {
-                        if (world.NanoBots[i].Score >= WorldRules.ScoreLimit)
+                        if (world.OzoneCount >= 50)
                         {
-                            ScreenManager.AddScreen(new GameOverScreen("Player " +
-                                (i + 1).ToString() + " wins the game!"));
+                            ScreenManager.AddScreen(new GameOverScreen("Dobson 1.0 wins the game!" + "\n" +
+                                "50 Ozone Molecules in the Atmosphere."));
                             gameOver = true;
                             break;
                         }
@@ -282,32 +282,29 @@ namespace FreeRadicals.Screens
 
             Vector2 shadowOffset = Vector2.One;
 
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed)
+            if (world.OzoneCount > 0)
             {
-                if (world.OzoneCount > 0)
-                {
-                    spriteBatch.DrawString(spriteFont, "Ozone Level: " + world.OzoneCount.ToString(),
-                    new Vector2(50, 225) + shadowOffset, Color.Red);
-                    spriteBatch.DrawString(spriteFont, "Ozone Level: " + world.OzoneCount.ToString(),
-                    new Vector2(50, 225), Color.White);
-                }
-
-                if (world.FreeRadicalCount > 0)
-                {
-                    spriteBatch.DrawString(spriteFont, "Free Radical Level: " + world.FreeRadicalCount.ToString(),
-                        new Vector2(50, 250) + shadowOffset, Color.Yellow);
-                    spriteBatch.DrawString(spriteFont, "Free Radical Level: " + world.FreeRadicalCount.ToString(),
-                    new Vector2(50, 250), Color.White);
-                }
-
-                if (world.GreenhouseGasesCount > 0)
-                {
-                    spriteBatch.DrawString(spriteFont, "Greenhouse Gases Level: " + world.GreenhouseGasesCount.ToString(),
-                        new Vector2(50, 275) + shadowOffset, Color.Green);
-                    spriteBatch.DrawString(spriteFont, "Greenhouse Gases Level: " + world.GreenhouseGasesCount.ToString(),
-                    new Vector2(50, 275), Color.White);
-                } 
+                spriteBatch.DrawString(spriteFont, "Ozone Level: " + world.OzoneCount.ToString(),
+                new Vector2(50, 225) + shadowOffset, Color.Red);
+                spriteBatch.DrawString(spriteFont, "Ozone Level: " + world.OzoneCount.ToString(),
+                new Vector2(50, 225), Color.White);
             }
+
+            if (world.FreeRadicalCount > 0)
+            {
+                spriteBatch.DrawString(spriteFont, "Free Radical Level: " + world.FreeRadicalCount.ToString(),
+                    new Vector2(50, 250) + shadowOffset, Color.Yellow);
+                spriteBatch.DrawString(spriteFont, "Free Radical Level: " + world.FreeRadicalCount.ToString(),
+                new Vector2(50, 250), Color.White);
+            }
+
+            if (world.GreenhouseGasesCount > 0)
+            {
+                spriteBatch.DrawString(spriteFont, "Greenhouse Gases Level: " + world.GreenhouseGasesCount.ToString(),
+                    new Vector2(50, 275) + shadowOffset, Color.Green);
+                spriteBatch.DrawString(spriteFont, "Greenhouse Gases Level: " + world.GreenhouseGasesCount.ToString(),
+                new Vector2(50, 275), Color.White);
+            } 
 
             spriteBatch.End();
         }

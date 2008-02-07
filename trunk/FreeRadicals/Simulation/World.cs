@@ -10,6 +10,8 @@ using FreeRadicals.Gameplay.JointMolecules;
 using FreeRadicals.Gameplay.FreeRadicals;
 using FreeRadicals.Gameplay.GreenhouseGases;
 using FreeRadicals.Gameplay.Atoms;
+using FreeRadicals.Gameplay.Poles;
+using FreeRadicals.Gameplay.RepelPoints;
 #endregion
 
 namespace FreeRadicals.Simulation
@@ -23,12 +25,14 @@ namespace FreeRadicals.Simulation
         /// <summary>
         /// The number of seconds before the first power-up appears in a game.
         /// </summary>
-        const float initialPowerUpDelay = 10f;
+        const float initialFreeRadicalsDelay = 5f;
+        const float initialGreenhouseGasesDelay = 2f;
 
         /// <summary>
         /// The time between each power-up spawn.
         /// </summary>
-        const float powerUpDelay = 20f;
+        const float freeRadicalsDelay = 10f;
+        const float greenhouseGasesDelay = 1f;
 
         /// <summary>
         /// The number of stars to generate in the starfield.
@@ -96,7 +100,8 @@ namespace FreeRadicals.Simulation
         /// <summary>
         /// The timer to see if another power-up can arrive.
         /// </summary>
-        float powerUpTimer;
+        float freeRadicalsTimer;
+        float greenhouseGasesTimer;
 
         /// <summary>
         /// The audio manager that all objects in the world will use.
@@ -107,11 +112,6 @@ namespace FreeRadicals.Simulation
         /// All nanoBots that might enter the game.
         /// </summary>
         NanoBot[] nanoBots;
-
-        /// <summary>
-        /// The walls in the game.
-        /// </summary>
-        Vector2[] walls;
 
         /// <summary>
         /// The Atmosphere effect behind the game-board.
@@ -408,8 +408,8 @@ namespace FreeRadicals.Simulation
         #region New Game
         public void StartNewGame()
         {
-            // create the walls
-            CreateWalls();
+            //// create the walls
+            //CreateWalls();
 
             // clear out the actors list
             actors.Clear();
@@ -426,119 +426,15 @@ namespace FreeRadicals.Simulation
             // spawn the poles
             SpawnPoles();
 
-            // spawn atoms density
-            switch (WorldRules.AtomDensity)
-            {
-                case AtomDensity.None:
-                    SpawnAtoms(0, 0, 0, 0, 0, 0, 0);
-                    SpawnFreeRadicals(0, 0, 0, 0);
-                    SpawnGreenHouseGases(70, 5, 5, 5, 5);
-                    SpawnJointMolecules(0, 0, 0, 0);
-                    break;
-                case AtomDensity.Low:
-                    SpawnAtoms(0, 0, 0, 0, 0, 0, 0);
-                    SpawnFreeRadicals(0, 0, 0, 0);
-                    SpawnGreenHouseGases(0, 0, 0, 0, 0);
-                    SpawnJointMolecules(0, 0, 0, 0);
-                    break;
-                case AtomDensity.Medium:
-                    SpawnAtoms(0, 0, 0, 0, 0, 0, 0);
-                    SpawnFreeRadicals(0, 0, 0, 0);
-                    SpawnGreenHouseGases(0, 0, 0, 0, 0);
-                    SpawnJointMolecules(0, 0, 0, 0);
-                    break;
-                case AtomDensity.High:
-                    SpawnAtoms(0, 0, 0, 0, 0, 0, 0);
-                    SpawnFreeRadicals(0, 0, 0, 0);
-                    SpawnGreenHouseGases(0, 0, 0, 0, 0);
-                    SpawnJointMolecules(0, 0, 0, 0);
-                    break;
-            }
+            // spawn the repel points
+            SpawnRepelPointsOne();
+            SpawnRepelPointsTwo();
 
-            // set up the power-up timer for the initial delay
-            powerUpTimer = initialPowerUpDelay;
+            // spawn atoms density
+            SpawnGreenHouseGases(25, 5, 5, 5, 5);
 
             // set up the atmosphere
             atmosphere.SetTargetPosition(dimensions);
-        }
-
-
-        /// <summary>
-        /// Initialize the walls based on the current world rules.
-        /// </summary>
-        private void CreateWalls()
-        {
-            switch (WorldRules.WallStyle)
-            {
-                case WallStyle.None:
-                    walls = new Vector2[8];
-                    break;
-                case WallStyle.One:
-                    walls = new Vector2[10];
-                    break;
-                case WallStyle.Two:
-                    walls = new Vector2[12];
-                    break;
-                case WallStyle.Three:
-                    walls = new Vector2[14];
-                    break;
-            }
-
-            // The outer boundaries
-            walls[0] = new Vector2(safeDimensions.X, safeDimensions.Y);
-            walls[1] = new Vector2(safeDimensions.X,
-                safeDimensions.Y + safeDimensions.Height);
-            walls[2] = new Vector2(safeDimensions.X + safeDimensions.Width,
-                safeDimensions.Y);
-            walls[3] = new Vector2(safeDimensions.X + safeDimensions.Width,
-                safeDimensions.Y + safeDimensions.Height);
-            walls[4] = new Vector2(safeDimensions.X, safeDimensions.Y);
-            walls[5] = new Vector2(safeDimensions.X + safeDimensions.Width,
-                safeDimensions.Y);
-            walls[6] = new Vector2(safeDimensions.X,
-                safeDimensions.Y + safeDimensions.Height);
-            walls[7] = new Vector2(safeDimensions.X + safeDimensions.Width,
-                safeDimensions.Y + safeDimensions.Height);
-
-            int quarterX = safeDimensions.Width / 4;
-            int quarterY = safeDimensions.Height / 4;
-            int halfY = safeDimensions.Height / 2;
-
-            switch (WorldRules.WallStyle)
-            {
-                case WallStyle.One:
-                    // Cross line
-                    walls[8] = new Vector2(safeDimensions.X + quarterX,
-                        safeDimensions.Y + halfY);
-                    walls[9] = new Vector2(safeDimensions.X + 3 * quarterX,
-                        safeDimensions.Y + halfY);
-                    break;
-                case WallStyle.Two:
-                    walls[8] = new Vector2(safeDimensions.X + quarterX,
-                        safeDimensions.Y + quarterY);
-                    walls[9] = new Vector2(safeDimensions.X + quarterX,
-                        safeDimensions.Y + 3 * quarterY);
-                    walls[10] = new Vector2(safeDimensions.X + 3 * quarterX,
-                        safeDimensions.Y + quarterY);
-                    walls[11] = new Vector2(safeDimensions.X + 3 * quarterX,
-                        safeDimensions.Y + 3 * quarterY);
-                    break;
-                case WallStyle.Three:
-                    // Cross line
-                    walls[8] = new Vector2(safeDimensions.X + quarterX,
-                        safeDimensions.Y + halfY);
-                    walls[9] = new Vector2(safeDimensions.X + 3 * quarterX,
-                        safeDimensions.Y + halfY);
-                    walls[10] = new Vector2(safeDimensions.X + quarterX,
-                        safeDimensions.Y + quarterY);
-                    walls[11] = new Vector2(safeDimensions.X + quarterX,
-                        safeDimensions.Y + 3 * quarterY);
-                    walls[12] = new Vector2(safeDimensions.X + 3 * quarterX,
-                        safeDimensions.Y + quarterY);
-                    walls[13] = new Vector2(safeDimensions.X + 3 * quarterX,
-                        safeDimensions.Y + 3 * quarterY);
-                    break;
-            }
         }
 
 
@@ -712,78 +608,281 @@ namespace FreeRadicals.Simulation
         /// <summary>
         /// Create a new power-up in the world, if possible
         /// </summary>
-        void SpawnGreenhouseGases()
+        public void FreeRadicalsSpawning()
         {
-            // check if there is a powerup in the world
             for (int i = 0; i < actors.Count; ++i)
             {
-                //if (actors[i] is PowerUp)
-                //{
-                //    return;
-                //}
+                if (freeRadicalCount >= 5)
+                {
+                    return;
+                }
             }
-            // create the new power-up
-            //PowerUp powerup = null;
-            switch (random.Next(5))
+            switch (random.Next(4))
             {
                 case 0:
-                    //powerup = new DoubleLaserPowerUp(this);
+                    NitricOxide p = new NitricOxide(this);
+                    p.Spawn(false);
+                    p.Position = new Vector2(900f, 1470f);
                     break;
                 case 1:
-                    //powerup = new TripleLaserPowerUp(this);
+                    CFC1 q = new CFC1(this);
+                    q.Spawn(false);
+                    q.Position = new Vector2(1100f, 1470f);
                     break;
                 case 2:
-                    //powerup = new RocketPowerUp(this);
+                    CFC1 w = new CFC1(this);
+                    w.Spawn(false);
+                    w.Position = new Vector2(1300f, 1470f);
                     break;
                 case 3:
-                    //powerup = new RocketPowerUp(this);
-                    break;
-                case 4:
-                    //powerup = new RocketPowerUp(this);
+                    Hydroxyl e = new Hydroxyl(this);
+                    e.Spawn(false);
+                    e.Position = new Vector2(1500f, 1470f);
                     break;
             }
-            // add the new power-up to the world
-            //powerup.Spawn(true);
         }
 
 
         /// <summary>
         /// Create a new power-up in the world, if possible
         /// </summary>
-        void FreeRadicalsSpawning()
+        public void GreenhouseGasesSpawning()
         {
-            // check if there is a powerup in the world
             for (int i = 0; i < actors.Count; ++i)
             {
-                //if (actors[i] is PowerUp)
-                //{
-                //    return;
-                //}
+                if (greenhouseGasesCount >= 25)
+                {
+                    return;
+                }
             }
-            // create the new power-up
-            //PowerUp powerup = null;
             switch (random.Next(5))
             {
                 case 0:
-                    //powerup = new DoubleLaserPowerUp(this);
+                    Water p = new Water(this);
+                    p.Spawn(false);
+                    p.Position = new Vector2(500f, 1550f);
                     break;
                 case 1:
-                    //powerup = new TripleLaserPowerUp(this);
+                    CarbonDioxide q = new CarbonDioxide(this);
+                    q.Spawn(false);
+                    q.Position = new Vector2(750f, 1550f);
                     break;
                 case 2:
-                    //powerup = new RocketPowerUp(this);
+                    NitrousOxide w = new NitrousOxide(this);
+                    w.Spawn(false);
+                    w.Position = new Vector2(1000f, 1550f);
                     break;
                 case 3:
-                    //powerup = new RocketPowerUp(this);
+                    Methane e = new Methane(this);
+                    e.Spawn(false);
+                    e.Position = new Vector2(1250f, 1550f);
                     break;
                 case 4:
-                    //powerup = new RocketPowerUp(this);
+                    Ozone v = new Ozone(this);
+                    v.Spawn(false);
+                    v.Position = new Vector2(1500f, 1550f);
                     break;
             }
-            // add the new power-up to the world
-            //powerup.Spawn(true);
         }
 
+
+        /// <summary>
+        /// Create a repel points one
+        /// </summary>
+        public void SpawnRepelPointsOne()
+        {
+            // Top Side
+            One ts0 = new One(this);
+            ts0.Spawn(false);
+            ts0.Position = new Vector2(0, -200f);
+            One ts1 = new One(this);
+            ts1.Spawn(false);
+            ts1.Position = new Vector2(250f, -200f);
+            One ts2 = new One(this);
+            ts2.Spawn(false);
+            ts2.Position = new Vector2(500f, -200f);
+            One ts3 = new One(this);
+            ts3.Spawn(false);
+            ts3.Position = new Vector2(750f, -200f);
+            One ts4 = new One(this);
+            ts4.Spawn(false);
+            ts4.Position = new Vector2(1000f, -200f);
+            One ts5 = new One(this);
+            ts5.Spawn(false);
+            ts5.Position = new Vector2(1250f, -200f);
+            One ts6 = new One(this);
+            ts6.Spawn(false);
+            ts6.Position = new Vector2(1500f, -200f);
+            One ts7 = new One(this);
+            ts7.Spawn(false);
+            ts7.Position = new Vector2(1750f, -200f);
+            One ts8 = new One(this);
+            ts8.Spawn(false);
+            ts8.Position = new Vector2(2000f, -200f);
+
+            // Bottom Side
+            One bs0 = new One(this);
+            bs0.Spawn(false);
+            bs0.Position = new Vector2(0, 1400f);
+            One bs1 = new One(this);
+            bs1.Spawn(false);
+            bs1.Position = new Vector2(250f, 1400f);
+            One bs2 = new One(this);
+            bs2.Spawn(false);
+            bs2.Position = new Vector2(500f, 1400f);
+            One bs3 = new One(this);
+            bs3.Spawn(false);
+            bs3.Position = new Vector2(750f, 1400f);
+            One bs4 = new One(this);
+            bs4.Spawn(false);
+            bs4.Position = new Vector2(1000f, 1400f);
+            One bs5 = new One(this);
+            bs5.Spawn(false);
+            bs5.Position = new Vector2(1250f, 1400f);
+            One bs6 = new One(this);
+            bs6.Spawn(false);
+            bs6.Position = new Vector2(1500f, 1400f);
+            One bs7 = new One(this);
+            bs7.Spawn(false);
+            bs7.Position = new Vector2(1750f, 1400f);
+            One bs8 = new One(this);
+            bs8.Spawn(false);
+            bs8.Position = new Vector2(2000f, 1400f);
+
+            // Left Side
+            One ls0 = new One(this);
+            ls0.Spawn(false);
+            ls0.Position = new Vector2(-200f, 0);
+            One ls1 = new One(this);
+            ls1.Spawn(false);
+            ls1.Position = new Vector2(-200f, 250f);
+            One ls2 = new One(this);
+            ls2.Spawn(false);
+            ls2.Position = new Vector2(-200f, 500f);
+            One ls3 = new One(this);
+            ls3.Spawn(false);
+            ls3.Position = new Vector2(-200f, 750f);
+            One ls4 = new One(this);
+            ls4.Spawn(false);
+            ls4.Position = new Vector2(-200f, 1000f);
+            One ls5 = new One(this);
+            ls5.Spawn(false);
+            ls5.Position = new Vector2(-200f, 1250f);
+
+            // Right Side
+            One rs0 = new One(this);
+            rs0.Spawn(false);
+            rs0.Position = new Vector2(2120f, 0f);
+            One rs1 = new One(this);
+            rs1.Spawn(false);
+            rs1.Position = new Vector2(2120f, 250f);
+            One rs2 = new One(this);
+            rs2.Spawn(false);
+            rs2.Position = new Vector2(2120f, 500f);
+            One rs3 = new One(this);
+            rs3.Spawn(false);
+            rs3.Position = new Vector2(2120f, 750f);
+            One rs4 = new One(this);
+            rs4.Spawn(false);
+            rs4.Position = new Vector2(2120f, 1000f);
+            One rs5 = new One(this);
+            rs5.Spawn(false);
+            rs5.Position = new Vector2(2120f, 1250f);
+        }
+
+
+        /// <summary>
+        /// Create a repel points one
+        /// </summary>
+        public void SpawnRepelPointsTwo()
+        {
+            // Top Side
+            Two ts0 = new Two(this);
+            ts0.Spawn(false);
+            ts0.Position = new Vector2(0, -200f);
+            Two ts1 = new Two(this);
+            ts1.Spawn(false);
+            ts1.Position = new Vector2(250f, -200f);
+            Two ts2 = new Two(this);
+            ts2.Spawn(false);
+            ts2.Position = new Vector2(500f, -200f);
+            Two ts3 = new Two(this);
+            ts3.Spawn(false);
+            ts3.Position = new Vector2(750f, -200f);
+            Two ts4 = new Two(this);
+            ts4.Spawn(false);
+            ts4.Position = new Vector2(1000f, -200f);
+            Two ts5 = new Two(this);
+            ts5.Spawn(false);
+            ts5.Position = new Vector2(1250f, -200f);
+            Two ts6 = new Two(this);
+            ts6.Spawn(false);
+            ts6.Position = new Vector2(1500f, -200f);
+            Two ts7 = new Two(this);
+            ts7.Spawn(false);
+            ts7.Position = new Vector2(1750f, -200f);
+            Two ts8 = new Two(this);
+            ts8.Spawn(false);
+            ts8.Position = new Vector2(2000f, -200f);
+
+            // Left Side
+            Two ls0 = new Two(this);
+            ls0.Spawn(false);
+            ls0.Position = new Vector2(-200f, 0);
+            Two ls1 = new Two(this);
+            ls1.Spawn(false);
+            ls1.Position = new Vector2(-200f, 250f);
+            Two ls2 = new Two(this);
+            ls2.Spawn(false);
+            ls2.Position = new Vector2(-200f, 500f);
+            Two ls3 = new Two(this);
+            ls3.Spawn(false);
+            ls3.Position = new Vector2(-200f, 750f);
+            Two ls4 = new Two(this);
+            ls4.Spawn(false);
+            ls4.Position = new Vector2(-200f, 1000f);
+            Two ls5 = new Two(this);
+            ls5.Spawn(false);
+            ls5.Position = new Vector2(-200f, 1250f);
+            Two ls6 = new Two(this);
+            ls6.Spawn(false);
+            ls6.Position = new Vector2(-200f, 1500f);
+            Two ls7 = new Two(this);
+            ls7.Spawn(false);
+            ls7.Position = new Vector2(-200f, 1750f);
+            Two ls8 = new Two(this);
+            ls8.Spawn(false);
+            ls8.Position = new Vector2(-200f, 2000f);
+
+            // Right Side
+            Two rs0 = new Two(this);
+            rs0.Spawn(false);
+            rs0.Position = new Vector2(2120f, 0f);
+            Two rs1 = new Two(this);
+            rs1.Spawn(false);
+            rs1.Position = new Vector2(2120f, 250f);
+            Two rs2 = new Two(this);
+            rs2.Spawn(false);
+            rs2.Position = new Vector2(2120f, 500f);
+            Two rs3 = new Two(this);
+            rs3.Spawn(false);
+            rs3.Position = new Vector2(2120f, 750f);
+            Two rs4 = new Two(this);
+            rs4.Spawn(false);
+            rs4.Position = new Vector2(2120f, 1000f);
+            Two rs5 = new Two(this);
+            rs5.Spawn(false);
+            rs5.Position = new Vector2(2120f, 1250f);
+            Two rs6 = new Two(this);
+            rs6.Spawn(false);
+            rs6.Position = new Vector2(2120f, 1500f);
+            Two rs7 = new Two(this);
+            rs7.Spawn(false);
+            rs7.Position = new Vector2(2120f, 1750f);
+            Two rs8 = new Two(this);
+            rs8.Spawn(false);
+            rs8.Position = new Vector2(2120f, 2000f);
+        }
 
 
         /// <summary>
@@ -791,6 +890,7 @@ namespace FreeRadicals.Simulation
         /// </summary>
         public void SpawnPoles()
         {
+            // North Poles
             North north0 = new North(this);
             north0.Spawn(false);
             north0.Position = new Vector2(0, -7000f);
@@ -818,15 +918,11 @@ namespace FreeRadicals.Simulation
             North north8 = new North(this);
             north8.Spawn(false);
             north8.Position = new Vector2(2000f, -1000f);
-            //South south = new South(this);
-            //south.Spawn(true);
-            //south.Position = new Vector2(0, 500f);
-            //East east = new East(this);
-            //east.Spawn(false);
-            //east.Position = new Vector2(-500f, 0);
-            //West west = new West(this);
-            //west.Spawn(false);
-            //west.Position = new Vector2(500f, 0);
+
+            // South Pole
+            South south = new South(this);
+            south.Spawn(true);
+            south.Position = new Vector2(1000f, 2000f);
         }        
         #endregion
 
@@ -873,92 +969,30 @@ namespace FreeRadicals.Simulation
             }
             atmosphere.Update(elapsedTime);
 
-            // check if we can create a new power-up yet
-            if (powerUpTimer > 0f)
+            // check if we can create a free radicals yet
+            if (freeRadicalsTimer > 0f)
             {
-                powerUpTimer = Math.Max(powerUpTimer - elapsedTime, 0f);
+                freeRadicalsTimer = Math.Max(freeRadicalsTimer - elapsedTime, 0f);
             }
-            if (powerUpTimer <= 0.0f)
+            if (freeRadicalsTimer <= 0.0f)
             {
-                SpawnGreenhouseGases();
-                powerUpTimer = powerUpDelay;
+                FreeRadicalsSpawning();
+                freeRadicalsTimer = freeRadicalsDelay;
             }
 
-            //// Count number of certain molecules
-            //for (int i = 0; i <Actors.Count; ++i)
-            //{
-            //    if ((Actors[i] is CFC1) == true)
-            //    {
-            //        freeRadicalCount += 1;
-            //        cFC1Count += 1;
-            //    } 
-            //    else if ((Actors[i] is CFC2) == true)
-            //    {
-            //        freeRadicalCount += 1;
-            //        cFC2Count += 1;
-            //    }
-            //    else if ((Actors[i] is Hydroxyl) == true)
-            //    {
-            //        freeRadicalCount += 1;
-            //        hydroxylCount += 1;
-            //    }
-            //    else if ((Actors[i] is NitricOxide) == true)
-            //    {
-            //        freeRadicalCount += 1;
-            //        nitricOxideCount += 1;
-            //    }
-            //    else if ((Actors[i] is Ozone) == true)
-            //    {
-            //        greenhouseGasesCount += 1;
-            //        ozoneCount += 1;
-            //    }
-            //    else if ((Actors[i] is NitrousOxide) == true)
-            //    {
-            //        greenhouseGasesCount += 1;
-            //        nitrousOxideCount += 1;
-            //    }
-            //    else if ((Actors[i] is Methane) == true)
-            //    {
-            //        greenhouseGasesCount += 1;
-            //        methaneCount += 1;
-            //    }
-            //    else if ((Actors[i] is Water) == true)
-            //    {
-            //        greenhouseGasesCount += 1;
-            //        waterCount += 1;
-            //    }
-            //    else if ((Actors[i] is CarbonDioxide) == true)
-            //    {
-            //        greenhouseGasesCount += 1;
-            //        carbonDioxideCount += 1;
-            //    }
-            //    else if (Actors.Count == i)
-            //    {
-            //        return;
-            //    }
-            //}
-
+            // check if we can create a greenhouse gas yet
+            if (greenhouseGasesTimer > 0f)
+            {
+                greenhouseGasesTimer = Math.Max(greenhouseGasesTimer - elapsedTime, 0f);
+            }
+            if (greenhouseGasesTimer <= 0.0f)
+            {
+                GreenhouseGasesSpawning();
+                greenhouseGasesTimer = greenhouseGasesDelay;
+            }
             // clean up the lists
             actors.Collect();
             particleSystems.Collect();
-        }
-
-
-        /// <summary>
-        /// Draw the walls.
-        /// </summary>
-        /// <param name="lineBatch">The LineBatch to render to.</param>
-        public void DrawWalls(LineBatch lineBatch)
-        {
-            if (lineBatch == null)
-            {
-                throw new ArgumentNullException("lineBatch");
-            }
-            // draw each wall-line
-            for (int wall = 0; wall < walls.Length / 2; wall++)
-            {
-                lineBatch.DrawLine(walls[wall * 2], walls[wall * 2 + 1], Color.Yellow);
-            }
         }
         #endregion
 
@@ -987,33 +1021,6 @@ namespace FreeRadicals.Simulation
                 }
                 // determine the new position
                 actors[i].Position += movement;
-                // determine if their new position taks them through a wall
-                for (int w = 0; w < walls.Length / 2; ++w)
-                {
-                    if (actors[i] is Projectile)
-                    {
-                        if (Collision.LineLineIntersect(actors[i].Position, 
-                            actors[i].Position - movement, walls[w * 2], 
-                            walls[w * 2 + 1], out point))
-                        {
-                            actors[i].Touch(actors[0]);
-                        }
-                    }
-                    else
-                    {
-                        Collision.CircleLineCollisionResult result = 
-                            new Collision.CircleLineCollisionResult();
-                        if (Collision.CircleLineCollide(actors[i].Position, 
-                            actors[i].Radius, walls[w * 2], walls[w * 2 + 1], 
-                            ref result))
-                        {
-                            // if a non-projectile hits a wall, bounce slightly
-                            float vn = Vector2.Dot(actors[i].Velocity, result.Normal);
-                            actors[i].Velocity -= (2.0f * vn) * result.Normal;
-                            actors[i].Position += result.Normal * result.Distance;
-                        }
-                    }
-                }
             }
         }
 
@@ -1212,8 +1219,8 @@ namespace FreeRadicals.Simulation
                 (float)Math.Floor(safeDimensions.Height - 2f * radius));
             Vector2 spawnMaximum = spawnMinimum + spawnDimensions;
 
-            Collision.CircleLineCollisionResult result = 
-                new Collision.CircleLineCollisionResult();
+            //Collision.CircleLineCollisionResult result = 
+            //    new Collision.CircleLineCollisionResult();
             bool valid = true;
             while (true)
             {
@@ -1233,19 +1240,6 @@ namespace FreeRadicals.Simulation
                 if (actor.Collidable == false)
                 {
                     break; 
-                }
-                // check against the walls
-                if (valid == true)
-                {
-                    for (int wall = 0; wall < walls.Length / 2; wall++)
-                    {
-                        if (Collision.CircleLineCollide(spawnPoint, radius, 
-                            walls[wall * 2], walls[wall * 2 + 1], ref result))
-                        {
-                            valid = false;
-                            break;
-                        }
-                    }
                 }
                 // check against all other actors
                 if (valid == true)
@@ -1460,7 +1454,7 @@ namespace FreeRadicals.Simulation
             O.Direction = dir * 0.5f;
             Hydrogen H = new Hydrogen(this);
             H.Spawn(false);
-            Vector2 newPos = new Vector2(40f, 0);
+            Vector2 newPos = new Vector2(50f, 0);
             H.Position = pos + newPos;
             H.Velocity = vel * 2f;
             H.Direction = dir * 2f;
@@ -1486,7 +1480,7 @@ namespace FreeRadicals.Simulation
             O.Direction = dir * 0.5f;
             Nitrogen N = new Nitrogen(this);
             N.Spawn(false);
-            Vector2 newPos = new Vector2(45f, 0);
+            Vector2 newPos = new Vector2(55f, 0);
             N.Position = pos + newPos;
             N.Velocity = vel * 2f;
             N.Direction = dir * 2f;
