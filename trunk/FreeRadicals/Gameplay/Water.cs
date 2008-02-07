@@ -35,7 +35,7 @@ namespace FreeRadicals.Gameplay
         /// Scalar to convert the velocity / mass 
         /// ratio into a "nice" rotational value.
         /// </summary>
-        const float velocityMassRatioToRotationScalar = 0.02f;
+        const float velocityMassRatioToRotationScalar = 0.005f;
 
         #endregion
 
@@ -60,6 +60,8 @@ namespace FreeRadicals.Gameplay
         {
             // Oxygen Radius
             this.radius = 16f; //(15.9994);
+            // Collision Radius (Radius * 10)
+            this.collisionRadius = this.radius * 10;
             // all atoms are coloured according to which type they are
             this.color = Color.Red;
             // create the polygon

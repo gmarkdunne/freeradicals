@@ -30,6 +30,6 @@ namespace FreeRadicals
         public static AtomDensity AtomDensity = AtomDensity.None;
         public static bool MotionBlur = true;
         public static bool NeonEffect = true;
-        public static bool FullScreen = true;
+        public static bool FullScreen = false;
     }
 }

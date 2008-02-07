@@ -14,7 +14,7 @@ namespace FreeRadicals
         /// <summary>
         /// The ship that owns this weapon.
         /// </summary>
-        protected NanoBot owner = null;
+        protected Gameplay.NanoBot owner = null;
 
         /// <summary>
         /// The amount of time remaining before this weapon can fire again.
@@ -37,7 +37,7 @@ namespace FreeRadicals
         /// Constructs a new weapon.
         /// </summary>
         /// <param name="owner">The ship that owns this weapon.</param>
-        public Weapon(NanoBot owner)
+        public Weapon(Gameplay.NanoBot owner)
         {
             if (owner == null)
             {

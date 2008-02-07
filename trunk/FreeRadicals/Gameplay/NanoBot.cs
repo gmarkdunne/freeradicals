@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 #endregion
 
-namespace FreeRadicals
+namespace FreeRadicals.Gameplay
 {
     /// <summary>
     /// The NanoBot, which is the primary playing-piece in the game.
@@ -141,7 +141,7 @@ namespace FreeRadicals
         /// <summary>
         /// The speed at which the ship moves.
         /// </summary>
-        private float speed = 500f;
+        private float speed = 750f;
 
         /// <summary>
         /// The strength of the shield.
@@ -287,6 +287,8 @@ namespace FreeRadicals
         {
             this.playerIndex = playerIndex;
 
+            // Collision Radius (Radius * 10)
+            this.collisionRadius = this.radius * 30;
             this.radius = 60f;
             this.mass = 50f;
             this.color = Color.Yellow;
@@ -384,18 +386,536 @@ namespace FreeRadicals
 
             if (negativeCharge)
             {
-                this.speed = 1000f;
-                this.mass = 100f;
+                this.speed += this.speed + 500f;
+                this.mass += this.mass + 100f;
+
+                // check if there is a Bromine
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is Bromine) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity -= -distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is a Chlorine
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is Chlorine) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity -= -distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is a Fluorine
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is Fluorine) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity -= -distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is a Nitric Oxide
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is NitricOxide) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity -= -distance * 0.02f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is a Hydroxyl
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is Hydroxyl) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity -= -distance * 0.02f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an CFC1
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is CFC1) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity -= -distance * 0.02f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an CFC2
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is CFC2) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity -= -distance * 0.02f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an Nitrogen
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is Nitrogen) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity += distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an Methylene
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is Methylene) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity += distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an Carbon
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is Carbon) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity += distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an Deuterium
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is Deuterium) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity += distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an Hydrogen
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is Hydrogen) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity += distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an Oxygen
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is Oxygen) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity += distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an OxygenTwo
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is OxygenTwo) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity += distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an NitrogenTwo
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is NitrogenTwo) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity += distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an CarbonDioxide
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is CarbonDioxide) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity += distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an Water
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is Water) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity += distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an Ozone
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is Ozone) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity += distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an NitrousOxide
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is NitrousOxide) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity += distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an Methane
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is Methane) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity += distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
             }
             else if (positiveCharge)
             {
-                this.speed = 1000f;
-                this.mass = 100f;
+                this.speed += this.speed + 500f;
+                this.mass += this.mass + 100f;
+                
+                // check if there is an Nitrogen
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is Nitrogen) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity += distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an Methylene
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is Methylene) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity += distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an Carbon
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is Carbon) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity += distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an Deuterium
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is Deuterium) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity += distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an Hydrogen
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is Hydrogen) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity += distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an Oxygen
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is Oxygen) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity += distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an OxygenTwo
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is OxygenTwo) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity += distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an NitrogenTwo
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is NitrogenTwo) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity += distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an CarbonDioxide
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is CarbonDioxide) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity += distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an Water
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is Water) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity += distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an Ozone
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is Ozone) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity += distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an NitrousOxide
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is NitrousOxide) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity += distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an Methane
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is Methane) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity += distance * 0.01f;
+                            return;
+                        }
+                    }
+                }
             }
             else
             {
-                this.speed = 500f;
-                this.mass = 50f;
+                this.speed += this.speed + 750f;
+                this.mass += this.mass + 50f;
+
+                // check if there is a Nitric Oxide
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is NitricOxide) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity -= -distance * 0.02f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is a Hydroxyl
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is Hydroxyl) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity -= -distance * 0.02f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an CFC1
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is CFC1) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity -= -distance * 0.02f;
+                            return;
+                        }
+                    }
+                }
+
+                // check if there is an CFC2
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is CFC2) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity -= -distance * 0.02f;
+                            return;
+                        }
+                    }
+                }
             }
 
             base.Update(elapsedTime);

@@ -51,11 +51,12 @@
     <Compile Include="Gameplay\Bromine.cs" />
     <Compile Include="Gameplay\Carbon.cs" />
     <Compile Include="Gameplay\CarbonDioxide.cs" />
+    <Compile Include="Gameplay\CFC1.cs" />
+    <Compile Include="Gameplay\CFC2.cs" />
     <Compile Include="Gameplay\Chlorine.cs" />
     <Compile Include="Gameplay\Deuterium.cs" />
     <Compile Include="Gameplay\Fluorine.cs" />
     <Compile Include="Gameplay\Hydrogen.cs" />
-    <Compile Include="Gameplay\HydrogenTwo.cs" />
     <Compile Include="Gameplay\Hydroxyl.cs" />
     <Compile Include="Gameplay\Methane.cs" />
     <Compile Include="Gameplay\Methylene.cs" />

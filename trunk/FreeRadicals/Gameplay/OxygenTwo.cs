@@ -35,7 +35,7 @@ namespace FreeRadicals.Gameplay
         /// Scalar to convert the velocity / mass 
         /// ratio into a "nice" rotational value.
         /// </summary>
-        const float velocityMassRatioToRotationScalar = 0.02f;
+        const float velocityMassRatioToRotationScalar = 0.005f;
 
         /// <summary>
         /// Particle system colors for the ship-explosion effect.
@@ -67,6 +67,8 @@ namespace FreeRadicals.Gameplay
         {
             // Oxygen Radius
             this.radius = 16f; //2*(15.9994);
+            // OxygenTwo Collision Radius (Radius * 10)
+            this.collisionRadius = this.radius * 10;
             // all atoms are coloured according to which type they are
             this.color = Color.Red;
             // create the polygon
@@ -201,6 +203,35 @@ namespace FreeRadicals.Gameplay
 
             // This is the AI bit, Execute the agents current state.
             agent.ExecuteState();
+
+
+
+            // check if there is an Oxygen
+            for (int i = 0; i < world.Actors.Count; ++i)
+            {
+                if ((world.Actors[i] is Oxygen) == true)
+                {
+                    Vector2 distance = this.position - world.Actors[i].Position;
+                    if (distance.Length() <= this.collisionRadius)
+                    {
+                        world.Actors[i].Velocity -= -distance * 0.01f;
+                        return;
+                    }
+                }
+            }
+            // check if there is an Nitrogen
+            for (int i = 0; i < world.Actors.Count; ++i)
+            {
+                if ((world.Actors[i] is Nitrogen) == true)
+                {
+                    Vector2 distance = this.position - world.Actors[i].Position;
+                    if (distance.Length() <= this.collisionRadius)
+                    {
+                        world.Actors[i].Velocity += distance * 0.5f;
+                        return;
+                    }
+                }
+            }
 
             base.Update(elapsedTime);
         }

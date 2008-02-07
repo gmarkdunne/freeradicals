@@ -66,7 +66,7 @@ namespace FreeRadicals
         /// <summary>
         /// All ships that might enter the game.
         /// </summary>
-        NanoBot[] ships;
+        Gameplay.NanoBot[] ships;
 
         /// <summary>
         /// The walls in the game.
@@ -121,7 +121,7 @@ namespace FreeRadicals
             get { return atmosphere; }
         }
 
-        public NanoBot[] Ships
+        public Gameplay.NanoBot[] Ships
         {
             get { return ships; }
         }
@@ -148,11 +148,11 @@ namespace FreeRadicals
                 (int)(dimensions.X * 0.05f), (int)(dimensions.Y * 0.05f), 
                 (int)(dimensions.X * 0.90f), (int)(dimensions.Y * 0.90f));
             // create the players
-            ships = new NanoBot[4];
-            ships[0] = new NanoBot(this, PlayerIndex.One);
-            ships[1] = new NanoBot(this, PlayerIndex.Two);
-            ships[2] = new NanoBot(this, PlayerIndex.Three);
-            ships[3] = new NanoBot(this, PlayerIndex.Four);
+            ships = new Gameplay.NanoBot[4];
+            ships[0] = new Gameplay.NanoBot(this, PlayerIndex.One);
+            ships[1] = new Gameplay.NanoBot(this, PlayerIndex.Two);
+            ships[2] = new Gameplay.NanoBot(this, PlayerIndex.Three);
+            ships[3] = new Gameplay.NanoBot(this, PlayerIndex.Four);
 
             // create the Atmosphere
             atmosphere = new Atmosphere(atomCount, new Rectangle(
@@ -191,16 +191,19 @@ namespace FreeRadicals
             switch (WorldRules.AtomDensity)
             {
                 case AtomDensity.None:
-                    SpawnAtoms(0, 0, 0, 20, 0, 0, 0, 0, 0, 0, 0, 0);
+                    SpawnAtoms(0, 0, 0, 0, 0, 0, 0);
+                    SpawnFreeRadicals(1, 1, 1, 1);
+                    SpawnGreenHouseGases(0, 0, 0, 0, 0);
+                    SpawnJointMolecules(0, 0, 0, 0);
                     break;
                 case AtomDensity.Low:
-                    SpawnAtoms(30, 22, 6, 50, 10, 10, 1, 1, 1, 1, 1, 1);
+                    SpawnAtoms(30, 22, 6, 50, 10, 10, 1);
                     break;
                 case AtomDensity.Medium:
-                    SpawnAtoms(60, 44, 12, 100, 20, 20, 1, 1, 1, 1, 1, 1);
+                    SpawnAtoms(60, 44, 12, 100, 20, 20, 1);
                     break;
                 case AtomDensity.High:
-                    SpawnAtoms(120, 88, 24, 200, 40, 40, 1, 1, 1, 1, 1, 1);
+                    SpawnAtoms(120, 88, 24, 200, 40, 40, 1);
                     break;
             }
 
@@ -298,8 +301,85 @@ namespace FreeRadicals
         /// <param name="mediumCount">The number of "medium" asteroids to create.
         /// </param>
         /// <param name="largeCount">The number of "large" asteroids to create.</param>
-        private void SpawnAtoms(int H, int C, int N, int O, int F, 
-            int Cl, int Br, int O2, int H2, int N2, int O3, int HH)
+        private void SpawnFreeRadicals(int NO, int CFCa, int CFCb, int HO)
+        {
+            // create Nitric Oxide atoms
+            for (int i = 0; i < NO; ++i)
+            {
+                Gameplay.NitricOxide nitricOxide = new Gameplay.NitricOxide(this);
+                nitricOxide.Spawn(true);
+            }
+            // create CFC1 atoms
+            for (int i = 0; i < CFCa; ++i)
+            {
+                Gameplay.CFC1 cfc1 = new Gameplay.CFC1(this);
+                cfc1.Spawn(true);
+            }
+            // create CFC2 atoms
+            for (int i = 0; i < CFCb; ++i)
+            {
+                Gameplay.CFC2 cfc2 = new Gameplay.CFC2(this);
+                cfc2.Spawn(true);
+            }
+            // create Hydroxyl atoms
+            for (int i = 0; i < HO; ++i)
+            {
+                Gameplay.Hydroxyl hydroxyl = new Gameplay.Hydroxyl(this);
+                hydroxyl.Spawn(true);
+            }
+        }
+
+
+        /// <summary>
+        /// Create many asteroids and add them to the game world.
+        /// </summary>
+        /// <param name="smallCount">The number of "small" asteroids to create.</param>
+        /// <param name="mediumCount">The number of "medium" asteroids to create.
+        /// </param>
+        /// <param name="largeCount">The number of "large" asteroids to create.</param>
+        private void SpawnGreenHouseGases(int O3, int H2O, int N2O, int CO2, int CH4)
+        {
+            // create Ozone atoms
+            for (int i = 0; i < O3; ++i)
+            {
+                Gameplay.Ozone ozone = new Gameplay.Ozone(this);
+                ozone.Spawn(true);
+            }
+            // create Water atoms
+            for (int i = 0; i < H2O; ++i)
+            {
+                Gameplay.Water water = new Gameplay.Water(this);
+                water.Spawn(true);
+            }
+            // create Nitrous Oxide atoms
+            for (int i = 0; i < N2O; ++i)
+            {
+                Gameplay.NitrousOxide nitrousOxide = new Gameplay.NitrousOxide(this);
+                nitrousOxide.Spawn(true);
+            }
+            // create Carbon Dioxide atoms
+            for (int i = 0; i < CO2; ++i)
+            {
+                Gameplay.CarbonDioxide carbonDioxide = new Gameplay.CarbonDioxide(this);
+                carbonDioxide.Spawn(true);
+            }
+            // create Methane atoms
+            for (int i = 0; i < CH4; ++i)
+            {
+                Gameplay.Methane methane = new Gameplay.Methane(this);
+                methane.Spawn(true);
+            }
+        }
+
+
+        /// <summary>
+        /// Create many asteroids and add them to the game world.
+        /// </summary>
+        /// <param name="smallCount">The number of "small" asteroids to create.</param>
+        /// <param name="mediumCount">The number of "medium" asteroids to create.
+        /// </param>
+        /// <param name="largeCount">The number of "large" asteroids to create.</param>
+        private void SpawnAtoms(int H, int C, int N, int O, int F, int Cl, int Br)
         {
             // create hydrogen atoms
             for (int i = 0; i < H; ++i)
@@ -343,35 +423,40 @@ namespace FreeRadicals
                 Gameplay.Bromine bromine = new Gameplay.Bromine(this);
                 bromine.Spawn(true);
             }
-            // create oxygenTwo atoms
+        }
+
+        /// <summary>
+        /// Create many asteroids and add them to the game world.
+        /// </summary>
+        /// <param name="smallCount">The number of "small" asteroids to create.</param>
+        /// <param name="mediumCount">The number of "medium" asteroids to create.
+        /// </param>
+        /// <param name="largeCount">The number of "large" asteroids to create.</param>
+        private void SpawnJointMolecules(int O2, int N2, int HH, int CH2)
+        {
+            // create Oxygen Two atoms
             for (int i = 0; i < O2; ++i)
             {
                 Gameplay.OxygenTwo oxygenTwo = new Gameplay.OxygenTwo(this);
                 oxygenTwo.Spawn(true);
             }
-            // create hydrogenTwo atoms
-            for (int i = 0; i < H2; ++i)
-            {
-                Gameplay.HydrogenTwo hydrogenTwo = new Gameplay.HydrogenTwo(this);
-                hydrogenTwo.Spawn(true);
-            }
-            // create nitrogenTwo atoms
+            // create Nitrogen Two atoms
             for (int i = 0; i < N2; ++i)
             {
                 Gameplay.NitrogenTwo nitrogenTwo = new Gameplay.NitrogenTwo(this);
                 nitrogenTwo.Spawn(true);
-            }
-            // create ozone atoms
-            for (int i = 0; i < O3; ++i)
-            {
-                Gameplay.Ozone ozone = new Gameplay.Ozone(this);
-                ozone.Spawn(true);
             }
             // create Deuterium atoms
             for (int i = 0; i < HH; ++i)
             {
                 Gameplay.Deuterium deuterium = new Gameplay.Deuterium(this);
                 deuterium.Spawn(true);
+            }
+            // create Methylene atoms
+            for (int i = 0; i < CH2; ++i)
+            {
+                Gameplay.Methylene methylene = new Gameplay.Methylene(this);
+                methylene.Spawn(true);
             }
         }
         
@@ -718,7 +803,7 @@ namespace FreeRadicals
             float radius = actor.Radius;
 
             // fudge the radius slightly so we're not right on top of another actor
-            if (actor is NanoBot)
+            if (actor is Gameplay.NanoBot)
             {
                 radius *= 2f;
             }
@@ -881,14 +966,14 @@ namespace FreeRadicals
             Gameplay.OxygenTwo oxygenTwo = new Gameplay.OxygenTwo(this);
             oxygenTwo.Spawn(true);
             oxygenTwo.Position = pos;
-            oxygenTwo.Velocity = vel;
+            oxygenTwo.Velocity = vel * -2f;
             oxygenTwo.Direction = dir;
             Gameplay.Oxygen oxygen = new Gameplay.Oxygen(this);
             oxygen.Spawn(true);
             Vector2 newPos = new Vector2(0, 31.5f);
             Vector2 newDir = new Vector2(0, 31.5f);
             oxygen.Position = pos;
-            oxygen.Velocity = vel;
+            oxygen.Velocity = vel * 2f;
             oxygen.Direction = dir;
         }
         public void BondCarbonDioxide(Vector2 pos, Vector2 vel, Vector2 dir)
@@ -925,19 +1010,19 @@ namespace FreeRadicals
         }
         public void BondMethylene(Vector2 pos, Vector2 vel, Vector2 dir)
         {
-            Gameplay.Methane CH4 = new Gameplay.Methane(this);
-            CH4.Spawn(true);
-            CH4.Position = pos;
-            CH4.Velocity = vel;
-            CH4.Direction = dir;
-        }
-        public void BondMethane(Vector2 pos, Vector2 vel, Vector2 dir)
-        {
             Gameplay.Methylene CH2 = new Gameplay.Methylene(this);
             CH2.Spawn(true);
             CH2.Position = pos;
             CH2.Velocity = vel;
             CH2.Direction = dir;
+        }
+        public void BondMethane(Vector2 pos, Vector2 vel, Vector2 dir)
+        {
+            Gameplay.Methane CH4 = new Gameplay.Methane(this);
+            CH4.Spawn(true);
+            CH4.Position = pos;
+            CH4.Velocity = vel;
+            CH4.Direction = dir;
         }
         public void BondNitrousOxide(Vector2 pos, Vector2 vel, Vector2 dir)
         {

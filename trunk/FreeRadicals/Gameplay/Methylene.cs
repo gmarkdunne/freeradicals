@@ -35,7 +35,7 @@ namespace FreeRadicals.Gameplay
         /// Scalar to convert the velocity / mass 
         /// ratio into a "nice" rotational value.
         /// </summary>
-        const float velocityMassRatioToRotationScalar = 0.02f;
+        const float velocityMassRatioToRotationScalar = 0.005f;
 
         /// <summary>
         /// Particle system colors for the ship-explosion effect.
@@ -68,6 +68,8 @@ namespace FreeRadicals.Gameplay
         {
             // Carbon Radius
             this.radius = 12.0f; //(12.0107);
+            // Collision Radius (Radius * 10)
+            this.collisionRadius = this.radius * 10;
             // Carbon Color
             this.color = Color.Gray;
             // create the polygon
@@ -245,6 +247,21 @@ namespace FreeRadicals.Gameplay
             // This is the AI bit, Execute the agents current state.
             agent.ExecuteState();
 
+            // check if there is an Oxygen to bond this with in the world
+            for (int i = 0; i < world.Actors.Count; ++i)
+            {
+                // check if there is an Deuterium
+                if ((world.Actors[i] is Deuterium) == true)
+                {
+                    Vector2 distance = this.position - world.Actors[i].Position;
+                    if (distance.Length() <= this.collisionRadius)
+                    {
+                        world.Actors[i].Velocity -= -distance * 0.01f;
+                        return;
+                    }
+                }
+            }
+
             base.Update(elapsedTime);
         }
 
@@ -278,19 +295,7 @@ namespace FreeRadicals.Gameplay
             {
                 this.world.AudioManager.PlayCue("asteroidTouch");
             }
-            // if the Methylane hits an Deuterium, Bond them to make Methane
-            if ((target is Deuterium) == true)
-            {
-                this.Die(this);
-                target.Die(target);
-                Vector2 newPosition = (target.Position + this.position) / 2;
-                Vector2 newVelocity = (target.Velocity + this.velocity) / 2;
-                Vector2 newDirection = (target.Direction + this.direction) / 2;
-                world.BondMethane(newPosition, newVelocity, newDirection);
-                world.ParticleSystems.Add(new ParticleSystem(newPosition,
-                    newDirection, 36, 64f, 128f, 2f, 0.05f, CH4Colors));
-                this.world.AudioManager.PlayCue("asteroidTouch");
-            }
+
             return base.Touch(target);
         }
 
