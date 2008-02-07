@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using FreeRadicals.Screens;
 using FreeRadicals.Simulation;
+using System.Windows.Forms;
 #endregion
 
 namespace FreeRadicals
@@ -19,56 +20,45 @@ namespace FreeRadicals
     public class FreeRadicalsGame : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
+        bool on = false;
+        bool off = true;
 
         ScreenManager.ScreenManager screenManager;
         AudioManager audioManager;
-
-        bool fullScreen = WorldRules.FullScreen;
-        bool fullScreenEnabled = false;
 
         public FreeRadicalsGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            if (Simulation.WorldRules.ScreenRes == ScreenRes.a1920x1200)
+
+            if (SystemInformation.VirtualScreen.Width == 1920)
             {
                 graphics.PreferredBackBufferWidth = 1920;
                 graphics.PreferredBackBufferHeight = 1200;
+                Simulation.WorldRules.ScreenRes = ScreenRes.a1920x1200;
             }
-            if (Simulation.WorldRules.ScreenRes == ScreenRes.b1680x1050)
+            if (SystemInformation.VirtualScreen.Width == 1680 ||
+                SystemInformation.VirtualScreen.Width == 1600)
             {
                 graphics.PreferredBackBufferWidth = 1680;
                 graphics.PreferredBackBufferHeight = 1050;
+                Simulation.WorldRules.ScreenRes = ScreenRes.b1680x1050;
             }
-            if (Simulation.WorldRules.ScreenRes == ScreenRes.c1440x900)
+            if (SystemInformation.VirtualScreen.Width == 1440)
             {
                 graphics.PreferredBackBufferWidth = 1440;
                 graphics.PreferredBackBufferHeight = 900;
+                Simulation.WorldRules.ScreenRes = ScreenRes.c1440x900;
             }
-            if (Simulation.WorldRules.ScreenRes == ScreenRes.d1280x800)
+            if (SystemInformation.VirtualScreen.Width == 1280)
             {
                 graphics.PreferredBackBufferWidth = 1280;
                 graphics.PreferredBackBufferHeight = 800;
+                Simulation.WorldRules.ScreenRes = ScreenRes.d1280x800;
             }
+
             graphics.MinimumPixelShaderProfile = ShaderProfile.PS_2_0;
             graphics.SynchronizeWithVerticalRetrace = true;
-            
-            if (fullScreen)
-            {
-                if (!fullScreenEnabled)
-                {
-                    graphics.ToggleFullScreen();
-                    fullScreenEnabled = true; 
-                }
-            }
-            if (!fullScreen)
-            {
-                if (fullScreenEnabled)
-                {
-                    graphics.ToggleFullScreen();
-                    fullScreenEnabled = false; 
-                }
-            }    
 
             // create the screen manager
             screenManager = new ScreenManager.ScreenManager(this);
@@ -111,22 +101,43 @@ namespace FreeRadicals
             // update the audio manager
             audioManager.Update(gameTime);
 
-            if (fullScreen)
+            // Toggle Full Screen On/Off
+            if (WorldRules.FullScreen == true && 
+                off == true)
             {
-                if (!fullScreenEnabled)
-                {
-                    graphics.ToggleFullScreen();
-                    fullScreenEnabled = true;
-                }
+                graphics.ToggleFullScreen();
+                off = false;
+                on = true;
             }
-            if (!fullScreen)
+            else if (WorldRules.FullScreen == false && 
+                on == true)
             {
-                if (fullScreenEnabled)
-                {
-                    graphics.ToggleFullScreen();
-                    fullScreenEnabled = false;
-                }
-            } 
+                graphics.ToggleFullScreen();
+                off = true;
+                on = false;
+            }
+
+            // Change Screen Resolution
+            //if (Simulation.WorldRules.ScreenRes == ScreenRes.a1920x1200)
+            //{
+            //    graphics.PreferredBackBufferWidth = 1920;
+            //    graphics.PreferredBackBufferHeight = 1200;
+            //}
+            //if (Simulation.WorldRules.ScreenRes == ScreenRes.b1680x1050)
+            //{
+            //    graphics.PreferredBackBufferWidth = 1680;
+            //    graphics.PreferredBackBufferHeight = 1050;
+            //}
+            //if (Simulation.WorldRules.ScreenRes == ScreenRes.c1440x900)
+            //{
+            //    graphics.PreferredBackBufferWidth = 1440;
+            //    graphics.PreferredBackBufferHeight = 900;
+            //}
+            //if (Simulation.WorldRules.ScreenRes == ScreenRes.d1280x800)
+            //{
+            //    graphics.PreferredBackBufferWidth = 1280;
+            //    graphics.PreferredBackBufferHeight = 800;
+            //}
 
             base.Update(gameTime);
         }
@@ -143,6 +154,11 @@ namespace FreeRadicals
             graphics.GraphicsDevice.Clear(Color.Black);
 
             // the screen manager owns the real drawing
+            //MessageBox.Show("VirtualScreen: " +
+            //    SystemInformation.VirtualScreen);
+
+            //MessageBox.Show("Monitor Size:" +
+            //    SystemInformation.PrimaryMonitorSize);
 
             base.Draw(gameTime);
         }
