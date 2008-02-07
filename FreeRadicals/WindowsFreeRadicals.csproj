@@ -59,8 +59,8 @@
     <Compile Include="Gameplay\Atoms\Hydrogen.cs" />
     <Compile Include="Gameplay\FreeRadicals\Hydroxyl.cs" />
     <Compile Include="Gameplay\Weaponary\AtomicMoleBlast.cs" />
-    <Compile Include="Gameplay\Weaponary\SingleBeamProjectile.cs" />
-    <Compile Include="Gameplay\Weaponary\SingleBeamWeapon.cs" />
+    <Compile Include="Gameplay\Weaponary\HydrogenBoostProjectile.cs" />
+    <Compile Include="Gameplay\Weaponary\HydrogenBoostWeapon.cs" />
     <Compile Include="Gameplay\GreenhouseGases\Methane.cs" />
     <Compile Include="Gameplay\JointMolecules\Methylene.cs" />
     <Compile Include="Gameplay\Atoms\Nitrogen.cs" />
@@ -74,7 +74,7 @@
     <Compile Include="Gameplay\Weaponary\AtomicMoleBlastProjectile.cs" />
     <Compile Include="Gameplay\Weaponary\AtomicMoleBlastWeapon.cs" />
     <Compile Include="Gameplay\GreenhouseGases\Water.cs" />
-    <Compile Include="Gameplay\Weaponary\HydrogenBoostWeapon.cs" />
+    <Compile Include="Gameplay\Weaponary\HydrogenBoost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rendering\LineBatch.cs" />
     <Compile Include="Rendering\Particle.cs" />

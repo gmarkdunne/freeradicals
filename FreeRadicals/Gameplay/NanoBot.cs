@@ -149,6 +149,7 @@ namespace FreeRadicals.Gameplay
         static readonly Color[] explosionColors = 
             { 
                 Color.Red, Color.Green, Color.Yellow, 
+                Color.LightSalmon, Color.LightGreen, Color.LightYellow, 
                 Color.CornflowerBlue, Color.DeepPink, Color.Indigo
             };
         #endregion
@@ -198,7 +199,7 @@ namespace FreeRadicals.Gameplay
         /// <summary>
         /// The nanobot's Hydrogen Boost Weapon.
         /// </summary>
-        private HydrogenBoostWeapon hydrogenBoostWeapon = null;
+        private HydrogenBoost hydrogenBoostWeapon = null;
         
         /// <summary>
         /// The Gamepad player index that is controlling this ship.
@@ -1492,7 +1493,7 @@ namespace FreeRadicals.Gameplay
                 safeTimer = safeTimerMaximum;
                 // create the default weapons
                 weapon = new AtomicMoleBlast(this);
-                hydrogenBoostWeapon = new HydrogenBoostWeapon(this);
+                hydrogenBoostWeapon = new HydrogenBoost(this);
                 // play the ship-spawn cue
                 world.AudioManager.PlayCue("playerSpawn");
                 // add a particle effect at the ship's new location
@@ -1565,20 +1566,6 @@ namespace FreeRadicals.Gameplay
 					}                    
 					else if (dead == false)     
 					{
-                        // check for firing with the right stick
-                        Vector2 rightStick = currentGamePadState.ThumbSticks.Right;
-                        rightStick.Y *= -1f;
-                        if (rightStick.LengthSquared() > fireThresholdSquared)
-                        {
-                            if ((this.carbonAmmo >= 1) == true)
-                            {
-                                weapon.Fire(Vector2.Normalize(rightStick));
-                                this.carbonAmmo -= 1;
-                                world.ParticleSystems.Add(new ParticleSystem(this.position,
-                                    this.velocity, 32, 128f, 256f, 0.85f, 0.1f, explosionColors));
-                                world.AudioManager.PlayCue("explosionMedium");
-                            } 
-                        }                     
 			            // calculate the current forward vector      
 						Vector2 forward = new Vector2((float)Math.Sin(Rotation),   
 						    -(float)Math.Cos(Rotation));                     
@@ -1631,16 +1618,17 @@ namespace FreeRadicals.Gameplay
 				            //finally, add this vector to our velocity.           
 				            Velocity += shipVelocityAdd;           
 				            // Lets drop some Mines                     
-				            if (currentKeyboardState.IsKeyDown(Keys.RightControl)) 
+				            if (currentKeyboardState.IsKeyDown(Keys.A)) 
 					        {
                                 if ((this.carbonAmmo >= 1) == true)
                                 {
-                                    weapon.Fire(Vector2.Normalize(forward));
+                                    this.direction = Vector2.Normalize(forward);
                                     this.carbonAmmo -= 1;
                                     world.ParticleSystems.Add(new ParticleSystem(this.position,
-                                        this.velocity, 32, 128f, 256f, 0.85f, 0.1f, explosionColors));
+                                        -this.direction * 5f, 32, 128f, 256f, 0.85f, 0.1f, explosionColors));
+                                    weapon.Fire(Vector2.Normalize(this.direction));
                                     world.AudioManager.PlayCue("explosionMedium");
-                                }              
+                                }           
 					        }                           
 					        // Lets drop some Mines                  
 					        if (currentKeyboardState.IsKeyDown(Keys.Down))    
@@ -1666,10 +1654,10 @@ namespace FreeRadicals.Gameplay
                                 }                    
 					        }                      
 						}      
+
                         // Fire the Ozone molecule upwards       
                         if ((currentGamePadState.Buttons.X == ButtonState.Pressed) &&
-                           (lastGamePadState.Buttons.X == ButtonState.Released))// &&
-                                //leftStick.LengthSquared() > 0f)         
+                           (lastGamePadState.Buttons.X == ButtonState.Released))
                         {
                             if (((this.oxygenAmmo >= 3) && (this.hydrogenAmmo >= 1)) == true)
                             {
@@ -1688,6 +1676,23 @@ namespace FreeRadicals.Gameplay
                                 hydrogenBoostWeapon.Fire(Vector2.Normalize(new Vector2(0, -130f)));
                             }
                         }
+
+                        // Fire the Atomic Mole Blast 
+                        if ((currentGamePadState.Buttons.A == ButtonState.Pressed) &&
+                           (lastGamePadState.Buttons.A == ButtonState.Released))
+                        {
+                            if ((this.carbonAmmo >= 1) == true)
+                            {
+                                this.direction = Vector2.Normalize(forward); 
+                                this.carbonAmmo -= 1;
+                                world.ParticleSystems.Add(new ParticleSystem(this.position,
+                                    -this.direction * 5f, 32, 128f, 256f, 0.85f, 0.1f, explosionColors));
+                                weapon.Fire(this.direction);
+                                world.AudioManager.PlayCue("explosionMedium");
+                            }
+                        }
+
+                        // Fire the Hydrogen Boost 
                         if ((currentGamePadState.Buttons.B == ButtonState.Pressed) &&   
 				                (lastGamePadState.Buttons.B == ButtonState.Released) &&
                                 leftStick.LengthSquared() > 0f)         
@@ -1695,7 +1700,7 @@ namespace FreeRadicals.Gameplay
                             if ((this.hydrogenAmmo >= 1) == true)
                             {
 
-                                this.direction = Vector2.Normalize(leftStick);// forward; 
+                                this.direction = Vector2.Normalize(leftStick); 
                                 this.hydrogenAmmo -= 1;
                                 world.ParticleSystems.Add(new ParticleSystem(this.position,
                                     -this.direction * 5f, 32, 128f, 256f, 0.85f, 0.1f, explosionColors));
