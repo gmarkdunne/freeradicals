@@ -183,7 +183,7 @@ namespace FreeRadicals.Screens
             // Set an effect parameter to make the
             // displacement texture scroll in a giant circle.
             refractionEffect.Parameters["DisplacementScroll"].SetValue(
-                                                        MoveInCircle(gameTime, 0.3f));
+                                                        MoveInCircle(gameTime, 0.35f));
 
             // Begin the custom effect.
             refractionEffect.Begin();

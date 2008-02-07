@@ -83,6 +83,7 @@
     <Compile Include="Gameplay\RepelPoints\Five.cs" />
     <Compile Include="Gameplay\RepelPoints\Four.cs" />
     <Compile Include="Gameplay\RepelPoints\One.cs" />
+    <Compile Include="Gameplay\RepelPoints\Seven.cs" />
     <Compile Include="Gameplay\RepelPoints\Six.cs" />
     <Compile Include="Gameplay\RepelPoints\Three.cs" />
     <Compile Include="Gameplay\RepelPoints\Two.cs" />

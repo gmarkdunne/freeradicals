@@ -8,10 +8,15 @@ C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals
 C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Fonts\retroSmall.xnb
 C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\blank.xnb
 C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\spotlight.xnb
-C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\title.xnb
 C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\waterfall.xnb
 C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\Legend.xnb
 C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\UVC.xnb
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\title.xnb
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\UVC1.xnb
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\UVC2.xnb
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\UVC3.xnb
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\UVC4.xnb
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\UVC5.xnb
 C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Audio\FreeRadicals.xgs
 C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Audio\Wave Bank.xwb
 C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Audio\Sound Bank.xsb

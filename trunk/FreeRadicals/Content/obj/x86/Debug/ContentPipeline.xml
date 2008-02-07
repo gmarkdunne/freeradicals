@@ -92,15 +92,6 @@
       <Time>2008-01-24T11:26:20+00:00</Time>
     </Item>
     <Item>
-      <Source>Textures\title.png</Source>
-      <Name>Textures\title</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\title.xnb</Output>
-      <Time>2008-01-28T03:37:31.515625+00:00</Time>
-    </Item>
-    <Item>
       <Source>Textures\waterfall.jpg</Source>
       <Name>Textures\waterfall</Name>
       <Importer>TextureImporter</Importer>
@@ -126,6 +117,60 @@
       <Options>None</Options>
       <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\UVC.xnb</Output>
       <Time>2008-02-03T20:01:56.484375+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Textures\title.png</Source>
+      <Name>Textures\title</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\title.xnb</Output>
+      <Time>2008-01-28T03:37:31.515625+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Textures\UVC1.png</Source>
+      <Name>Textures\UVC1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\UVC1.xnb</Output>
+      <Time>2008-02-04T00:27:56.65625+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Textures\UVC2.png</Source>
+      <Name>Textures\UVC2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\UVC2.xnb</Output>
+      <Time>2008-02-04T00:27:57.5+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Textures\UVC3.png</Source>
+      <Name>Textures\UVC3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\UVC3.xnb</Output>
+      <Time>2008-02-04T00:27:58.328125+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Textures\UVC4.png</Source>
+      <Name>Textures\UVC4</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\UVC4.xnb</Output>
+      <Time>2008-02-04T00:27:59.09375+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Textures\UVC5.png</Source>
+      <Name>Textures\UVC5</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\UVC5.xnb</Output>
+      <Time>2008-02-04T00:27:59.84375+00:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

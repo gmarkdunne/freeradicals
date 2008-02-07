@@ -10,6 +10,7 @@ using FreeRadicals.Gameplay.Atoms;
 using FreeRadicals.Gameplay.JointMolecules;
 using FreeRadicals.Gameplay.GreenhouseGases;
 using FreeRadicals.Gameplay.FreeRadicals;
+using FreeRadicals.Screens;
 #endregion
 
 namespace FreeRadicals.Gameplay
@@ -1372,7 +1373,7 @@ namespace FreeRadicals.Gameplay
 			                Vector2 shipVelocityAdd = Vector2.Zero;                        
 			                //now scale our direction by how hard/long the trigger/keyboard is down  
 			                if (currentKeyboardState.IsKeyDown(Keys.Up))                        
-				            {                               
+				            {
 				                //find out what direction we should be thrusting, using rotation             
 				                shipVelocityAdd.X = (float)Math.Sin(Rotation);                            
 				                shipVelocityAdd.Y = (float)-Math.Cos(Rotation);                            
@@ -1381,10 +1382,9 @@ namespace FreeRadicals.Gameplay
 				            //finally, add this vector to our velocity.           
 				            Velocity += shipVelocityAdd;
                             // Carbon Blast               
-                            if (currentKeyboardState.IsKeyDown(Keys.A) &&
-                               currentKeyboardState.IsKeyUp(Keys.A))
+                            if (currentKeyboardState.IsKeyDown(Keys.A))// &&
+                               //currentKeyboardState.IsKeyUp(Keys.A))
                             {
-                                UpdateGameLevels();
                                 if ((this.carbonAmmo >= 1) == true)
                                 {
                                     this.direction = Vector2.Normalize(forward);
@@ -1396,9 +1396,9 @@ namespace FreeRadicals.Gameplay
                                 }           
 					        }
                             // Hydrogen Boost                    
-                            if (currentKeyboardState.IsKeyDown(Keys.B) &&
-                               currentKeyboardState.IsKeyUp(Keys.B))   
-					        {                                                  
+                            if (currentKeyboardState.IsKeyDown(Keys.B))// &&
+                               //currentKeyboardState.IsKeyUp(Keys.B))   
+					        {
                                 if ((this.hydrogenAmmo >= 1) == true)
                                 {
                                     this.direction = Vector2.Normalize(forward); 
@@ -1418,10 +1418,9 @@ namespace FreeRadicals.Gameplay
                                 }                    
 					        }
                             // Fire the Ozone molecule upwards       
-                            if (currentKeyboardState.IsKeyDown(Keys.X) &&
-                               currentKeyboardState.IsKeyUp(Keys.X))
+                            if (currentKeyboardState.IsKeyDown(Keys.X))// &&
+                               //currentKeyboardState.IsKeyUp(Keys.X))
                             {
-                                UpdateGameLevels();
                                 if (((this.oxygenAmmo >= 3) && (this.hydrogenAmmo >= 1)) == true)
                                 {
                                     Ozone ozone = new Ozone(world);
@@ -1445,7 +1444,6 @@ namespace FreeRadicals.Gameplay
                         if ((currentGamePadState.Buttons.X == ButtonState.Pressed) &&
                            (lastGamePadState.Buttons.X == ButtonState.Released))
                         {
-                            UpdateGameLevels();
                             if (((this.oxygenAmmo >= 3) && (this.hydrogenAmmo >= 1)) == true)
                             {
                                 Ozone ozone = new Ozone(world);
@@ -1468,7 +1466,6 @@ namespace FreeRadicals.Gameplay
                         if ((currentGamePadState.Buttons.A == ButtonState.Pressed) &&
                            (lastGamePadState.Buttons.A == ButtonState.Released))
                         {
-                            UpdateGameLevels();
                             if ((this.carbonAmmo >= 1) == true)
                             {
                                 this.direction = Vector2.Normalize(forward); 
@@ -1485,7 +1482,6 @@ namespace FreeRadicals.Gameplay
 				                (lastGamePadState.Buttons.B == ButtonState.Released) &&
                                 leftStick.LengthSquared() > 0f)
                         {
-                            UpdateGameLevels();
                             if ((this.hydrogenAmmo >= 1) == true)
                             {
 
@@ -1509,7 +1505,7 @@ namespace FreeRadicals.Gameplay
                         if ((currentGamePadState.Buttons.Y == ButtonState.Pressed) &&
                                 (lastGamePadState.Buttons.Y == ButtonState.Released))
                         {
-                            UpdateGameLevels();
+                            world.UpdateGameLevels();
                         }
                         // Apply positive or negative force to 
                         // the exterior of the nano bot
@@ -1517,25 +1513,21 @@ namespace FreeRadicals.Gameplay
                             (currentKeyboardState.IsKeyDown(Keys.Space) && playerIndex == PlayerIndex.One ))
                         {
                             negativeCharge = true;
-                            UpdateGameLevels();
                         }
                         else if (currentGamePadState.Triggers.Right == 0 || 
                             (currentKeyboardState.IsKeyUp(Keys.Space) && playerIndex == PlayerIndex.One))
                         {
                             negativeCharge = false;
-                            UpdateGameLevels();
                         }
                         if (currentGamePadState.Triggers.Left != 0 || 
                             (currentKeyboardState.IsKeyDown(Keys.LeftAlt) && playerIndex == PlayerIndex.One ) )
                         {
                             positiveCharge = true;
-                            UpdateGameLevels();
                         }
                         else if (currentGamePadState.Triggers.Left == 0 || 
                             (currentKeyboardState.IsKeyUp(Keys.LeftAlt) && playerIndex == PlayerIndex.One))
                         {
                             positiveCharge = false;
-                            UpdateGameLevels();
                         }
 					}             
 				}        
@@ -1544,80 +1536,6 @@ namespace FreeRadicals.Gameplay
             lastGamePadState = currentGamePadState;        
 	        lastKeyboardState = currentKeyboardState;      
 	        return;   
-        }
-
-        /// <summary>
-        /// Place this ship in the world.
-        /// </summary>
-        /// <param name="findSpawnPoint">
-        /// If true, the actor's position is changed to a valid, non-colliding point.
-        /// </param>
-        public void UpdateGameLevels()
-        {
-            // Reset count values
-            world.FreeRadicalCount = 0;
-            world.CFC1Count = 0;
-            world.CFC2Count = 0;
-            world.HydroxylCount = 0;
-            world.NitricOxideCount = 0;
-            world.GreenhouseGasesCount = 0;
-            world.OzoneCount = 0;
-            world.NitrousOxideCount = 0;
-            world.MethaneCount = 0;
-            world.WaterCount = 0;
-            world.CarbonDioxideCount = 0;
-            // Recount molecules
-            for (int i = 0; i < world.Actors.Count; ++i)
-            {
-                if ((world.Actors[i] is CFC1) == true)
-                {
-                    world.FreeRadicalCount += 1;
-                    world.CFC1Count += 1;
-                }
-                else if ((world.Actors[i] is CFC2) == true)
-                {
-                    world.FreeRadicalCount += 1;
-                    world.CFC2Count += 1;
-                }
-                else if ((world.Actors[i] is Hydroxyl) == true)
-                {
-                    world.FreeRadicalCount += 1;
-                    world.HydroxylCount += 1;
-                }
-                else if ((world.Actors[i] is NitricOxide) == true)
-                {
-                    world.FreeRadicalCount += 1;
-                    world.NitricOxideCount += 1;
-                }
-                else if ((world.Actors[i] is Ozone) == true)
-                {
-                    world.OzoneCount += 1;
-                }
-                else if ((world.Actors[i] is NitrousOxide) == true)
-                {
-                    world.GreenhouseGasesCount += 1;
-                    world.NitrousOxideCount += 1;
-                }
-                else if ((world.Actors[i] is Methane) == true)
-                {
-                    world.GreenhouseGasesCount += 1;
-                    world.MethaneCount += 1;
-                }
-                else if ((world.Actors[i] is Water) == true)
-                {
-                    world.GreenhouseGasesCount += 1;
-                    world.WaterCount += 1;
-                }
-                else if ((world.Actors[i] is CarbonDioxide) == true)
-                {
-                    world.GreenhouseGasesCount += 1;
-                    world.CarbonDioxideCount += 1;
-                }
-                else if (world.Actors.Count == i)
-                {
-                    return;
-                }
-            }
         }
         #endregion
     }

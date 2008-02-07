@@ -31,7 +31,11 @@ namespace FreeRadicals.Screens
         SpriteBatch spriteBatch;
         SpriteFont spriteFont;
         Texture2D atomTexture;
-        Texture2D uvcLightTexture;
+        Texture2D uvc1LightTexture;
+        Texture2D uvc2LightTexture;
+        Texture2D uvc3LightTexture;
+        Texture2D uvc4LightTexture;
+        Texture2D uvc5LightTexture;
         Texture2D waterfallTexture;
         Texture2D titleTexture;
         Effect refractionEffect;
@@ -95,7 +99,11 @@ namespace FreeRadicals.Screens
             titleTexture = content.Load<Texture2D>("Textures/title");
             refractionEffect = content.Load<Effect>("Effects/refraction");
             waterfallTexture = content.Load<Texture2D>("Textures/waterfall");
-            uvcLightTexture = content.Load<Texture2D>("Textures/UVC");
+            uvc1LightTexture = content.Load<Texture2D>("Textures/UVC1");
+            uvc2LightTexture = content.Load<Texture2D>("Textures/UVC2");
+            uvc3LightTexture = content.Load<Texture2D>("Textures/UVC3");
+            uvc4LightTexture = content.Load<Texture2D>("Textures/UVC4");
+            uvc5LightTexture = content.Load<Texture2D>("Textures/UVC5");
 
             // update the projection in the line-batch
             lineBatch.SetProjection(Matrix.CreateOrthographicOffCenter(0.0f,
@@ -162,11 +170,20 @@ namespace FreeRadicals.Screens
                 {
                     for (int i = 0; i < world.NanoBots.Length; i++)
                     {
-                        if (world.OzoneCount >= 35)
+                        if (world.OzoneCount >= 35 || world.OzoneCount < 5)
                         {
-                            ScreenManager.AddScreen(new GameOverScreen("Dobson 1.0 wins the game!" + "\n" +
-                                "50 Ozone Molecules in the Atmosphere."));
-                            gameOver = true;
+                            if (world.OzoneCount >= 35)
+                            {
+                                ScreenManager.AddScreen(new GameOverScreen("             Dobson 1.0 wins!" + "\n\n" +
+                                                        "35 Ozone Molecules in the Atmosphere."));
+                                gameOver = true;
+                            }
+                            else
+                            {
+                                ScreenManager.AddScreen(new GameOverScreen("                  Dobson 1.0 Loses!" + "\n\n" +
+                                                        "Less than 5 Ozone Molecules in the Atmosphere."));
+                                gameOver = true;
+                            }
                             break;
                         }
                     }
@@ -252,7 +269,7 @@ namespace FreeRadicals.Screens
         /// Draw the user interface elements of the game (scores, etc.).
         /// </summary>
         /// <param name="elapsedTime">The amount of elapsed time, in seconds.</param>
-        private void DrawHud(float elapsedTime)
+        public void DrawHud(float elapsedTime)
         {
             spriteBatch.Begin();
 
@@ -261,6 +278,7 @@ namespace FreeRadicals.Screens
 
             for (int i = 0; i < world.NanoBots.Length; ++i)
             {
+
                 string message;
 
                 if (world.NanoBots[i].Playing)
@@ -273,10 +291,10 @@ namespace FreeRadicals.Screens
                 }
                 else
                 {
-                    message = ""; // Hold A to Join";
+                    message = "";//Hold A to Join";
                 }
 
-                float scale = 1f;
+                float scale = 1.2f;
 
                 Vector2 size = spriteFont.MeasureString(message) * scale;
                 position.X = (i + 1) * offset - size.Y / 2;
@@ -291,28 +309,36 @@ namespace FreeRadicals.Screens
 
             Vector2 shadowOffset = Vector2.One;
 
+            if (world.NanoBots[0].Playing == false)
+            {
+                spriteBatch.DrawString(spriteFont, "Hold A to start game...", 
+                    new Vector2(50, 375) + shadowOffset, Color.Indigo);
+                spriteBatch.DrawString(spriteFont, "Hold A to start game...",
+                    new Vector2(50, 375), Color.White);
+            }
+
             if (world.OzoneCount > 0)
             {
                 spriteBatch.DrawString(spriteFont, "Ozone Level: " + world.OzoneCount.ToString(),
-                new Vector2(50, 225) + shadowOffset, Color.Red);
+                new Vector2(50, 400) + shadowOffset, Color.Red);
                 spriteBatch.DrawString(spriteFont, "Ozone Level: " + world.OzoneCount.ToString(),
-                new Vector2(50, 225), Color.White);
+                new Vector2(50, 400), Color.White);
             }
 
             if (world.FreeRadicalCount > 0)
             {
                 spriteBatch.DrawString(spriteFont, "Free Radical Level: " + world.FreeRadicalCount.ToString(),
-                    new Vector2(50, 250) + shadowOffset, Color.Yellow);
+                    new Vector2(50, 425) + shadowOffset, Color.Yellow);
                 spriteBatch.DrawString(spriteFont, "Free Radical Level: " + world.FreeRadicalCount.ToString(),
-                new Vector2(50, 250), Color.White);
+                new Vector2(50, 425), Color.White);
             }
 
             if (world.GreenhouseGasesCount > 0)
             {
                 spriteBatch.DrawString(spriteFont, "Greenhouse Gases Level: " + world.GreenhouseGasesCount.ToString(),
-                    new Vector2(50, 275) + shadowOffset, Color.Green);
+                    new Vector2(50, 450) + shadowOffset, Color.Lime);
                 spriteBatch.DrawString(spriteFont, "Greenhouse Gases Level: " + world.GreenhouseGasesCount.ToString(),
-                new Vector2(50, 275), Color.White);
+                new Vector2(50, 450), Color.White);
             } 
 
             spriteBatch.End();
@@ -323,16 +349,13 @@ namespace FreeRadicals.Screens
         // Effect uses a scrolling displacement texture to offset the position of
         // the main texture.
         /// </summary>
-        void DrawUVCLight(GameTime gameTime)
+        public void DrawUVCLight(GameTime gameTime)
         {
             Viewport viewport = ScreenManager.GraphicsDevice.Viewport;
             Vector2 viewportSize = new Vector2(viewport.Width, viewport.Height);
 
             // title
             Vector2 titlePosition = new Vector2( 0, 0);
-            //    (viewportSize.X - uvcLightTexture.Width) / 2f,
-            //    viewportSize.Y * 0.18f);
-            //titlePosition.Y -= (float)Math.Pow(TransitionPosition, 2) * titlePosition.Y;
             Color titleColor = Color.White;
 
             ScreenManager.SpriteBatch.Begin(SpriteBlendMode.Additive,
@@ -351,8 +374,31 @@ namespace FreeRadicals.Screens
             refractionEffect.Begin();
             refractionEffect.CurrentTechnique.Passes[0].Begin();
 
-            ScreenManager.SpriteBatch.Draw(uvcLightTexture, titlePosition,
-                new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+            if (world.OzoneCount >= 26)
+            {
+                ScreenManager.SpriteBatch.Draw(uvc1LightTexture, titlePosition,
+                        new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+            }
+            else if (world.OzoneCount >= 19 && world.OzoneCount <= 25)
+            {
+                ScreenManager.SpriteBatch.Draw(uvc2LightTexture, titlePosition,
+                        new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+            }
+            else if (world.OzoneCount >= 12 && world.OzoneCount <= 18)
+            {
+                ScreenManager.SpriteBatch.Draw(uvc3LightTexture, titlePosition,
+                        new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+            }
+            else if (world.OzoneCount >= 6 && world.OzoneCount <= 11)
+            {
+                ScreenManager.SpriteBatch.Draw(uvc3LightTexture, titlePosition,
+                        new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+            }
+            else if (world.OzoneCount >= 0 && world.OzoneCount <= 5)
+            {
+                ScreenManager.SpriteBatch.Draw(uvc4LightTexture, titlePosition,
+                        new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+            }
 
             // End the sprite batch, then end our custom effect.
             ScreenManager.SpriteBatch.End();
