@@ -12,21 +12,12 @@ namespace FreeRadicals.Simulation
         High = 3
     }
 
-    public enum WallStyle
-    {
-        None = 0,
-        One = 1,
-        Two = 2,
-        Three = 3
-    }
-
     /// <summary>
     /// Adjustable game settings.
     /// </summary>
     public static class WorldRules
     {
         public static int ScoreLimit = 25;
-        public static WallStyle WallStyle = WallStyle.None;
         public static AtomDensity AtomDensity = AtomDensity.None;
         public static bool MotionBlur = false;
         public static bool NeonEffect = false;
