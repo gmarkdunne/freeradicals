@@ -62,7 +62,6 @@
     <Compile Include="BaseAI\BasicState.cs" />
     <Compile Include="BloomPostprocess\BloomComponent.cs" />
     <Compile Include="BloomPostprocess\BloomSettings.cs" />
-    <Compile Include="Camera\ChaseCamera.cs" />
     <Compile Include="CollectCollection.cs" />
     <Compile Include="CustomAI\BasicModelAgent.cs" />
     <Compile Include="CustomAI\FiniteStates.cs" />
@@ -77,6 +76,14 @@
     <Compile Include="Gameplay\Atoms\Fluorine.cs" />
     <Compile Include="Gameplay\Atoms\Hydrogen.cs" />
     <Compile Include="Gameplay\FreeRadicals\Hydroxyl.cs" />
+    <Compile Include="Gameplay\Poles\East.cs" />
+    <Compile Include="Gameplay\Poles\North.cs" />
+    <Compile Include="Gameplay\Poles\South.cs" />
+    <Compile Include="Gameplay\Poles\West.cs" />
+    <Compile Include="Gameplay\RepelPoints\Down.cs" />
+    <Compile Include="Gameplay\RepelPoints\Left.cs" />
+    <Compile Include="Gameplay\RepelPoints\Right.cs" />
+    <Compile Include="Gameplay\RepelPoints\Up.cs" />
     <Compile Include="Gameplay\Weaponary\AtomicMoleBlast.cs" />
     <Compile Include="Gameplay\Weaponary\HydrogenBoostProjectile.cs" />
     <Compile Include="Gameplay\Weaponary\HydrogenBoostWeapon.cs" />
@@ -145,6 +152,8 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>

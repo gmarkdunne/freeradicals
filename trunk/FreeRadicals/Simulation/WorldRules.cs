@@ -28,8 +28,8 @@ namespace FreeRadicals.Simulation
         public static int ScoreLimit = 25;
         public static WallStyle WallStyle = WallStyle.None;
         public static AtomDensity AtomDensity = AtomDensity.None;
-        public static bool MotionBlur = true;
-        public static bool NeonEffect = true;
-        public static bool FullScreen = false;
+        public static bool MotionBlur = false;
+        public static bool NeonEffect = false;
+        public static bool FullScreen = true;
     }
 }

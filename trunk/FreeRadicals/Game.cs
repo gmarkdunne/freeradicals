@@ -31,8 +31,8 @@ namespace FreeRadicals
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 800;
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.PreferredBackBufferHeight = 1200;
             graphics.MinimumPixelShaderProfile = ShaderProfile.PS_2_0;
             graphics.SynchronizeWithVerticalRetrace = true;
             
