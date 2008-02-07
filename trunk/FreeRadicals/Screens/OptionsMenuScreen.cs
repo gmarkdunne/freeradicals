@@ -18,15 +18,15 @@ namespace FreeRadicals.Screens
     {
         #region Fields
 
-        static string[] screenRes = { "a1920x1200", "b1680x1050", "c1440x900", "d1280x800" };
-        static int currentScreenRes = 0;
+        //static string[] screenRes = { "a1920x1200", "b1680x1050", "c1440x900", "d1280x800" };
+        //static int currentScreenRes = 0;
 
-        static int scoreLimit = 10;
+        //static int scoreLimit = 10;
         static bool motionBlur = true;
         static bool neonEffect = true;
         static bool fullScreen = false;
 
-        MenuEntry screenResMenuEntry = new MenuEntry(String.Empty);
+        //MenuEntry screenResMenuEntry = new MenuEntry(String.Empty);
         MenuEntry motionBlurMenuEntry = new MenuEntry(String.Empty);
         MenuEntry neonEffectMenuEntry = new MenuEntry(String.Empty);
         MenuEntry fullScreenMenuEntry = new MenuEntry(String.Empty);
@@ -43,17 +43,17 @@ namespace FreeRadicals.Screens
         /// </summary>
         public OptionsMenuScreen()
         {
-            currentScreenRes = (int)WorldRules.ScreenRes;
+            //currentScreenRes = (int)WorldRules.ScreenRes;
             motionBlur = WorldRules.MotionBlur;
             neonEffect = WorldRules.NeonEffect;
             fullScreen = WorldRules.FullScreen;
 
-            screenResMenuEntry.Selected += ScreenResMenuEntrySelected;
+            //screenResMenuEntry.Selected += ScreenResMenuEntrySelected;
             motionBlurMenuEntry.Selected += MotionBlurMenuEntrySelected;
             neonEffectMenuEntry.Selected += NeonEffectMenuEntrySelected;
             fullScreenMenuEntry.Selected += FullScreenMenuEntrySelected;
 
-            MenuEntries.Add(screenResMenuEntry);
+            //MenuEntries.Add(screenResMenuEntry);
             MenuEntries.Add(motionBlurMenuEntry);
             MenuEntries.Add(neonEffectMenuEntry);
             MenuEntries.Add(fullScreenMenuEntry);
@@ -73,33 +73,33 @@ namespace FreeRadicals.Screens
         {
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
 
-            screenResMenuEntry.Text = "Screen Resolution : " +
-                screenRes[currentScreenRes];
+            //screenResMenuEntry.Text = "Screen Resolution : " +
+            //    screenRes[currentScreenRes];
             motionBlurMenuEntry.Text = "Motion Blur : " + motionBlur.ToString();
             neonEffectMenuEntry.Text = "Neon Effect : " + neonEffect.ToString();
             fullScreenMenuEntry.Text = "Full Screen : " + fullScreen.ToString();
         }
 
 
-        /// <summary>
-        /// Event handler for when the Score Limit menu entry is selected.
-        /// </summary>
-        void ScoreLimitMenuEntrySelected(object sender, EventArgs e)
-        {
-            scoreLimit += 5;
-            if (scoreLimit > 25)
-                scoreLimit = 5;
-        }
+        ///// <summary>
+        ///// Event handler for when the Score Limit menu entry is selected.
+        ///// </summary>
+        //void ScoreLimitMenuEntrySelected(object sender, EventArgs e)
+        //{
+        //    scoreLimit += 5;
+        //    if (scoreLimit > 25)
+        //        scoreLimit = 5;
+        //}
 
 
-        /// <summary>
-        /// Event handler for when the Screen Resolution menu entry is selected.
-        /// </summary>
-        void ScreenResMenuEntrySelected(object sender, EventArgs e)
-        {
-            currentScreenRes = (currentScreenRes + 1) %
-                screenRes.Length;
-        }
+        ///// <summary>
+        ///// Event handler for when the Screen Resolution menu entry is selected.
+        ///// </summary>
+        //void ScreenResMenuEntrySelected(object sender, EventArgs e)
+        //{
+        //    currentScreenRes = (currentScreenRes + 1) %
+        //        screenRes.Length;
+        //}
 
 
         /// <summary>
@@ -133,9 +133,9 @@ namespace FreeRadicals.Screens
         /// </summary>
         protected override void OnCancel()
         {
-            WorldRules.ScreenRes = (ScreenRes)Enum.Parse(typeof(ScreenRes),
-                screenRes[currentScreenRes], true);
-            WorldRules.ScoreLimit = scoreLimit;
+            //WorldRules.ScreenRes = (ScreenRes)Enum.Parse(typeof(ScreenRes),
+            //    screenRes[currentScreenRes], true);
+            //WorldRules.ScoreLimit = scoreLimit;
             WorldRules.MotionBlur = motionBlur;
             WorldRules.NeonEffect = neonEffect;
             WorldRules.FullScreen = fullScreen;
