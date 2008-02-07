@@ -25,8 +25,8 @@ namespace FreeRadicals.Simulation
         protected Vector2 velocity = Vector2.Zero;
         protected float rotation = 0f;
         protected float orientation = 0f;
-        protected float currentSpeed = 5.0f;
-        protected float maxSpeed = 5.0f;
+        protected float currentSpeed = 1.0f;
+        protected float maxSpeed = 1.0f;
         protected float turnSpeed = 0.10f;
         protected float chaseDistance = 250.0f;
         protected float bondDistance = 60.0f;

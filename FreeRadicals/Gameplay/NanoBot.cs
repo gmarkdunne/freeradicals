@@ -5,6 +5,11 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using FreeRadicals.Simulation;
 using FreeRadicals.Rendering;
+using FreeRadicals.Gameplay.Weaponary;
+using FreeRadicals.Gameplay.Atoms;
+using FreeRadicals.Gameplay.JointMolecules;
+using FreeRadicals.Gameplay.GreenhouseGases;
+using FreeRadicals.Gameplay.FreeRadicals;
 #endregion
 
 namespace FreeRadicals.Gameplay
@@ -93,7 +98,8 @@ namespace FreeRadicals.Gameplay
         /// <summary>
         /// The amount of time that the B button must be held to leave the game.
         /// </summary>
-        const float bButtonHeldToLeave = 2f;
+        const float bButtonHeldToLeave = 5f;
+        const float xButtonHeldToLeave = 0.5f;
 
         /// <summary>
         /// The number of radians that the shield rotates per second.
@@ -185,14 +191,14 @@ namespace FreeRadicals.Gameplay
         private VectorPolygon shieldPolygon = null;
 
         /// <summary>
-        /// The ship's current weapon.
+        /// The NanBot's main weapon.
         /// </summary>
-        private Weapon weapon = null;
+        private AtomicMoleBlast weapon = null;
 
         /// <summary>
-        /// The ship's additional mine-laying weapon.
+        /// The nanobot's Hydrogen Boost Weapon.
         /// </summary>
-        private AtomicMoleBlastWeapon ambWeapon = null;
+        private HydrogenBoostWeapon hydrogenBoostWeapon = null;
         
         /// <summary>
         /// The Gamepad player index that is controlling this ship.
@@ -269,9 +275,9 @@ namespace FreeRadicals.Gameplay
         /// </summary>
         public bool positiveCharge = false;
 
-        private int oxygenAmmo = 0;
-        private int hydrogenAmmo = 0;
-        private int carbonAmmo = 0;
+        private int oxygenAmmo = 20;
+        private int hydrogenAmmo = 100;
+        private int carbonAmmo = 60;
 
         #endregion
 
@@ -397,13 +403,13 @@ namespace FreeRadicals.Gameplay
             }
 
             // update the weapons
-            //if (weapon != null)
-            //{
-            //    weapon.Update(elapsedTime);
-            //}
-            if (ambWeapon != null)
+            if (weapon != null)
             {
-                ambWeapon.Update(elapsedTime);
+                weapon.Update(elapsedTime);
+            }
+            if (hydrogenBoostWeapon != null)
+            {
+                hydrogenBoostWeapon.Update(elapsedTime);
             }
 
             // decrement the safe timer
@@ -1167,19 +1173,6 @@ namespace FreeRadicals.Gameplay
         }
 
 
-        /// <summary>
-        /// Assigns the new weapon to the ship.
-        /// </summary>
-        /// <param name="weapon">The new weapon.</param>
-        public void SetWeapon(Weapon weapon)
-        {
-            if (weapon != null)
-            {
-                this.weapon = weapon;
-            }
-        }
-
-
         #region Interaction
         /// <summary>
         /// Defines the interaction between the oxygen and a target actor
@@ -1207,17 +1200,17 @@ namespace FreeRadicals.Gameplay
             if (negativeCharge)
             {
                 world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                    target.Direction, 18, 32f, 64f, 1.5f, 0.05f, Color.Red));
+                    this.velocity * 0.1f, 24, 32f, 64f, 2f, 0.05f, Color.Red));
             }
             else if (positiveCharge)
             {
                 world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                    target.Direction, 18, 32f, 64f, 1.5f, 0.05f, Color.Lime));
+                    this.velocity * 0.1f, 24, 32f, 64f, 2f, 0.05f, Color.Lime));
             }
             else
             {
                 world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                    target.Direction, 18, 32f, 64f, 1.5f, 0.05f, this.color));
+                    this.velocity * 0.1f, 24, 32f, 64f, 2f, 0.05f, this.color));
             }
 
             if (positiveCharge)
@@ -1334,8 +1327,8 @@ namespace FreeRadicals.Gameplay
                         newDirection, 36, 64f, 128f, 2f, 0.05f, N2OColor));
                     this.world.AudioManager.PlayCue("asteroidTouch");
                     
-                    Gameplay.NitrogenTwo nitrogenTwo = new Gameplay.NitrogenTwo(world);
-                    nitrogenTwo.Spawn(true);
+                    NitrogenTwo nitrogenTwo = new NitrogenTwo(world);
+                    nitrogenTwo.Spawn(false);
                     nitrogenTwo.Position = target.Position;
                     nitrogenTwo.Velocity = newVelocity;
                     nitrogenTwo.Direction = newDirection;
@@ -1498,8 +1491,8 @@ namespace FreeRadicals.Gameplay
                 // reset the safety timers
                 safeTimer = safeTimerMaximum;
                 // create the default weapons
-                //weapon = new LaserWeapon(this);
-                ambWeapon = new AtomicMoleBlastWeapon(this);
+                weapon = new AtomicMoleBlast(this);
+                hydrogenBoostWeapon = new HydrogenBoostWeapon(this);
                 // play the ship-spawn cue
                 world.AudioManager.PlayCue("playerSpawn");
                 // add a particle effect at the ship's new location
@@ -1571,18 +1564,30 @@ namespace FreeRadicals.Gameplay
 					    LeaveGame();              
 					}                    
 					else if (dead == false)     
-					{                     
-					    //                     
-				        // the ship is alive, so process movement and firing    
-						//                      
+					{
+                        // check for firing with the right stick
+                        Vector2 rightStick = currentGamePadState.ThumbSticks.Right;
+                        rightStick.Y *= -1f;
+                        if (rightStick.LengthSquared() > fireThresholdSquared)
+                        {
+                            if ((this.carbonAmmo >= 1) == true)
+                            {
+                                weapon.Fire(Vector2.Normalize(rightStick));
+                                this.carbonAmmo -= 1;
+                                world.ParticleSystems.Add(new ParticleSystem(this.position,
+                                    this.velocity, 32, 128f, 256f, 0.85f, 0.1f, explosionColors));
+                                world.AudioManager.PlayCue("explosionMedium");
+                            } 
+                        }                     
 			            // calculate the current forward vector      
 						Vector2 forward = new Vector2((float)Math.Sin(Rotation),   
 						    -(float)Math.Cos(Rotation));                     
 						Vector2 right = new Vector2(-forward.Y, forward.X);     
 						// calculate the current left stick value               
 						Vector2 leftStick = currentGamePadState.ThumbSticks.Left;   
-					        leftStick.Y *= -1f;                  
-						if (leftStick.LengthSquared() > 0f)          
+					        leftStick.Y *= -1f;
+                            if (leftStick.LengthSquared() > 0f && 
+                                (currentGamePadState.Buttons.B == ButtonState.Released))          
 						{                            
 							Vector2 wantedForward = Vector2.Normalize(leftStick);  
 							float angleDiff = (float)Math.Acos(                          
@@ -1627,30 +1632,84 @@ namespace FreeRadicals.Gameplay
 				            Velocity += shipVelocityAdd;           
 				            // Lets drop some Mines                     
 				            if (currentKeyboardState.IsKeyDown(Keys.RightControl)) 
-					        {                                
-					            // fire ahead of us                              
-					            weapon.Fire(Vector2.Normalize(forward));              
+					        {
+                                if ((this.carbonAmmo >= 1) == true)
+                                {
+                                    weapon.Fire(Vector2.Normalize(forward));
+                                    this.carbonAmmo -= 1;
+                                    world.ParticleSystems.Add(new ParticleSystem(this.position,
+                                        this.velocity, 32, 128f, 256f, 0.85f, 0.1f, explosionColors));
+                                    world.AudioManager.PlayCue("explosionMedium");
+                                }              
 					        }                           
 					        // Lets drop some Mines                  
 					        if (currentKeyboardState.IsKeyDown(Keys.Down))    
 					        {                            
 					            // fire behind the ship                        
-                                ambWeapon.Fire(forward);                  
+                                if ((this.hydrogenAmmo >= 1) == true)
+                                {
+
+                                    this.direction = Vector2.Normalize(forward);// forward; 
+                                    this.hydrogenAmmo -= 1;
+                                    world.ParticleSystems.Add(new ParticleSystem(this.position,
+                                        -this.direction * 5f, 32, 128f, 256f, 0.85f, 0.1f, explosionColors));
+                                    hydrogenBoostWeapon.Fire(this.direction);
+                                    world.AudioManager.PlayCue("explosionMedium");
+                                    if (Velocity.Length() > 500f)
+                                    {
+                                        Velocity = Vector2.Normalize(Velocity) * 500f;
+                                    }
+                                    else
+                                    {
+                                        Velocity += Velocity * 2f;
+                                    }
+                                }                    
 					        }                      
-						}                      
-				        // check for firing with the right stick  
-				        Vector2 rightStick = currentGamePadState.ThumbSticks.Right;  
-				        rightStick.Y *= -1f;                      
-				        if (rightStick.LengthSquared() > fireThresholdSquared)     
-			            {                     
-			                //weapon.Fire(Vector2.Normalize(rightStick));
-                        }                       
-			            // check for laying mines          
-			            if ((currentGamePadState.Buttons.B == ButtonState.Pressed) &&   
-				           (lastGamePadState.Buttons.B == ButtonState.Released))         
-					    {                           
-				           // fire behind the ship          
-                           ambWeapon.Fire(-forward);                     
+						}      
+                        // Fire the Ozone molecule upwards       
+                        if ((currentGamePadState.Buttons.X == ButtonState.Pressed) &&
+                           (lastGamePadState.Buttons.X == ButtonState.Released))// &&
+                                //leftStick.LengthSquared() > 0f)         
+                        {
+                            if (((this.oxygenAmmo >= 3) && (this.hydrogenAmmo >= 1)) == true)
+                            {
+                                Ozone ozone = new Ozone(world);
+                                ozone.Spawn(false);
+                                ozone.Position = this.position + new Vector2(0, -130f);
+                                ozone.Velocity = this.velocity;
+                                ozone.Direction = Vector2.Normalize(leftStick);// forward;
+                                this.oxygenAmmo -= 3;
+                                world.ParticleSystems.Add(new ParticleSystem(ozone.Position + new Vector2(15f, -25f),
+                                    ozone.Velocity * 1.5f, 128, 64f, 128f, 0.85f, 0.1f, ozone.Color));
+                                world.AudioManager.PlayCue("playerSpawn");
+                                this.hydrogenAmmo -= 1;
+                                world.ParticleSystems.Add(new ParticleSystem(this.position,
+                                    -Vector2.Normalize(new Vector2(0, -130f)) * 5f, 32, 128f, 256f, 0.85f, 0.1f, explosionColors));
+                                hydrogenBoostWeapon.Fire(Vector2.Normalize(new Vector2(0, -130f)));
+                            }
+                        }
+                        if ((currentGamePadState.Buttons.B == ButtonState.Pressed) &&   
+				                (lastGamePadState.Buttons.B == ButtonState.Released) &&
+                                leftStick.LengthSquared() > 0f)         
+					    {
+                            if ((this.hydrogenAmmo >= 1) == true)
+                            {
+
+                                this.direction = Vector2.Normalize(leftStick);// forward; 
+                                this.hydrogenAmmo -= 1;
+                                world.ParticleSystems.Add(new ParticleSystem(this.position,
+                                    -this.direction * 5f, 32, 128f, 256f, 0.85f, 0.1f, explosionColors));
+                                hydrogenBoostWeapon.Fire(this.direction);
+                                world.AudioManager.PlayCue("explosionMedium");
+                                if (Velocity.Length() > 500f)
+                                {
+                                    Velocity = Vector2.Normalize(Velocity) * 500f;
+                                }
+                                else
+                                {
+                                    Velocity += Velocity * 2f;
+                                }
+                            }                     
                         }
                         // Apply positive or negative force to 
                         // the exterior of the nano bot
