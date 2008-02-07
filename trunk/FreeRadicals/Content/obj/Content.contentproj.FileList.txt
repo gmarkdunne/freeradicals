@@ -1,0 +1,4 @@
+obj\Xbox 360\Debug\ResolveAssemblyReference.cache
+obj\Xbox 360\Debug\Audio\FreeRadicals.xml
+obj\x86\Debug\ResolveAssemblyReference.cache
+obj\x86\Debug\Audio\FreeRadicals.xml
