@@ -4,6 +4,12 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using FreeRadicals.Rendering;
+using FreeRadicals.Gameplay;
+using FreeRadicals.Gameplay.Weaponary;
+using FreeRadicals.Gameplay.JointMolecules;
+using FreeRadicals.Gameplay.FreeRadicals;
+using FreeRadicals.Gameplay.GreenhouseGases;
+using FreeRadicals.Gameplay.Atoms;
 #endregion
 
 namespace FreeRadicals.Simulation
@@ -67,7 +73,7 @@ namespace FreeRadicals.Simulation
         /// <summary>
         /// All ships that might enter the game.
         /// </summary>
-        Gameplay.NanoBot[] ships;
+        NanoBot[] ships;
 
         /// <summary>
         /// The walls in the game.
@@ -77,7 +83,7 @@ namespace FreeRadicals.Simulation
         /// <summary>
         /// The Atmosphere effect behind the game-board.
         /// </summary>
-        Atmosphere atmosphere;
+        //Atmosphere atmosphere;
 
         /// <summary>
         /// All actors in the game.
@@ -117,12 +123,12 @@ namespace FreeRadicals.Simulation
             set { audioManager = value; }
         }
 
-        public Atmosphere Atmosphere
-        {
-            get { return atmosphere; }
-        }
+        //public Atmosphere Atmosphere
+        //{
+        //    get { return atmosphere; }
+        //}
 
-        public Gameplay.NanoBot[] Ships
+        public NanoBot[] Ships
         {
             get { return ships; }
         }
@@ -149,11 +155,11 @@ namespace FreeRadicals.Simulation
                 (int)(dimensions.X * 0.05f), (int)(dimensions.Y * 0.05f), 
                 (int)(dimensions.X * 0.90f), (int)(dimensions.Y * 0.90f));
             // create the players
-            ships = new Gameplay.NanoBot[4];
-            ships[0] = new Gameplay.NanoBot(this, PlayerIndex.One);
-            ships[1] = new Gameplay.NanoBot(this, PlayerIndex.Two);
-            ships[2] = new Gameplay.NanoBot(this, PlayerIndex.Three);
-            ships[3] = new Gameplay.NanoBot(this, PlayerIndex.Four);
+            ships = new NanoBot[4];
+            ships[0] = new NanoBot(this, PlayerIndex.One);
+            ships[1] = new NanoBot(this, PlayerIndex.Two);
+            ships[2] = new NanoBot(this, PlayerIndex.Three);
+            ships[3] = new NanoBot(this, PlayerIndex.Four);
 
             // create the Atmosphere
             //atmosphere = new Atmosphere(atomCount, new Rectangle(
@@ -193,8 +199,8 @@ namespace FreeRadicals.Simulation
             {
                 case AtomDensity.None:
                     SpawnAtoms(0, 0, 0, 0, 0, 0, 0);
-                    SpawnFreeRadicals(0, 0, 1, 1);
-                    SpawnGreenHouseGases(3, 3, 3, 3, 3);
+                    SpawnFreeRadicals(0, 0, 0, 0);
+                    SpawnGreenHouseGases(0, 0, 0, 0, 0);
                     SpawnJointMolecules(0, 0, 0, 0);
                     break;
                 case AtomDensity.Low:
@@ -307,25 +313,25 @@ namespace FreeRadicals.Simulation
             // create Nitric Oxide atoms
             for (int i = 0; i < NO; ++i)
             {
-                Gameplay.NitricOxide nitricOxide = new Gameplay.NitricOxide(this);
+                NitricOxide nitricOxide = new NitricOxide(this);
                 nitricOxide.Spawn(true);
             }
             // create CFC1 atoms
             for (int i = 0; i < CFCa; ++i)
             {
-                Gameplay.CFC1 cfc1 = new Gameplay.CFC1(this);
+                CFC1 cfc1 = new CFC1(this);
                 cfc1.Spawn(true);
             }
             // create CFC2 atoms
             for (int i = 0; i < CFCb; ++i)
             {
-                Gameplay.CFC2 cfc2 = new Gameplay.CFC2(this);
+                CFC2 cfc2 = new CFC2(this);
                 cfc2.Spawn(true);
             }
             // create Hydroxyl atoms
             for (int i = 0; i < HO; ++i)
             {
-                Gameplay.Hydroxyl hydroxyl = new Gameplay.Hydroxyl(this);
+                Hydroxyl hydroxyl = new Hydroxyl(this);
                 hydroxyl.Spawn(true);
             }
         }
@@ -343,31 +349,31 @@ namespace FreeRadicals.Simulation
             // create Ozone atoms
             for (int i = 0; i < O3; ++i)
             {
-                Gameplay.Ozone ozone = new Gameplay.Ozone(this);
+                Ozone ozone = new Ozone(this);
                 ozone.Spawn(true);
             }
             // create Water atoms
             for (int i = 0; i < H2O; ++i)
             {
-                Gameplay.Water water = new Gameplay.Water(this);
+                Water water = new Water(this);
                 water.Spawn(true);
             }
             // create Nitrous Oxide atoms
             for (int i = 0; i < N2O; ++i)
             {
-                Gameplay.NitrousOxide nitrousOxide = new Gameplay.NitrousOxide(this);
+                NitrousOxide nitrousOxide = new NitrousOxide(this);
                 nitrousOxide.Spawn(true);
             }
             // create Carbon Dioxide atoms
             for (int i = 0; i < CO2; ++i)
             {
-                Gameplay.CarbonDioxide carbonDioxide = new Gameplay.CarbonDioxide(this);
+                CarbonDioxide carbonDioxide = new CarbonDioxide(this);
                 carbonDioxide.Spawn(true);
             }
             // create Methane atoms
             for (int i = 0; i < CH4; ++i)
             {
-                Gameplay.Methane methane = new Gameplay.Methane(this);
+                Methane methane = new Methane(this);
                 methane.Spawn(true);
             }
         }
@@ -385,43 +391,43 @@ namespace FreeRadicals.Simulation
             // create hydrogen atoms
             for (int i = 0; i < H; ++i)
             {
-                Gameplay.Hydrogen hydrogen = new Gameplay.Hydrogen(this);
+                Hydrogen hydrogen = new Hydrogen(this);
                 hydrogen.Spawn(true);
             }
             // create carbon atoms
             for (int i = 0; i < C; ++i)
             {
-                Gameplay.Carbon carbon = new Gameplay.Carbon(this);
+                Carbon carbon = new Carbon(this);
                 carbon.Spawn(true);
             }
             // create nitrogen atoms
             for (int i = 0; i < N; ++i)
             {
-                Gameplay.Nitrogen nitrogen = new Gameplay.Nitrogen(this);
+                Nitrogen nitrogen = new Nitrogen(this);
                 nitrogen.Spawn(true);
             }
             // create oxygen atoms
             for (int i = 0; i < O; ++i)
             {
-                Gameplay.Oxygen oxygen = new Gameplay.Oxygen(this);
+                Oxygen oxygen = new Oxygen(this);
                 oxygen.Spawn(true);
             }
             // create fluorine atoms
             for (int i = 0; i < F; ++i)
             {
-                Gameplay.Fluorine fluorine = new Gameplay.Fluorine(this);
+                Fluorine fluorine = new Fluorine(this);
                 fluorine.Spawn(true);
             }
             // create chlorine atoms
             for (int i = 0; i < Cl; ++i)
             {
-                Gameplay.Chlorine chlorine = new Gameplay.Chlorine(this);
+                Chlorine chlorine = new Chlorine(this);
                 chlorine.Spawn(true);
             }
             // create Bromine atoms
             for (int i = 0; i < Br; ++i)
             {
-                Gameplay.Bromine bromine = new Gameplay.Bromine(this);
+                Bromine bromine = new Bromine(this);
                 bromine.Spawn(true);
             }
         }
@@ -438,25 +444,25 @@ namespace FreeRadicals.Simulation
             // create Oxygen Two atoms
             for (int i = 0; i < O2; ++i)
             {
-                Gameplay.OxygenTwo oxygenTwo = new Gameplay.OxygenTwo(this);
+                OxygenTwo oxygenTwo = new OxygenTwo(this);
                 oxygenTwo.Spawn(true);
             }
             // create Nitrogen Two atoms
             for (int i = 0; i < N2; ++i)
             {
-                Gameplay.NitrogenTwo nitrogenTwo = new Gameplay.NitrogenTwo(this);
+                NitrogenTwo nitrogenTwo = new NitrogenTwo(this);
                 nitrogenTwo.Spawn(true);
             }
             // create Deuterium atoms
             for (int i = 0; i < HH; ++i)
             {
-                Gameplay.Deuterium deuterium = new Gameplay.Deuterium(this);
+                Deuterium deuterium = new Deuterium(this);
                 deuterium.Spawn(true);
             }
             // create Methylene atoms
             for (int i = 0; i < CH2; ++i)
             {
-                Gameplay.Methylene methylene = new Gameplay.Methylene(this);
+                Methylene methylene = new Methylene(this);
                 methylene.Spawn(true);
             }
         }
@@ -804,7 +810,7 @@ namespace FreeRadicals.Simulation
             float radius = actor.Radius;
 
             // fudge the radius slightly so we're not right on top of another actor
-            if (actor is Gameplay.NanoBot)
+            if (actor is NanoBot)
             {
                 radius *= 2f;
             }
@@ -901,8 +907,8 @@ namespace FreeRadicals.Simulation
                 Vector2 pos = (oxygen1.Position + oxygen2.Position) / 2;
                 Vector2 vel = (oxygen1.Velocity + oxygen2.Velocity) / 2;
                 Vector2 dir = (oxygen1.Direction + oxygen2.Direction) / 2;
-                Gameplay.OxygenTwo oxygenTwo = new Gameplay.OxygenTwo(this);
-                oxygenTwo.Spawn(true);
+                OxygenTwo oxygenTwo = new OxygenTwo(this);
+                oxygenTwo.Spawn(false);
                 oxygenTwo.Position = pos;
                 oxygenTwo.Velocity = vel;
                 oxygenTwo.Direction = dir;
@@ -914,13 +920,13 @@ namespace FreeRadicals.Simulation
         }
         public void UnbondOxygenTwo(Vector2 pos, Vector2 vel, Vector2 dir)
         {
-            Gameplay.Oxygen oxygen1 = new Gameplay.Oxygen(this);
-            oxygen1.Spawn(true);
+            Oxygen oxygen1 = new Oxygen(this);
+            oxygen1.Spawn(false);
             oxygen1.Position = pos;
             oxygen1.Velocity = vel * 0.5f;
             oxygen1.Direction = dir * 0.5f;
-            Gameplay.Oxygen oxygen2 = new Gameplay.Oxygen(this);
-            oxygen2.Spawn(true);
+            Oxygen oxygen2 = new Oxygen(this);
+            oxygen2.Spawn(false);
             Vector2 newPos = new Vector2(36f, 0);
             oxygen2.Position = pos + newPos;
             oxygen2.Velocity = vel * 2f;
@@ -936,8 +942,8 @@ namespace FreeRadicals.Simulation
                 Vector2 pos = (hydrogen1.Position + hydrogen2.Position) / 2;
                 Vector2 vel = (hydrogen1.Velocity + hydrogen2.Velocity) / 2;
                 Vector2 dir = (hydrogen1.Direction + hydrogen2.Direction) / 2;
-                Gameplay.Deuterium deuterium = new Gameplay.Deuterium(this);
-                deuterium.Spawn(true);
+                Deuterium deuterium = new Deuterium(this);
+                deuterium.Spawn(false);
                 deuterium.Position = pos;
                 deuterium.Velocity = vel;
                 deuterium.Direction = dir;
@@ -949,13 +955,13 @@ namespace FreeRadicals.Simulation
         }
         public void UnbondDeuterium(Vector2 pos, Vector2 vel, Vector2 dir)
         {
-            Gameplay.Hydrogen H1 = new Gameplay.Hydrogen(this);
-            H1.Spawn(true);
+            Hydrogen H1 = new Hydrogen(this);
+            H1.Spawn(false);
             H1.Position = pos;
             H1.Velocity = vel * 0.5f;
             H1.Direction = dir * 0.5f;
-            Gameplay.Hydrogen H2 = new Gameplay.Hydrogen(this);
-            H2.Spawn(true);
+            Hydrogen H2 = new Hydrogen(this);
+            H2.Spawn(false);
             Vector2 newPos = new Vector2(10f, 0);
             H2.Position = pos + newPos;
             H2.Velocity = vel * 2f;
@@ -971,8 +977,8 @@ namespace FreeRadicals.Simulation
                 Vector2 pos = (nitrogen1.Position + nitrogen2.Position) / 2;
                 Vector2 vel = (nitrogen1.Velocity + nitrogen2.Velocity) / 2;
                 Vector2 dir = (nitrogen1.Direction + nitrogen2.Direction) / 2;
-                Gameplay.NitrogenTwo nitrogenTwo = new Gameplay.NitrogenTwo(this);
-                nitrogenTwo.Spawn(true);
+                NitrogenTwo nitrogenTwo = new NitrogenTwo(this);
+                nitrogenTwo.Spawn(false);
                 nitrogenTwo.Position = pos;
                 nitrogenTwo.Velocity = vel;
                 nitrogenTwo.Direction = dir;
@@ -984,13 +990,13 @@ namespace FreeRadicals.Simulation
         }
         public void UnbondNitrogenTwo(Vector2 pos, Vector2 vel, Vector2 dir)
         {
-            Gameplay.Nitrogen N1 = new Gameplay.Nitrogen(this);
-            N1.Spawn(true);
+            Nitrogen N1 = new Nitrogen(this);
+            N1.Spawn(false);
             N1.Position = pos;
             N1.Velocity = vel * 0.5f;
             N1.Direction = dir * 0.5f;
-            Gameplay.Nitrogen N2 = new Gameplay.Nitrogen(this);
-            N2.Spawn(true);
+            Nitrogen N2 = new Nitrogen(this);
+            N2.Spawn(false);
             Vector2 newPos = new Vector2(30f, 0);
             N2.Position = pos + newPos;
             N2.Velocity = vel * 2f;
@@ -998,21 +1004,21 @@ namespace FreeRadicals.Simulation
         }
         public void BondOzone(Vector2 pos, Vector2 vel, Vector2 dir)
         {
-            Gameplay.Ozone ozone = new Gameplay.Ozone(this);
-            ozone.Spawn(true);
+            Ozone ozone = new Ozone(this);
+            ozone.Spawn(false);
             ozone.Position = pos;
             ozone.Velocity = vel;
             ozone.Direction = dir;
         }
         public void UnbondOzone(Vector2 pos, Vector2 vel, Vector2 dir)
         {
-            Gameplay.OxygenTwo oxygenTwo = new Gameplay.OxygenTwo(this);
-            oxygenTwo.Spawn(true);
+            OxygenTwo oxygenTwo = new OxygenTwo(this);
+            oxygenTwo.Spawn(false);
             oxygenTwo.Position = pos;
             oxygenTwo.Velocity = vel * 0.5f;
             oxygenTwo.Direction = dir * 0.5f;
-            Gameplay.Oxygen oxygen = new Gameplay.Oxygen(this);
-            oxygen.Spawn(true);
+            Oxygen oxygen = new Oxygen(this);
+            oxygen.Spawn(false);
             Vector2 newPos = new Vector2(70f, 0);
             oxygen.Position = pos + newPos;
             oxygen.Velocity = vel * 2f;
@@ -1020,21 +1026,21 @@ namespace FreeRadicals.Simulation
         }
         public void BondCarbonDioxide(Vector2 pos, Vector2 vel, Vector2 dir)
         {
-            Gameplay.CarbonDioxide CO2 = new Gameplay.CarbonDioxide(this);
-            CO2.Spawn(true);
+            CarbonDioxide CO2 = new CarbonDioxide(this);
+            CO2.Spawn(false);
             CO2.Position = pos;
             CO2.Velocity = vel;
             CO2.Direction = dir;
         }
         public void UnbondCarbonDioxide(Vector2 pos, Vector2 vel, Vector2 dir)
         {
-            Gameplay.OxygenTwo O2 = new Gameplay.OxygenTwo(this);
-            O2.Spawn(true);
+            OxygenTwo O2 = new OxygenTwo(this);
+            O2.Spawn(false);
             O2.Position = pos;
             O2.Velocity = vel * 0.5f;
             O2.Direction = dir * 0.5f;
-            Gameplay.Carbon C = new Gameplay.Carbon(this);
-            C.Spawn(true);
+            Carbon C = new Carbon(this);
+            C.Spawn(false);
             Vector2 newPos = new Vector2(70f, 0);
             C.Position = pos + newPos;
             C.Velocity = vel * 2f;
@@ -1042,21 +1048,21 @@ namespace FreeRadicals.Simulation
         }
         public void BondHydroxyl(Vector2 pos, Vector2 vel, Vector2 dir)
         {
-            Gameplay.Hydroxyl OH = new Gameplay.Hydroxyl(this);
-            OH.Spawn(true);
+            Hydroxyl OH = new Hydroxyl(this);
+            OH.Spawn(false);
             OH.Position = pos;
             OH.Velocity = vel;
             OH.Direction = dir;
         }
         public void UnbondHydroxyl(Vector2 pos, Vector2 vel, Vector2 dir)
         {
-            Gameplay.Oxygen O = new Gameplay.Oxygen(this);
-            O.Spawn(true);
+            Oxygen O = new Oxygen(this);
+            O.Spawn(false);
             O.Position = pos;
             O.Velocity = vel * 0.5f;
             O.Direction = dir * 0.5f;
-            Gameplay.Hydrogen H = new Gameplay.Hydrogen(this);
-            H.Spawn(true);
+            Hydrogen H = new Hydrogen(this);
+            H.Spawn(false);
             Vector2 newPos = new Vector2(20f, 0);
             H.Position = pos + newPos;
             H.Velocity = vel * 2f;
@@ -1064,21 +1070,21 @@ namespace FreeRadicals.Simulation
         }
         public void BondNitricOxide(Vector2 pos, Vector2 vel, Vector2 dir)
         {
-            Gameplay.NitricOxide NO = new Gameplay.NitricOxide(this);
-            NO.Spawn(true);
+            NitricOxide NO = new NitricOxide(this);
+            NO.Spawn(false);
             NO.Position = pos;
             NO.Velocity = vel;
             NO.Direction = dir;
         }
         public void UnbondNitricOxide(Vector2 pos, Vector2 vel, Vector2 dir)
         {
-            Gameplay.Oxygen O = new Gameplay.Oxygen(this);
-            O.Spawn(true);
+            Oxygen O = new Oxygen(this);
+            O.Spawn(false);
             O.Position = pos;
             O.Velocity = vel * 0.5f;
             O.Direction = dir * 0.5f;
-            Gameplay.Nitrogen N = new Gameplay.Nitrogen(this);
-            N.Spawn(true);
+            Nitrogen N = new Nitrogen(this);
+            N.Spawn(false);
             Vector2 newPos = new Vector2(30f, 0);
             N.Position = pos + newPos;
             N.Velocity = vel * 2f;
@@ -1086,21 +1092,21 @@ namespace FreeRadicals.Simulation
         }
         public void BondWater(Vector2 pos, Vector2 vel, Vector2 dir)
         {
-            Gameplay.Water H2O = new Gameplay.Water(this);
-            H2O.Spawn(true);
+            Water H2O = new Water(this);
+            H2O.Spawn(false);
             H2O.Position = pos;
             H2O.Velocity = vel;
             H2O.Direction = dir;
         }
         public void UnbondWater(Vector2 pos, Vector2 vel, Vector2 dir)
         {
-            Gameplay.Oxygen O = new Gameplay.Oxygen(this);
-            O.Spawn(true);
+            Oxygen O = new Oxygen(this);
+            O.Spawn(false);
             O.Position = pos;
             O.Velocity = vel * 0.5f;
             O.Direction = dir * 0.5f;
-            Gameplay.Deuterium D = new Gameplay.Deuterium(this);
-            D.Spawn(true);
+            Deuterium D = new Deuterium(this);
+            D.Spawn(false);
             Vector2 newPos = new Vector2(30f, 0);
             D.Position = pos + newPos;
             D.Velocity = vel * 2f;
@@ -1108,21 +1114,21 @@ namespace FreeRadicals.Simulation
         }
         public void BondMethylene(Vector2 pos, Vector2 vel, Vector2 dir)
         {
-            Gameplay.Methylene CH2 = new Gameplay.Methylene(this);
-            CH2.Spawn(true);
+            Methylene CH2 = new Methylene(this);
+            CH2.Spawn(false);
             CH2.Position = pos;
             CH2.Velocity = vel;
             CH2.Direction = dir;
         }
         public void UnbondMethylene(Vector2 pos, Vector2 vel, Vector2 dir)
         {
-            Gameplay.Carbon C = new Gameplay.Carbon(this);
-            C.Spawn(true);
+            Carbon C = new Carbon(this);
+            C.Spawn(false);
             C.Position = pos;
             C.Velocity = vel * 0.5f;
             C.Direction = dir * 0.5f;
-            Gameplay.Deuterium D = new Gameplay.Deuterium(this);
-            D.Spawn(true);
+            Deuterium D = new Deuterium(this);
+            D.Spawn(false);
             Vector2 newPos = new Vector2(25f, 0);
             D.Position = pos + newPos;
             D.Velocity = vel * 2f;
@@ -1130,27 +1136,27 @@ namespace FreeRadicals.Simulation
         }
         public void BondMethane(Vector2 pos, Vector2 vel, Vector2 dir)
         {
-            Gameplay.Methane CH4 = new Gameplay.Methane(this);
-            CH4.Spawn(true);
+            Methane CH4 = new Methane(this);
+            CH4.Spawn(false);
             CH4.Position = pos;
             CH4.Velocity = vel;
             CH4.Direction = dir;
         }
         public void UnbondMethane(Vector2 pos, Vector2 vel, Vector2 dir)
         {
-            Gameplay.Carbon C = new Gameplay.Carbon(this);
-            C.Spawn(true);
+            Carbon C = new Carbon(this);
+            C.Spawn(false);
             C.Position = pos;
             C.Velocity = vel * 0.5f;
             C.Direction = dir * 0.5f;
-            Gameplay.Deuterium D1 = new Gameplay.Deuterium(this);
-            D1.Spawn(true);
+            Deuterium D1 = new Deuterium(this);
+            D1.Spawn(false);
             Vector2 newPos1 = new Vector2(25f, 0);
             D1.Position = pos + newPos1;
             D1.Velocity = vel;
             D1.Direction = dir;
-            Gameplay.Deuterium D2 = new Gameplay.Deuterium(this);
-            D2.Spawn(true);
+            Deuterium D2 = new Deuterium(this);
+            D2.Spawn(false);
             Vector2 newPos2 = new Vector2(40f, 0);
             D2.Position = pos + newPos2;
             D2.Velocity = vel * 2f;
@@ -1158,21 +1164,21 @@ namespace FreeRadicals.Simulation
         }
         public void BondNitrousOxide(Vector2 pos, Vector2 vel, Vector2 dir)
         {
-            Gameplay.NitrousOxide N2O = new Gameplay.NitrousOxide(this);
-            N2O.Spawn(true);
+            NitrousOxide N2O = new NitrousOxide(this);
+            N2O.Spawn(false);
             N2O.Position = pos;
             N2O.Velocity = vel;
             N2O.Direction = dir;
         }
         public void UnbondNitrousOxide(Vector2 pos, Vector2 vel, Vector2 dir)
         {
-            Gameplay.Oxygen O = new Gameplay.Oxygen(this);
-            O.Spawn(true);
+            Oxygen O = new Oxygen(this);
+            O.Spawn(false);
             O.Position = pos;
             O.Velocity = vel * 0.5f;
             O.Direction = dir * 0.5f;
-            Gameplay.NitrogenTwo N2 = new Gameplay.NitrogenTwo(this);
-            N2.Spawn(true);
+            NitrogenTwo N2 = new NitrogenTwo(this);
+            N2.Spawn(false);
             Vector2 newPos = new Vector2(40f, 0);
             N2.Position = pos + newPos;
             N2.Velocity = vel * 2f;
