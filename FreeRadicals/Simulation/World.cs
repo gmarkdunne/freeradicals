@@ -73,7 +73,7 @@ namespace FreeRadicals.Simulation
         int greenhouseGasesCount = 0;
 
         // Number of Ozone molecules
-        int ozoneCount = 0;
+        int ozoneCount = 25;
 
         // Number of Water molecules
         int waterCount = 0;
@@ -500,9 +500,10 @@ namespace FreeRadicals.Simulation
             SpawnRepelPointsFour();
             SpawnRepelPointsFive();
             SpawnRepelPointsSix();
+            SpawnRepelPointsSeven();
 
             // spawn atoms density
-            SpawnGreenHouseGases(25, 0, 0, 0, 0);
+            SpawnGreenHouseGases(30, 0, 0, 0, 0);
 
             // set up the atmosphere
             atmosphere.SetTargetPosition(dimensions);
@@ -685,32 +686,62 @@ namespace FreeRadicals.Simulation
         {
             for (int i = 0; i < actors.Count; ++i)
             {
-                if (freeRadicalCount >= 3)
+                if (freeRadicalCount >= 5)
                 {
                     return;
                 }
             }
-            switch (random.Next(4))
+            switch (random.Next(10))
             {
                 case 0:
                     NitricOxide p = new NitricOxide(this);
                     p.Spawn(false);
-                    p.Position = new Vector2(960f, 1500f);
+                    p.Position = new Vector2(950f, 1500f);
                     break;
                 case 1:
                     CFC1 q = new CFC1(this);
                     q.Spawn(false);
-                    q.Position = new Vector2(960f, 1550f);
+                    q.Position = new Vector2(950f, 1550f);
                     break;
                 case 2:
                     CFC2 w = new CFC2(this);
                     w.Spawn(false);
-                    w.Position = new Vector2(960f, 1600f);
+                    w.Position = new Vector2(950f, 1600f);
                     break;
                 case 3:
                     Hydroxyl e = new Hydroxyl(this);
                     e.Spawn(false);
-                    e.Position = new Vector2(960f, 1650f);
+                    e.Position = new Vector2(950f, 1650f);
+                    break;
+                case 4:
+                    Ozone f = new Ozone(this);
+                    f.Spawn(false);
+                    f.Position = new Vector2(950f, 1650f);
+                    break;
+                case 5:
+                    NitricOxide m = new NitricOxide(this);
+                    m.Spawn(false);
+                    m.Position = new Vector2(1250f, 1500f);
+                    break;
+                case 6:
+                    CFC1 n = new CFC1(this);
+                    n.Spawn(false);
+                    n.Position = new Vector2(1250f, 1550f);
+                    break;
+                case 7:
+                    CFC2 b = new CFC2(this);
+                    b.Spawn(false);
+                    b.Position = new Vector2(1250f, 1600f);
+                    break;
+                case 8:
+                    Hydroxyl v = new Hydroxyl(this);
+                    v.Spawn(false);
+                    v.Position = new Vector2(1250f, 1650f);
+                    break;
+                case 9:
+                    Ozone c = new Ozone(this);
+                    c.Spawn(false);
+                    c.Position = new Vector2(1250f, 1650f);
                     break;
             }
         }
@@ -728,27 +759,57 @@ namespace FreeRadicals.Simulation
                     return;
                 }
             }
-            switch (random.Next(4))
+            switch (random.Next(5))
             {
                 case 0:
                     Water p = new Water(this);
                     p.Spawn(false);
-                    p.Position = new Vector2(960f, 1450f);
+                    p.Position = new Vector2(950f, 1450f);
                     break;
                 case 1:
                     CarbonDioxide q = new CarbonDioxide(this);
                     q.Spawn(false);
-                    q.Position = new Vector2(960f, 1500f);
+                    q.Position = new Vector2(950f, 1500f);
                     break;
                 case 2:
                     NitrousOxide w = new NitrousOxide(this);
                     w.Spawn(false);
-                    w.Position = new Vector2(960f, 1550f);
+                    w.Position = new Vector2(950f, 1550f);
                     break;
                 case 3:
                     Methane e = new Methane(this);
                     e.Spawn(false);
-                    e.Position = new Vector2(960f, 1600f);
+                    e.Position = new Vector2(950f, 1600f);
+                    break;
+                case 4:
+                    Ozone f = new Ozone(this);
+                    f.Spawn(false);
+                    f.Position = new Vector2(950f, 1650f);
+                    break;
+                case 5:
+                    Water m = new Water(this);
+                    m.Spawn(false);
+                    m.Position = new Vector2(1250f, 1450f);
+                    break;
+                case 6:
+                    CarbonDioxide n = new CarbonDioxide(this);
+                    n.Spawn(false);
+                    n.Position = new Vector2(1250f, 1500f);
+                    break;
+                case 7:
+                    NitrousOxide b = new NitrousOxide(this);
+                    b.Spawn(false);
+                    b.Position = new Vector2(1250f, 1550f);
+                    break;
+                case 8:
+                    Methane v = new Methane(this);
+                    v.Spawn(false);
+                    v.Position = new Vector2(1250f, 1600f);
+                    break;
+                case 9:
+                    Ozone c = new Ozone(this);
+                    c.Spawn(false);
+                    c.Position = new Vector2(1250f, 1650f);
                     break;
             }
         }
@@ -1164,9 +1225,9 @@ namespace FreeRadicals.Simulation
         public void SpawnRepelPointsSix()
         {
             // Top Side
-            //Six ts0 = new Six(this);
-            //ts0.Spawn(false);
-            //ts0.Position = new Vector2(0, -200f);
+            Six ts0 = new Six(this);
+            ts0.Spawn(false);
+            ts0.Position = new Vector2(0, -200f);
             Six ts1 = new Six(this);
             ts1.Spawn(false);
             ts1.Position = new Vector2(250f, -200f);
@@ -1176,9 +1237,9 @@ namespace FreeRadicals.Simulation
             Six ts3 = new Six(this);
             ts3.Spawn(false);
             ts3.Position = new Vector2(750f, -200f);
-            //Six ts4 = new Six(this);
-            //ts4.Spawn(false);
-            //ts4.Position = new Vector2(1000f, -200f);
+            Six ts4 = new Six(this);
+            ts4.Spawn(false);
+            ts4.Position = new Vector2(1000f, -200f);
             Six ts5 = new Six(this);
             ts5.Spawn(false);
             ts5.Position = new Vector2(1250f, -200f);
@@ -1188,9 +1249,41 @@ namespace FreeRadicals.Simulation
             Six ts7 = new Six(this);
             ts7.Spawn(false);
             ts7.Position = new Vector2(1750f, -200f);
-            //Six ts8 = new Six(this);
-            //ts8.Spawn(false);
-            //ts8.Position = new Vector2(2000f, -200f);
+            Six ts8 = new Six(this);
+            ts8.Spawn(false);
+            ts8.Position = new Vector2(2000f, -200f);
+        }
+
+        public void SpawnRepelPointsSeven()
+        {
+            // Bottom Side
+            Seven bs0 = new Seven(this);
+            bs0.Spawn(false);
+            bs0.Position = new Vector2(0, 1400f);
+            Seven bs1 = new Seven(this);
+            bs1.Spawn(false);
+            bs1.Position = new Vector2(250f, 1400f);
+            Seven bs2 = new Seven(this);
+            bs2.Spawn(false);
+            bs2.Position = new Vector2(500f, 1400f);
+            Seven bs3 = new Seven(this);
+            bs3.Spawn(false);
+            bs3.Position = new Vector2(750f, 1400f);
+            Seven bs4 = new Seven(this);
+            bs4.Spawn(false);
+            bs4.Position = new Vector2(1000f, 1400f);
+            Seven bs5 = new Seven(this);
+            bs5.Spawn(false);
+            bs5.Position = new Vector2(1250f, 1400f);
+            Seven bs6 = new Seven(this);
+            bs6.Spawn(false);
+            bs6.Position = new Vector2(1500f, 1400f);
+            Seven bs7 = new Seven(this);
+            bs7.Spawn(false);
+            bs7.Position = new Vector2(1750f, 1400f);
+            Seven bs8 = new Seven(this);
+            bs8.Spawn(false);
+            bs8.Position = new Vector2(2000f, 1400f);
         }
 
 
@@ -1228,10 +1321,16 @@ namespace FreeRadicals.Simulation
             north8.Spawn(false);
             north8.Position = new Vector2(2000f, -1000f);
 
-            // South Pole
-            South south = new South(this);
-            south.Spawn(true);
-            south.Position = new Vector2(1000f, 2000f);
+            // South Poles
+            South south1 = new South(this);
+            south1.Spawn(true);
+            south1.Position = new Vector2(500f, 1900f);
+            South south2 = new South(this);
+            south2.Spawn(true);
+            south2.Position = new Vector2(1000f, 2000f);
+            South south3 = new South(this);
+            south3.Spawn(true);
+            south3.Position = new Vector2(1500f, 1900f);
 
             // West Pole
             West west = new West(this);
@@ -1309,9 +1408,89 @@ namespace FreeRadicals.Simulation
                 GreenhouseGasesSpawning();
                 greenhouseGasesTimer = greenhouseGasesDelay;
             }
+
+            UpdateGameLevels();
+
             // clean up the lists
             actors.Collect();
             particleSystems.Collect();
+        }
+
+
+
+
+        /// <summary>
+        /// Place this ship in the world.
+        /// </summary>
+        /// <param name="findSpawnPoint">
+        /// If true, the actor's position is changed to a valid, non-colliding point.
+        /// </param>
+        public void UpdateGameLevels()
+        {
+            // Reset count values
+            freeRadicalCount = 0;
+            cFC1Count = 0;
+            cFC2Count = 0;
+            hydroxylCount = 0;
+            nitricOxideCount = 0;
+            greenhouseGasesCount = 0;
+            ozoneCount = 0;
+            nitrousOxideCount = 0;
+            methaneCount = 0;
+            waterCount = 0;
+            carbonDioxideCount = 0;
+            // Recount molecules
+            for (int i = 0; i < Actors.Count; ++i)
+            {
+                if ((Actors[i] is CFC1) == true)
+                {
+                    freeRadicalCount += 1;
+                    cFC1Count += 1;
+                }
+                else if ((Actors[i] is CFC2) == true)
+                {
+                    freeRadicalCount += 1;
+                    cFC2Count += 1;
+                }
+                else if ((Actors[i] is Hydroxyl) == true)
+                {
+                    freeRadicalCount += 1;
+                    hydroxylCount += 1;
+                }
+                else if ((Actors[i] is NitricOxide) == true)
+                {
+                    freeRadicalCount += 1;
+                    nitricOxideCount += 1;
+                }
+                else if ((Actors[i] is Ozone) == true)
+                {
+                    ozoneCount += 1;
+                }
+                else if ((Actors[i] is NitrousOxide) == true)
+                {
+                    greenhouseGasesCount += 1;
+                    nitrousOxideCount += 1;
+                }
+                else if ((Actors[i] is Methane) == true)
+                {
+                    greenhouseGasesCount += 1;
+                    methaneCount += 1;
+                }
+                else if ((Actors[i] is Water) == true)
+                {
+                    greenhouseGasesCount += 1;
+                    waterCount += 1;
+                }
+                else if ((Actors[i] is CarbonDioxide) == true)
+                {
+                    greenhouseGasesCount += 1;
+                    carbonDioxideCount += 1;
+                }
+                else if (actors.Count == i)
+                {
+                    return;
+                }
+            }
         }
         #endregion
 
