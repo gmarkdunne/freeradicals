@@ -11,6 +11,7 @@ C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals
 C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\title.xnb
 C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\waterfall.xnb
 C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\Legend.xnb
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\UVC.xnb
 C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Audio\FreeRadicals.xgs
 C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Audio\Wave Bank.xwb
 C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Audio\Sound Bank.xsb

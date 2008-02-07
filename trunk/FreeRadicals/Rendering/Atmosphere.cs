@@ -45,8 +45,9 @@ namespace FreeRadicals.Rendering
 
         static readonly Color[] colors = 
         { 
-            Color.White, Color.Lime, Color.Silver, 
-            Color.Gray, Color.Indigo, Color.Yellow 
+            Color.Red, Color.Blue, Color.Gray, 
+            Color.Purple, Color.Green, Color.Yellow,
+            Color.Indigo, Color.Silver, Color.Gold
         };
         #endregion
 

@@ -80,7 +80,11 @@
     <Compile Include="Gameplay\Poles\North.cs" />
     <Compile Include="Gameplay\Poles\South.cs" />
     <Compile Include="Gameplay\Poles\West.cs" />
+    <Compile Include="Gameplay\RepelPoints\Five.cs" />
+    <Compile Include="Gameplay\RepelPoints\Four.cs" />
     <Compile Include="Gameplay\RepelPoints\One.cs" />
+    <Compile Include="Gameplay\RepelPoints\Six.cs" />
+    <Compile Include="Gameplay\RepelPoints\Three.cs" />
     <Compile Include="Gameplay\RepelPoints\Two.cs" />
     <Compile Include="Gameplay\Weaponary\AtomicMoleBlast.cs" />
     <Compile Include="Gameplay\Weaponary\HydrogenBoostProjectile.cs" />
@@ -111,7 +115,7 @@
     <Compile Include="Screens\BackgroundScreen.cs" />
     <Compile Include="Screens\GameOverScreen.cs" />
     <Compile Include="Screens\GameplayScreen.cs" />
-    <Compile Include="Screens\LoadingScreen.cs" />
+    <Compile Include="Gameplay\RepelPoints\LoadingScreen.cs" />
     <Compile Include="Screens\MainMenuScreen.cs" />
     <Compile Include="Screens\MenuEntry.cs" />
     <Compile Include="Screens\MenuScreen.cs" />

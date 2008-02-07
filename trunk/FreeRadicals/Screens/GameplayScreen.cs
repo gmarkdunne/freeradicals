@@ -31,6 +31,10 @@ namespace FreeRadicals.Screens
         SpriteBatch spriteBatch;
         SpriteFont spriteFont;
         Texture2D atomTexture;
+        Texture2D uvcLightTexture;
+        Texture2D waterfallTexture;
+        Texture2D titleTexture;
+        Effect refractionEffect;
         World world;
         AudioManager audio;
         bool gameOver;
@@ -88,6 +92,10 @@ namespace FreeRadicals.Screens
             lineBatch = new LineBatch(ScreenManager.GraphicsDevice);
             spriteFont = content.Load<SpriteFont>("Fonts/Arial");
             atomTexture = content.Load<Texture2D>("Textures/blank");
+            titleTexture = content.Load<Texture2D>("Textures/title");
+            refractionEffect = content.Load<Effect>("Effects/refraction");
+            waterfallTexture = content.Load<Texture2D>("Textures/waterfall");
+            uvcLightTexture = content.Load<Texture2D>("Textures/UVC");
 
             // update the projection in the line-batch
             lineBatch.SetProjection(Matrix.CreateOrthographicOffCenter(0.0f,
@@ -154,7 +162,7 @@ namespace FreeRadicals.Screens
                 {
                     for (int i = 0; i < world.NanoBots.Length; i++)
                     {
-                        if (world.OzoneCount >= 50)
+                        if (world.OzoneCount >= 35)
                         {
                             ScreenManager.AddScreen(new GameOverScreen("Dobson 1.0 wins the game!" + "\n" +
                                 "50 Ozone Molecules in the Atmosphere."));
@@ -222,9 +230,9 @@ namespace FreeRadicals.Screens
             lineBatch.End();
 
             // draw the stars
-            //spriteBatch.Begin();
-            //world.Atmosphere.Draw(spriteBatch, atomTexture);
-            //spriteBatch.End();
+            spriteBatch.Begin();
+            world.Atmosphere.Draw(spriteBatch, atomTexture);
+            spriteBatch.End();
 
             if (WorldRules.NeonEffect)
             {
@@ -232,6 +240,7 @@ namespace FreeRadicals.Screens
             }
 
             DrawHud(elapsedTime);
+            DrawUVCLight(gameTime);
 
             // If the game is transitioning on or off, fade it out to black.
             if (TransitionPosition > 0)
@@ -307,6 +316,63 @@ namespace FreeRadicals.Screens
             } 
 
             spriteBatch.End();
+        }
+
+
+        /// <summary>
+        // Effect uses a scrolling displacement texture to offset the position of
+        // the main texture.
+        /// </summary>
+        void DrawUVCLight(GameTime gameTime)
+        {
+            Viewport viewport = ScreenManager.GraphicsDevice.Viewport;
+            Vector2 viewportSize = new Vector2(viewport.Width, viewport.Height);
+
+            // title
+            Vector2 titlePosition = new Vector2( 0, 0);
+            //    (viewportSize.X - uvcLightTexture.Width) / 2f,
+            //    viewportSize.Y * 0.18f);
+            //titlePosition.Y -= (float)Math.Pow(TransitionPosition, 2) * titlePosition.Y;
+            Color titleColor = Color.White;
+
+            ScreenManager.SpriteBatch.Begin(SpriteBlendMode.Additive,
+                              SpriteSortMode.Immediate,
+                              SaveStateMode.None);
+
+            // Set the displacement texture.
+            ScreenManager.GraphicsDevice.Textures[1] = waterfallTexture;
+
+            // Set an effect parameter to make the
+            // displacement texture scroll in a giant circle.
+            refractionEffect.Parameters["DisplacementScroll"].SetValue(
+                                                        MoveInCircle(gameTime, 0.1f));
+
+            // Begin the custom effect.
+            refractionEffect.Begin();
+            refractionEffect.CurrentTechnique.Passes[0].Begin();
+
+            ScreenManager.SpriteBatch.Draw(uvcLightTexture, titlePosition,
+                new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+
+            // End the sprite batch, then end our custom effect.
+            ScreenManager.SpriteBatch.End();
+
+            refractionEffect.CurrentTechnique.Passes[0].End();
+            refractionEffect.End();
+        }
+
+
+        /// <summary>
+        /// Helper for moving a value around in a circle.
+        /// </summary>
+        static Vector2 MoveInCircle(GameTime gameTime, float speed)
+        {
+            double time = gameTime.TotalGameTime.TotalSeconds * speed;
+
+            float x = (float)Math.Cos(time);
+            float y = (float)Math.Sin(time);
+
+            return new Vector2(x, y);
         }
         #endregion
     }

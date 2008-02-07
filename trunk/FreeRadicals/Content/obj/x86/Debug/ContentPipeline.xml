@@ -118,6 +118,15 @@
       <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\Legend.xnb</Output>
       <Time>2008-01-28T03:39:34.375+00:00</Time>
     </Item>
+    <Item>
+      <Source>Textures\UVC.png</Source>
+      <Name>Textures\UVC</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\UVC.xnb</Output>
+      <Time>2008-02-03T20:01:56.484375+00:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

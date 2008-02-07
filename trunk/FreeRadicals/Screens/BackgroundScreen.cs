@@ -26,8 +26,9 @@ namespace FreeRadicals.Screens
         float addTimer;
         Color[] explosionColors = new Color[] 
             {
-                Color.Red, Color.Red, Color.Silver, Color.Gray, Color.Orange, 
-                Color.Yellow 
+                Color.Red, Color.Blue, Color.Gray, 
+                Color.Purple, Color.Green, Color.Yellow,
+                Color.Indigo, Color.Silver, Color.Gold
             };
         Rendering.LineBatch lineBatch;
         Texture2D titleTexture;
