@@ -5,9 +5,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using FreeRadicals.ScreenManager;
+using FreeRadicals.BloomPostprocess;
+using FreeRadicals.Rendering;
+using FreeRadicals.Simulation;
 #endregion
 
-namespace FreeRadicals
+namespace FreeRadicals.Screens
 {
     /// <summary>
     /// This screen implements the actual game logic. It is just a
@@ -218,9 +222,9 @@ namespace FreeRadicals
             lineBatch.End();
 
             // draw the stars
-            spriteBatch.Begin();
-            world.Atmosphere.Draw(spriteBatch, atomTexture);
-            spriteBatch.End();
+            //spriteBatch.Begin();
+            //world.Atmosphere.Draw(spriteBatch, atomTexture);
+            //spriteBatch.End();
 
             if (WorldRules.NeonEffect)
             {
@@ -252,18 +256,21 @@ namespace FreeRadicals
 
                 if (world.Ships[i].Playing)
                 {
-                    message = ""; // Player " + (i + 1).ToString() + ": " +
-                        // world.Ships[i].Score.ToString();
+                    message = "Dobson " + (i + 1).ToString() + ".0 Reserves:\n" + 
+                        "   Oxygen(O): " + world.Ships[i].OxygenAmmo.ToString() + "\n" +
+                        "   Carbon(C): " + world.Ships[i].CarbonAmmo.ToString() + "\n" +
+                        "   Hydrogen(H): " + world.Ships[i].HydrogenAmmo.ToString() + "\n" +
+                        "   Shield: " + world.Ships[i].Life.ToString(); 
                 }
                 else
                 {
                     message = ""; // Hold A to Join";
                 }
 
-                float scale = 1.0f;
+                float scale = 0.8f;
 
                 Vector2 size = spriteFont.MeasureString(message) * scale;
-                position.X = (i + 1) * offset - size.X / 2;
+                position.X = (i + 1) * offset - size.Y / 2;
                 spriteBatch.DrawString(spriteFont, message, position, 
                     world.Ships[i].Color, 0.0f, Vector2.Zero, scale, 
                     SpriteEffects.None, 1.0f);

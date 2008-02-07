@@ -2,6 +2,10 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using FreeRadicals.Simulation;
+using FreeRadicals.BaseAI;
+using FreeRadicals.Rendering;
+using FreeRadicals.CustomAI;
 #endregion
 
 namespace FreeRadicals.Gameplay
@@ -279,6 +283,20 @@ namespace FreeRadicals.Gameplay
                     newDirection, 36, 64f, 128f, 2f, 0.05f, CO2Colors));
                 this.world.AudioManager.PlayCue("asteroidTouch");
             }
+
+            //// Testing
+            //if ((target is NanoBot) == true)
+            //{
+            //    this.Die(this);
+            //    Vector2 newPosition = this.position;
+            //    Vector2 newVelocity = this.velocity;
+            //    Vector2 newDirection = this.direction;
+            //    world.UnbondOxygenTwo(newPosition, newVelocity, newDirection);
+            //    world.ParticleSystems.Add(new ParticleSystem(newPosition,
+            //        newDirection, 36, 64f, 128f, 2f, 0.05f, Color.White));
+            //    this.world.AudioManager.PlayCue("asteroidTouch");
+            //}
+
             return base.Touch(target);
         }
 

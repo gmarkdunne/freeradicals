@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 #endregion
 
-namespace FreeRadicals
+namespace FreeRadicals.Screens
 {
     /// <summary>
     /// Helper class represents a single entry in a MenuScreen. By default this
@@ -123,7 +123,7 @@ namespace FreeRadicals
             color = new Color(color.R, color.G, color.B, screen.TransitionAlpha);
 
             // Draw text, centered on the middle of each line.
-            ScreenManager screenManager = screen.ScreenManager;
+            ScreenManager.ScreenManager screenManager = screen.ScreenManager;
             SpriteBatch spriteBatch = screenManager.SpriteBatch;
             SpriteFont font = screenManager.Font;
 

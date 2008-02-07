@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 #endregion
 
-namespace FreeRadicals
+namespace FreeRadicals.Rendering
 {
     /// <summary>
     /// A system for maintaining and rendering particles in this game.

@@ -3,7 +3,7 @@ using System;
 using Microsoft.Xna.Framework;
 #endregion
 
-namespace FreeRadicals
+namespace FreeRadicals.Simulation
 {
     /// <summary>
     /// A code container for collision-related mathematical functions.

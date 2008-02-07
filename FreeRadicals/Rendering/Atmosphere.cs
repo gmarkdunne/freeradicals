@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 #endregion
 
-namespace FreeRadicals
+namespace FreeRadicals.Rendering
 {
     /// <summary>
     /// A Atmosphere represented by single-pixel "atoms", with parallax-scrolling.

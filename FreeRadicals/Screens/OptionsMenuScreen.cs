@@ -1,9 +1,10 @@
 #region Using Statements
 using System;
 using Microsoft.Xna.Framework;
+using FreeRadicals.Simulation;
 #endregion
 
-namespace FreeRadicals
+namespace FreeRadicals.Screens
 {
     /// <summary>
     /// The options screen is brought up over the top of the main menu

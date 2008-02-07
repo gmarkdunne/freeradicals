@@ -3,7 +3,7 @@ using System;
 using Microsoft.Xna.Framework;
 #endregion
 
-namespace FreeRadicals
+namespace FreeRadicals.ScreenManager
 {
     /// <summary>
     /// Enum describes the screen transition state.

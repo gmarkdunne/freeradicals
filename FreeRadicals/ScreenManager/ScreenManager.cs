@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 #endregion
 
-namespace FreeRadicals
+namespace FreeRadicals.ScreenManager
 {
     /// <summary>
     /// The screen manager is a component which manages one or more GameScreen

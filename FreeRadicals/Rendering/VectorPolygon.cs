@@ -3,7 +3,7 @@ using System;
 using Microsoft.Xna.Framework;
 #endregion
 
-namespace FreeRadicals
+namespace FreeRadicals.Rendering
 {
     /// <summary>
     /// A series of points that may be drawn together to form a line.

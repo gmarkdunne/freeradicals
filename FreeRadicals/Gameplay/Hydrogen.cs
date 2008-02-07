@@ -2,6 +2,8 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using FreeRadicals.Simulation;
+using FreeRadicals.Rendering;
 #endregion
 
 namespace FreeRadicals.Gameplay
@@ -9,7 +11,7 @@ namespace FreeRadicals.Gameplay
     /// <summary>
     /// Atoms that fill the game simulation
     /// </summary>
-    class Hydrogen : Actor, IBaseAgent
+    class Hydrogen : Simulation.Actor, BaseAI.IBaseAgent
     {
         #region Constants
         /// <summary>

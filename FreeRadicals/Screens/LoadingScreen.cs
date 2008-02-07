@@ -2,9 +2,10 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using FreeRadicals.ScreenManager;
 #endregion
 
-namespace FreeRadicals
+namespace FreeRadicals.Screens
 {
     /// <summary>
     /// The loading screen coordinates transitions between the menu system and the
@@ -49,7 +50,7 @@ namespace FreeRadicals
         /// <summary>
         /// Activates the loading screen.
         /// </summary>
-        public static void Load(ScreenManager screenManager,
+        public static void Load(ScreenManager.ScreenManager screenManager,
                                 EventHandler<EventArgs> loadNextScreen,
                                 bool loadingIsSlow)
         {

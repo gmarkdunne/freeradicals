@@ -2,6 +2,8 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using FreeRadicals.Simulation;
+using FreeRadicals.Rendering;
 #endregion
 
 namespace FreeRadicals.Gameplay

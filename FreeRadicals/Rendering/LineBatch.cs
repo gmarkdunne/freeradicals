@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 #endregion
 
-namespace FreeRadicals
+namespace FreeRadicals.Rendering
 {
     /// <summary>
     /// Batches line "draw" calls from the game, and renders them at one time.

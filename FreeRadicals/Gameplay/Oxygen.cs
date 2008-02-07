@@ -2,6 +2,10 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using FreeRadicals.Simulation;
+using FreeRadicals.BaseAI;
+using FreeRadicals.Rendering;
+using FreeRadicals.CustomAI;
 #endregion
 
 namespace FreeRadicals.Gameplay
@@ -117,7 +121,7 @@ namespace FreeRadicals.Gameplay
                     Vector2 distance = this.position - world.Actors[i].Position;
                     if (distance.Length() <= this.collisionRadius)
                     {
-                        world.Actors[i].Velocity -= -distance * 0.005f;
+                        world.Actors[i].Velocity -= -distance * 0.01f;
                         return;
                     }
                 }
@@ -130,7 +134,7 @@ namespace FreeRadicals.Gameplay
                     Vector2 distance = this.position - world.Actors[i].Position;
                     if (distance.Length() <= this.collisionRadius)
                     {
-                        world.Actors[i].Velocity -= -distance * 0.005f;
+                        world.Actors[i].Velocity -= -distance * 0.01f;
                         return;
                     }
                 }
@@ -143,7 +147,7 @@ namespace FreeRadicals.Gameplay
                     Vector2 distance = this.position - world.Actors[i].Position;
                     if (distance.Length() <= this.collisionRadius)
                     {
-                        world.Actors[i].Velocity -= -distance * 0.005f;
+                        world.Actors[i].Velocity -= -distance * 0.01f;
                         return;
                     }
                 }
@@ -156,7 +160,7 @@ namespace FreeRadicals.Gameplay
                     Vector2 distance = this.position - world.Actors[i].Position;
                     if (distance.Length() <= this.collisionRadius)
                     {
-                        world.Actors[i].Velocity -= -distance * 0.005f;
+                        world.Actors[i].Velocity -= -distance * 0.01f;
                         return;
                     }
                 }
@@ -169,7 +173,7 @@ namespace FreeRadicals.Gameplay
                     Vector2 distance = this.position - world.Actors[i].Position;
                     if (distance.Length() <= this.collisionRadius)
                     {
-                        world.Actors[i].Velocity -= -distance * 0.005f;
+                        world.Actors[i].Velocity -= -distance * 0.01f;
                         return;
                     }
                 }
@@ -209,7 +213,7 @@ namespace FreeRadicals.Gameplay
                 this.world.AudioManager.PlayCue("asteroidTouch");
             }
             // if the oxygen hit an oxygen, Bond them O2
-            if ((target is Oxygen) == true)
+            if ((target is Oxygen && target != this) == true)
             {
                 int O = 1;
                 world.BondOxygenTwo(this, target, O);

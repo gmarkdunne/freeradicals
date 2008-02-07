@@ -2,9 +2,10 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using FreeRadicals.ScreenManager;
 #endregion
 
-namespace FreeRadicals
+namespace FreeRadicals.Screens
 {
     /// <summary>
     /// A popup message box screen, used to display "are you sure?"
