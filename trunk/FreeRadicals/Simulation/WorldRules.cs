@@ -4,12 +4,12 @@ using System;
 
 namespace FreeRadicals.Simulation
 {
-    public enum AtomDensity
+    public enum ScreenRes
     {
-        None = 0,
-        Low = 1,
-        Medium = 2,
-        High = 3
+        a1920x1200 = 0,
+        b1680x1050 = 1,
+        c1440x900 = 2,
+        d1280x800 = 3
     }
 
     /// <summary>
@@ -18,7 +18,7 @@ namespace FreeRadicals.Simulation
     public static class WorldRules
     {
         public static int ScoreLimit = 25;
-        public static AtomDensity AtomDensity = AtomDensity.None;
+        public static ScreenRes ScreenRes = ScreenRes.d1280x800;
         public static bool MotionBlur = true;
         public static bool NeonEffect = true;
         public static bool FullScreen = true;

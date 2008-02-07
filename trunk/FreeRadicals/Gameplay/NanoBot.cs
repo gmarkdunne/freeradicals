@@ -21,6 +21,13 @@ namespace FreeRadicals.Gameplay
     class NanoBot : Actor
     {
         #region Constants
+
+        /// <summary>
+        /// The ratio between the mass and the radius 
+        /// of an oxygen atom.
+        /// </summary>
+        const float massRadiusRatio = 4f;
+
         /// <summary>
         /// The value of the spawn timer set when the ship dies.
         /// </summary>
@@ -313,14 +320,16 @@ namespace FreeRadicals.Gameplay
             : base(world)
         {
             this.playerIndex = playerIndex;
-            this.radius = 60f;
-            // Collision Radius (Radius * 10)
+            this.radius = 60f * world.ResVar;
             this.collisionRadius = this.radius * 5f;
-            this.mass = 50f;
+            //this.mass = 50f;
             this.color = nanobotColorsByPlayerIndex[(int)this.playerIndex];
-            this.polygon = VectorPolygon.CreateCircle(Vector2.Zero, 60f, 100);
-            this.innerPolygon = VectorPolygon.CreateCircle(Vector2.Zero, 30f, 30);
-            this.shieldPolygon = VectorPolygon.CreateCircle(Vector2.Zero, 100f, 80);
+            this.polygon = VectorPolygon.CreateCircle(Vector2.Zero, 60f * world.ResVar, 100);
+            this.innerPolygon = VectorPolygon.CreateCircle(Vector2.Zero, 30f * world.ResVar, 30);
+            this.shieldPolygon = VectorPolygon.CreateCircle(Vector2.Zero, 100f * world.ResVar, 80);
+
+            // calculate the mass
+            this.mass = radius * massRadiusRatio;
         }
         #endregion
 
@@ -394,7 +403,7 @@ namespace FreeRadicals.Gameplay
             }
 
             // update the radius based on the shield
-            radius = (shield > 0f) ? 90f : 60f;
+            radius = (shield > 0f) ? 90f * world.ResVar : 60f * world.ResVar;
 
             // update the spawn-in timer
             if (fadeInTimer < fadeInTimerMaximum)
@@ -420,7 +429,7 @@ namespace FreeRadicals.Gameplay
                     Vector2 distance = this.position - world.Actors[i].Position;
                     if (distance.Length() <= this.collisionRadius)
                     {
-                        world.Actors[i].Velocity -= -distance * 0.04f;
+                        world.Actors[i].Velocity -= -distance * 0.04f * world.ResVar;
                     }
                 }
                 if (negativeCharge)
@@ -435,7 +444,7 @@ namespace FreeRadicals.Gameplay
                         Vector2 distance = this.position - world.Actors[i].Position;
                         if (distance.Length() <= this.collisionRadius)
                         {
-                            world.Actors[i].Velocity += -distance * 0.02f;
+                            world.Actors[i].Velocity += -distance * 0.02f * world.ResVar;
                         }
                     }
                 }
@@ -449,7 +458,7 @@ namespace FreeRadicals.Gameplay
                         Vector2 distance = this.position - world.Actors[i].Position;
                         if (distance.Length() <= this.collisionRadius)
                         {
-                            world.Actors[i].Velocity += -distance * 0.02f;
+                            world.Actors[i].Velocity += -distance * 0.02f * world.ResVar;
                         }
                     }
                     if ((world.Actors[i] is NanoBot) == true ||
@@ -468,7 +477,7 @@ namespace FreeRadicals.Gameplay
                         Vector2 distance = this.position - world.Actors[i].Position;
                         if (distance.Length() <= this.collisionRadius)
                         {
-                            world.Actors[i].Velocity -= -distance * 0.02f;
+                            world.Actors[i].Velocity -= -distance * 0.02f * world.ResVar;
                         }
                     }
                 }
@@ -649,7 +658,6 @@ namespace FreeRadicals.Gameplay
             if (playing == false)
             {
                 playing = true;
-                score = 0;
                 Spawn(true);
             }
         }
@@ -699,17 +707,20 @@ namespace FreeRadicals.Gameplay
             if (negativeCharge)
             {
                 world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                    this.velocity * 0.1f, 24, 32f, 64f, 2f, 0.05f, Color.Red));
+                    this.velocity * 0.1f, 24, 32f * world.ResVar, 64f * world.ResVar, 
+                    2f * world.ResVar, 0.05f * world.ResVar, Color.Red));
             }
             else if (positiveCharge)
             {
                 world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                    this.velocity * 0.1f, 24, 32f, 64f, 2f, 0.05f, Color.Lime));
+                    this.velocity * 0.1f, 24, 32f * world.ResVar, 64f * world.ResVar, 
+                    2f * world.ResVar, 0.05f * world.ResVar, Color.Lime));
             }
             else
             {
                 world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                    this.velocity * 0.1f, 24, 32f, 64f, 2f, 0.05f, this.color));
+                    this.velocity * 0.1f, 24, 32f * world.ResVar, 64f * world.ResVar, 
+                    2f * world.ResVar, 0.05f * world.ResVar, this.color));
             }
 
             if (positiveCharge)
@@ -720,7 +731,8 @@ namespace FreeRadicals.Gameplay
                     this.oxygenAmmo += 1;
                     target.Die(target);
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Red));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, Color.Red));
                     this.FireGamepadMotors(0.0f, 0.16f);
                 }
 
@@ -730,7 +742,8 @@ namespace FreeRadicals.Gameplay
                     this.oxygenAmmo += 2;
                     target.Die(target);
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Red));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, Color.Red));
                     this.FireGamepadMotors(0.0f, 0.16f);
                 }
 
@@ -740,7 +753,8 @@ namespace FreeRadicals.Gameplay
                     this.hydrogenAmmo += 1;
                     target.Die(target);
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Yellow));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, Color.Yellow));
                     this.FireGamepadMotors(0.0f, 0.05f);
                 }
 
@@ -750,7 +764,8 @@ namespace FreeRadicals.Gameplay
                     this.hydrogenAmmo += 2;
                     target.Die(target);
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Yellow));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, Color.Yellow));
                     this.FireGamepadMotors(0.0f, 0.05f);
                 }
 
@@ -760,7 +775,8 @@ namespace FreeRadicals.Gameplay
                     this.carbonAmmo += 1;
                     target.Die(target);
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Gray));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, Color.Gray));
                     this.FireGamepadMotors(0.0f, 0.12f);
                 }
 
@@ -771,7 +787,8 @@ namespace FreeRadicals.Gameplay
                     this.carbonAmmo += 1;
                     target.Die(target);
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, world.CO2Color));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, world.CO2Color));
                     this.FireGamepadMotors(0.0f, 0.42f);
                 }
 
@@ -782,7 +799,8 @@ namespace FreeRadicals.Gameplay
                     this.oxygenAmmo += 1;
                     target.Die(target);
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, world.H2OColor));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, world.H2OColor));
                     this.FireGamepadMotors(0.0f, 0.40f);
                 }
 
@@ -795,7 +813,8 @@ namespace FreeRadicals.Gameplay
                     Vector2 newVelocity = (target.Velocity + this.velocity) / 2;
                     Vector2 newDirection = (target.Direction + this.direction) / 2;
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, world.N2OColor));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, world.N2OColor));
                     this.FireGamepadMotors(0.0f, 0.30f);
                     
                     NitrogenTwo nitrogenTwo = new NitrogenTwo(world);
@@ -804,7 +823,8 @@ namespace FreeRadicals.Gameplay
                     nitrogenTwo.Velocity = newVelocity;
                     nitrogenTwo.Direction = newDirection;
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 18, 32f, 64f, 1.5f, 0.05f, Color.Blue));
+                        target.Direction, 18, 32f * world.ResVar, 64f * world.ResVar, 
+                        1.5f * world.ResVar, 0.05f * world.ResVar, Color.Blue));
                 }
 
                 // Touches Methane
@@ -814,7 +834,8 @@ namespace FreeRadicals.Gameplay
                     this.hydrogenAmmo += 4;
                     target.Die(target);
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, world.CH4Color));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, world.CH4Color));
                     this.FireGamepadMotors(0.0f, 0.28f);
                 } 
             }
@@ -824,7 +845,8 @@ namespace FreeRadicals.Gameplay
                 if ((target is Oxygen) == true)
                 {
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Red));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, Color.Red));
                     this.FireGamepadMotors(0.0f, 0.16f);
                 }
 
@@ -832,7 +854,8 @@ namespace FreeRadicals.Gameplay
                 if ((target is Bromine) == true)
                 {
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Indigo));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, Color.Indigo));
                     this.FireGamepadMotors(0.0f, 0.35f);
                 }
 
@@ -840,7 +863,8 @@ namespace FreeRadicals.Gameplay
                 if ((target is Carbon) == true)
                 {
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Gray));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, Color.Gray));
                     this.FireGamepadMotors(0.0f, 0.12f);
                 }
 
@@ -848,7 +872,8 @@ namespace FreeRadicals.Gameplay
                 if ((target is Hydrogen) == true)
                 {
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Yellow));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, Color.Yellow));
                     this.FireGamepadMotors(0.0f, 0.04f);
                 }
 
@@ -856,7 +881,8 @@ namespace FreeRadicals.Gameplay
                 if ((target is Fluorine) == true)
                 {
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Purple));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, Color.Purple));
                     this.FireGamepadMotors(0.0f, 0.19f);
                 }
 
@@ -864,7 +890,8 @@ namespace FreeRadicals.Gameplay
                 if ((target is Chlorine) == true)
                 {
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Green));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, Color.Green));
                     this.FireGamepadMotors(0.0f, 0.35f);
                 }
 
@@ -872,7 +899,8 @@ namespace FreeRadicals.Gameplay
                 if ((target is Nitrogen) == true)
                 {
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Blue));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, Color.Blue));
                     this.FireGamepadMotors(0.0f, 0.14f);
                 }
 
@@ -880,7 +908,8 @@ namespace FreeRadicals.Gameplay
                 if ((target is OxygenTwo) == true)
                 {
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Red));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, Color.Red));
                     this.FireGamepadMotors(0.0f, 0.14f);
                 }
 
@@ -888,7 +917,8 @@ namespace FreeRadicals.Gameplay
                 if ((target is CarbonDioxide) == true)
                 {
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, world.CO2Color));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, world.CO2Color));
                     this.FireGamepadMotors(0.0f, 0.42f);
                 }
 
@@ -896,7 +926,8 @@ namespace FreeRadicals.Gameplay
                 if ((target is Water) == true)
                 {
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, world.H2OColor));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, world.H2OColor));
                     this.FireGamepadMotors(0.0f, 0.40f);
                 }
 
@@ -904,7 +935,8 @@ namespace FreeRadicals.Gameplay
                 if ((target is Ozone) == true)
                 {
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Red));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, Color.Red));
                     this.FireGamepadMotors(0.0f, 0.48f);
                 }
 
@@ -912,7 +944,8 @@ namespace FreeRadicals.Gameplay
                 if ((target is NitrousOxide) == true)
                 {
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, world.N2OColor));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, world.N2OColor));
                     this.FireGamepadMotors(0.0f, 0.30f);
                 }
 
@@ -920,7 +953,8 @@ namespace FreeRadicals.Gameplay
                 if ((target is Methane) == true)
                 {
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, world.CH4Color));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, world.CH4Color));
                     this.FireGamepadMotors(0.0f, 0.28f);
                 }
 
@@ -928,7 +962,8 @@ namespace FreeRadicals.Gameplay
                 if ((target is Deuterium) == true)
                 {
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Yellow));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, Color.Yellow));
                     this.FireGamepadMotors(0.0f, 0.08f);
                 }
 
@@ -936,7 +971,8 @@ namespace FreeRadicals.Gameplay
                 if ((target is Methylene) == true)
                 {
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, world.CH2Color));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, world.CH2Color));
                     this.FireGamepadMotors(0.0f, 0.28f);
                 }
 
@@ -944,7 +980,8 @@ namespace FreeRadicals.Gameplay
                 if ((target is NitrogenTwo) == true)
                 {
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Blue));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, Color.Blue));
                     this.FireGamepadMotors(0.0f, 0.28f);
                 }
 
@@ -952,7 +989,8 @@ namespace FreeRadicals.Gameplay
                 if ((target is OxygenTwo) == true)
                 {
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Red));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, Color.Red));
                     this.FireGamepadMotors(0.0f, 0.28f);
                 }
 
@@ -960,7 +998,8 @@ namespace FreeRadicals.Gameplay
                 if ((target is CFC1) == true)
                 {
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, world.CFC1Color));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, world.CFC1Color));
                     this.FireGamepadMotors(0.2f, 0.5f);
                 }
 
@@ -968,7 +1007,8 @@ namespace FreeRadicals.Gameplay
                 if ((target is CFC2) == true)
                 {
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, world.CFC2Color));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, world.CFC2Color));
                     this.FireGamepadMotors(0.2f, 0.7f);
                 }
 
@@ -976,7 +1016,8 @@ namespace FreeRadicals.Gameplay
                 if ((target is Hydroxyl) == true)
                 {
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, world.OHColor));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, world.OHColor));
                     this.FireGamepadMotors(0.0f, 0.20f);
                 }
 
@@ -984,7 +1025,8 @@ namespace FreeRadicals.Gameplay
                 if ((target is NitrousOxide) == true)
                 {
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 36, 64f, 128f, 2f, 0.05f, world.NOColor));
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
+                        2f * world.ResVar, 0.05f * world.ResVar, world.NOColor));
                     this.FireGamepadMotors(0.0f, 0.30f);
                 }
             }
@@ -1132,8 +1174,9 @@ namespace FreeRadicals.Gameplay
                 // play the ship-spawn cue
                 world.AudioManager.PlayCue("playerSpawn");
                 // add a particle effect at the ship's new location
-                world.ParticleSystems.Add(new ParticleSystem(this.position, 
-                    Vector2.Zero, 128, 128f, 64f, 3f, 0.1f, this.color)); // new Color[] { this.color }));
+                world.ParticleSystems.Add(new ParticleSystem(this.position,
+                    Vector2.Zero, 128, 128f * world.ResVar, 64f * world.ResVar, 
+                    3f * world.ResVar, 0.1f * world.ResVar, this.color)); 
                 // remind the player that we're spawning
                 FireGamepadMotors(0.25f, 0f);
             }

@@ -30,9 +30,26 @@ namespace FreeRadicals
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-
-            graphics.PreferredBackBufferWidth = 1920;
-            graphics.PreferredBackBufferHeight = 1200;
+            if (Simulation.WorldRules.ScreenRes == ScreenRes.a1920x1200)
+            {
+                graphics.PreferredBackBufferWidth = 1920;
+                graphics.PreferredBackBufferHeight = 1200;
+            }
+            if (Simulation.WorldRules.ScreenRes == ScreenRes.b1680x1050)
+            {
+                graphics.PreferredBackBufferWidth = 1680;
+                graphics.PreferredBackBufferHeight = 1050;
+            }
+            if (Simulation.WorldRules.ScreenRes == ScreenRes.c1440x900)
+            {
+                graphics.PreferredBackBufferWidth = 1440;
+                graphics.PreferredBackBufferHeight = 900;
+            }
+            if (Simulation.WorldRules.ScreenRes == ScreenRes.d1280x800)
+            {
+                graphics.PreferredBackBufferWidth = 1280;
+                graphics.PreferredBackBufferHeight = 800;
+            }
             graphics.MinimumPixelShaderProfile = ShaderProfile.PS_2_0;
             graphics.SynchronizeWithVerticalRetrace = true;
             
