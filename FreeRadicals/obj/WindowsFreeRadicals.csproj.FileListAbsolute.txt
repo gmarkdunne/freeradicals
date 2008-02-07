@@ -21,3 +21,7 @@ C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals
 C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\obj\x86\Debug\FreeRadicals.obj.x86.Debug.Microsoft.Xna.Framework.RuntimeProfile.txt
 C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\obj\x86\Debug\FreeRadicals.exe
 C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\obj\x86\Debug\FreeRadicals.pdb
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\FreeRadicals.exe.manifest
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\FreeRadicals.application
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\obj\x86\Debug\FreeRadicals.exe.manifest
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\obj\x86\Debug\FreeRadicals.application
