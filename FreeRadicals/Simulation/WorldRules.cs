@@ -19,8 +19,8 @@ namespace FreeRadicals.Simulation
     {
         public static int ScoreLimit = 25;
         public static ScreenRes ScreenRes = ScreenRes.d1280x800;
-        public static bool MotionBlur = true;
-        public static bool NeonEffect = true;
-        public static bool FullScreen = true;
+        public static bool MotionBlur = false;
+        public static bool NeonEffect = false;
+        public static bool FullScreen = false;
     }
 }

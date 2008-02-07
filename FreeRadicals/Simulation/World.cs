@@ -469,24 +469,21 @@ namespace FreeRadicals.Simulation
         /// </summary>
         public World(Vector2 dimensions)
         {
-            this.dimensions = dimensions;
+            this.dimensions = dimensions * resVar;
             safeDimensions = new Rectangle(
-                (int)(dimensions.X * 0.05f), (int)(dimensions.Y * 0.05f),
-                (int)(dimensions.X * 0.90f), (int)(dimensions.Y * 0.90f));
-
-            // create the players
-            //nanoBots = new NanoBot[4];
-            //nanoBots[0] = new NanoBot(this, PlayerIndex.One);
-            //nanoBots[1] = new NanoBot(this, PlayerIndex.Two);
-            //nanoBots[2] = new NanoBot(this, PlayerIndex.Three);
-            //nanoBots[3] = new NanoBot(this, PlayerIndex.Four);
+                (int)(dimensions.X * 0.05f), 
+                (int)(dimensions.Y * 0.05f),
+                (int)(dimensions.X * 0.90f), 
+                (int)(dimensions.Y * 0.90f));
 
             // create the Atmosphere
             atmosphere = new Atmosphere(atomCount, new Rectangle(
                 atmosphereBuffer * -1,
                 atmosphereBuffer * -1,
-                (int)this.dimensions.X + atmosphereBuffer * 2,
-                (int)this.dimensions.Y + atmosphereBuffer * 2));
+                (int)(this.dimensions.X) 
+                    + atmosphereBuffer * 2,
+                (int)(this.dimensions.Y) 
+                    + atmosphereBuffer * 2));
 
             // create a new list of actors
             actors = new CollectCollection<Actor>(this);
@@ -499,9 +496,6 @@ namespace FreeRadicals.Simulation
         #region New Game
         public void StartNewGame()
         {
-            //// create the walls
-            //CreateWalls();
-
             // clear out the actors list
             actors.Clear();
             // add the world actor
@@ -1319,9 +1313,9 @@ namespace FreeRadicals.Simulation
             Seven bs3 = new Seven(this);
             bs3.Spawn(false);
             bs3.Position = new Vector2(750f * resVar, 1400f * resVar);
-            Seven bs4 = new Seven(this);
-            bs4.Spawn(false);
-            bs4.Position = new Vector2(1000f * resVar, 1400f * resVar);
+            //Seven bs4 = new Seven(this);
+            //bs4.Spawn(false);
+            //bs4.Position = new Vector2(1000f * resVar, 1400f * resVar);
             Seven bs5 = new Seven(this);
             bs5.Spawn(false);
             bs5.Position = new Vector2(1250f * resVar, 1400f * resVar);
