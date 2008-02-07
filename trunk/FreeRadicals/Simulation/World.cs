@@ -198,8 +198,8 @@ namespace FreeRadicals.Simulation
             switch (WorldRules.AtomDensity)
             {
                 case AtomDensity.None:
-                    SpawnAtoms(0, 0, 0, 0, 0, 0, 0);
-                    SpawnFreeRadicals(0, 0, 0, 0);
+                    SpawnAtoms(10, 10, 10, 10, 0, 0, 0);
+                    SpawnFreeRadicals(0, 0, 2, 2);
                     SpawnGreenHouseGases(0, 0, 0, 0, 0);
                     SpawnJointMolecules(0, 0, 0, 0);
                     break;
@@ -1063,7 +1063,7 @@ namespace FreeRadicals.Simulation
             O.Direction = dir * 0.5f;
             Hydrogen H = new Hydrogen(this);
             H.Spawn(false);
-            Vector2 newPos = new Vector2(20f, 0);
+            Vector2 newPos = new Vector2(40f, 0);
             H.Position = pos + newPos;
             H.Velocity = vel * 2f;
             H.Direction = dir * 2f;
@@ -1085,7 +1085,7 @@ namespace FreeRadicals.Simulation
             O.Direction = dir * 0.5f;
             Nitrogen N = new Nitrogen(this);
             N.Spawn(false);
-            Vector2 newPos = new Vector2(30f, 0);
+            Vector2 newPos = new Vector2(40f, 0);
             N.Position = pos + newPos;
             N.Velocity = vel * 2f;
             N.Direction = dir * 2f;
