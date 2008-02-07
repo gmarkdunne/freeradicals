@@ -140,9 +140,9 @@ namespace FreeRadicals.Screens
                 }
                 if (gameOver == false)
                 {
-                    for (int i = 0; i < world.Ships.Length; i++)
+                    for (int i = 0; i < world.NanoBots.Length; i++)
                     {
-                        world.Ships[i].ProcessInput(gameTime.TotalGameTime.Seconds, 
+                        world.NanoBots[i].ProcessInput(gameTime.TotalGameTime.Seconds, 
                             true);
                     }
                 }
@@ -152,9 +152,9 @@ namespace FreeRadicals.Screens
                 // check for a winner
                 if (gameOver == false)
                 {
-                    for (int i = 0; i < world.Ships.Length; i++)
+                    for (int i = 0; i < world.NanoBots.Length; i++)
                     {
-                        if (world.Ships[i].Score >= WorldRules.ScoreLimit)
+                        if (world.NanoBots[i].Score >= WorldRules.ScoreLimit)
                         {
                             ScreenManager.AddScreen(new GameOverScreen("Player " +
                                 (i + 1).ToString() + " wins the game!"));
@@ -250,30 +250,63 @@ namespace FreeRadicals.Screens
             Vector2 position = new Vector2(128, 64);
             int offset = (1280) / 5;
 
-            for (int i = 0; i < world.Ships.Length; ++i)
+            for (int i = 0; i < world.NanoBots.Length; ++i)
             {
                 string message;
 
-                if (world.Ships[i].Playing)
+                if (world.NanoBots[i].Playing)
                 {
-                    message = "Dobson " + (i + 1).ToString() + ".0 Reserves:\n" + 
-                        "   Oxygen(O): " + world.Ships[i].OxygenAmmo.ToString() + "\n" +
-                        "   Carbon(C): " + world.Ships[i].CarbonAmmo.ToString() + "\n" +
-                        "   Hydrogen(H): " + world.Ships[i].HydrogenAmmo.ToString() + "\n" +
-                        "   Shield: " + world.Ships[i].Life.ToString(); 
+                    message = "Dobson " + (i + 1).ToString() + ".0 Reserves:\n" +
+                        "   Oxygen(O): " + world.NanoBots[i].OxygenAmmo.ToString() + "\n" +
+                        "   Carbon(C): " + world.NanoBots[i].CarbonAmmo.ToString() + "\n" +
+                        "   Hydrogen(H): " + world.NanoBots[i].HydrogenAmmo.ToString() + "\n" +
+                        "   Shield: " + world.NanoBots[i].Life.ToString(); 
                 }
                 else
                 {
                     message = ""; // Hold A to Join";
                 }
 
-                float scale = 0.8f;
+                float scale = 1f;
 
                 Vector2 size = spriteFont.MeasureString(message) * scale;
                 position.X = (i + 1) * offset - size.Y / 2;
-                spriteBatch.DrawString(spriteFont, message, position, 
-                    world.Ships[i].Color, 0.0f, Vector2.Zero, scale, 
+                spriteBatch.DrawString(spriteFont, message, position,
+                    world.NanoBots[i].Color, 0.0f, Vector2.Zero, scale, 
                     SpriteEffects.None, 1.0f);
+            }
+
+            spriteBatch.End();
+
+            spriteBatch.Begin();
+
+            Vector2 shadowOffset = Vector2.One;
+
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed)
+            {
+                if (world.OzoneCount > 0)
+                {
+                    spriteBatch.DrawString(spriteFont, "Ozone Level: " + world.OzoneCount.ToString(),
+                    new Vector2(50, 225) + shadowOffset, Color.Red);
+                    spriteBatch.DrawString(spriteFont, "Ozone Level: " + world.OzoneCount.ToString(),
+                    new Vector2(50, 225), Color.White);
+                }
+
+                if (world.FreeRadicalCount > 0)
+                {
+                    spriteBatch.DrawString(spriteFont, "Free Radical Level: " + world.FreeRadicalCount.ToString(),
+                        new Vector2(50, 250) + shadowOffset, Color.Yellow);
+                    spriteBatch.DrawString(spriteFont, "Free Radical Level: " + world.FreeRadicalCount.ToString(),
+                    new Vector2(50, 250), Color.White);
+                }
+
+                if (world.GreenhouseGasesCount > 0)
+                {
+                    spriteBatch.DrawString(spriteFont, "Greenhouse Gases Level: " + world.GreenhouseGasesCount.ToString(),
+                        new Vector2(50, 275) + shadowOffset, Color.Green);
+                    spriteBatch.DrawString(spriteFont, "Greenhouse Gases Level: " + world.GreenhouseGasesCount.ToString(),
+                    new Vector2(50, 275), Color.White);
+                } 
             }
 
             spriteBatch.End();

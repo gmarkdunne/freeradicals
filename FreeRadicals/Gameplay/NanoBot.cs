@@ -126,21 +126,124 @@ namespace FreeRadicals.Gameplay
         {
             Color.Yellow, Color.CornflowerBlue, Color.DeepPink, Color.Indigo
         };
-        static readonly Color[] CO2Color = 
-        {
-            Color.Gray, Color.Red
+
+        /// <summary>
+        /// Particle system colors effect for CFC1.
+        /// </summary>
+        static readonly Color[] CFC1Color = 
+        { 
+            Color.White, Color.Gray, Color.Purple, 
+            Color.Purple, Color.Green, Color.Green,
+            Color.Gold, Color.Silver
         };
+
+        /// <summary>
+        /// Particle system colors effect for CFC2.
+        /// </summary>
+        static readonly Color[] CFC2Color = 
+        { 
+            Color.White, Color.Gray, Color.Purple, 
+            Color.Green, Color.Green, Color.Green,
+            Color.Gold, Color.Silver
+        };
+
+        /// <summary>
+        /// Particle system colors effect for NO.
+        /// </summary>
+        static readonly Color[] NOColor = 
+        { 
+            Color.White, Color.Red, Color.Blue, 
+            Color.Gold, Color.Silver
+        };
+
+        /// <summary>
+        /// Particle system colors effect for OH.
+        /// </summary>
+        static readonly Color[] OHColor = 
+        { 
+            Color.White, Color.Red, Color.Yellow, 
+            Color.Gold, Color.Silver
+        };
+
+        /// <summary>
+        /// Particle system colors effect for O2.
+        /// </summary>
+        static readonly Color[] O2Color = 
+        { 
+            Color.White, Color.Red, Color.Red, 
+            Color.Gold, Color.Silver
+        };
+
+        /// <summary>
+        /// Particle system colors effect for N2.
+        /// </summary>
+        static readonly Color[] N2Color = 
+        { 
+            Color.White, Color.Blue, Color.Blue, 
+            Color.Gold, Color.Silver
+        };
+
+        /// <summary>
+        /// Particle system colors effect for CH2.
+        /// </summary>
+        static readonly Color[] CH2Color = 
+        { 
+            Color.White, Color.Gray, Color.Yellow, Color.Yellow, 
+            Color.Gold, Color.Silver
+        };
+
+        /// <summary>
+        /// Particle system colors effect for CH4.
+        /// </summary>
         static readonly Color[] CH4Color = 
-        {
-            Color.Gray, Color.Yellow
+        { 
+            Color.White, Color.Gray, Color.Yellow, Color.Yellow, 
+            Color.Yellow, Color.Yellow, Color.Gold, Color.Silver
         };
+
+        /// <summary>
+        /// Particle system colors effect for HH.
+        /// </summary>
+        static readonly Color[] HHColor = 
+        { 
+            Color.White, Color.Yellow, Color.Yellow, 
+            Color.Gold, Color.Silver
+        };
+
+        /// <summary>
+        /// Particle system colors effect for H2.
+        /// </summary>
         static readonly Color[] H2OColor = 
-        {
-            Color.Red, Color.Yellow
+        { 
+            Color.White, Color.Red, Color.Red, 
+            Color.Yellow, Color.Gold, Color.Silver
         };
+
+        /// <summary>
+        /// Particle system colors effect for O3.
+        /// </summary>
+        static readonly Color[] O3Color = 
+        { 
+            Color.White, Color.Red, Color.Red, 
+            Color.Red, Color.Gold, Color.Silver
+        };
+
+        /// <summary>
+        /// Particle system colors effect for CO2.
+        /// </summary>
+        static readonly Color[] CO2Color = 
+        { 
+            Color.White, Color.Red, Color.Gray, 
+            Color.Gray, Color.Gold, Color.Silver
+        };
+
+        /// <summary>
+        /// Particle system colors effect for N2O.
+        /// </summary>
         static readonly Color[] N2OColor = 
-        {
-            Color.Red, Color.Blue
+        { 
+            Color.White, Color.Red, Color.Blue, 
+            Color.Blue, Color.Gold, Color.Silver
         };
 
         /// <summary>
@@ -276,9 +379,9 @@ namespace FreeRadicals.Gameplay
         /// </summary>
         public bool positiveCharge = false;
 
-        private int oxygenAmmo = 20;
-        private int hydrogenAmmo = 100;
-        private int carbonAmmo = 60;
+        private int oxygenAmmo = 30;
+        private int hydrogenAmmo = 10;
+        private int carbonAmmo = 20;
 
         #endregion
 
@@ -338,15 +441,14 @@ namespace FreeRadicals.Gameplay
             : base(world)
         {
             this.playerIndex = playerIndex;
-
-            // Collision Radius (Radius * 10)
-            this.collisionRadius = this.radius * 30;
             this.radius = 60f;
+            // Collision Radius (Radius * 10)
+            this.collisionRadius = this.radius * 4;
             this.mass = 50f;
             this.color = nanobotColorsByPlayerIndex[(int)this.playerIndex];
             this.polygon = VectorPolygon.CreateCircle(Vector2.Zero, 60f, 100);
             this.innerPolygon = VectorPolygon.CreateCircle(Vector2.Zero, 30f, 30);
-            this.shieldPolygon = VectorPolygon.CreateCircle(Vector2.Zero, 100f, 100);
+            this.shieldPolygon = VectorPolygon.CreateCircle(Vector2.Zero, 100f, 80);
         }
         #endregion
 
@@ -450,38 +552,13 @@ namespace FreeRadicals.Gameplay
                         if (distance.Length() <= this.collisionRadius)
                         {
                             world.Actors[i].Velocity += -distance * 0.02f;
-                            return;
+                            if (world.Actors.Count == i)
+                            {
+                                return;
+                            }
                         }
                     }
                 }
-
-                //// check if there is a Chlorine
-                //for (int i = 0; i < world.Actors.Count; ++i)
-                //{
-                //    if ((world.Actors[i] is Chlorine) == true)
-                //    {
-                //        Vector2 distance = this.position - world.Actors[i].Position;
-                //        if (distance.Length() <= this.collisionRadius)
-                //        {
-                //            world.Actors[i].Velocity -= -distance * 0.01f;
-                //            return;
-                //        }
-                //    }
-                //}
-
-                //// check if there is a Fluorine
-                //for (int i = 0; i < world.Actors.Count; ++i)
-                //{
-                //    if ((world.Actors[i] is Fluorine) == true)
-                //    {
-                //        Vector2 distance = this.position - world.Actors[i].Position;
-                //        if (distance.Length() <= this.collisionRadius)
-                //        {
-                //            world.Actors[i].Velocity -= -distance * 0.01f;
-                //            return;
-                //        }
-                //    }
-                //}
 
                 // check if there is a Nitric Oxide
                 for (int i = 0; i < world.Actors.Count; ++i)
@@ -492,7 +569,10 @@ namespace FreeRadicals.Gameplay
                         if (distance.Length() <= this.collisionRadius)
                         {
                             world.Actors[i].Velocity -= -distance * 0.02f;
-                            return;
+                            if (world.Actors.Count == i)
+                            {
+                                return;
+                            }
                         }
                     }
                 }
@@ -506,7 +586,10 @@ namespace FreeRadicals.Gameplay
                         if (distance.Length() <= this.collisionRadius)
                         {
                             world.Actors[i].Velocity -= -distance * 0.02f;
-                            return;
+                            if (world.Actors.Count == i)
+                            {
+                                return;
+                            }
                         }
                     }
                 }
@@ -520,7 +603,10 @@ namespace FreeRadicals.Gameplay
                         if (distance.Length() <= this.collisionRadius)
                         {
                             world.Actors[i].Velocity -= -distance * 0.02f;
-                            return;
+                            if (world.Actors.Count == i)
+                            {
+                                return;
+                            }
                         }
                     }
                 }
@@ -534,122 +620,13 @@ namespace FreeRadicals.Gameplay
                         if (distance.Length() <= this.collisionRadius)
                         {
                             world.Actors[i].Velocity -= -distance * 0.02f;
-                            return;
+                            if (world.Actors.Count == i)
+                            {
+                                return;
+                            }
                         }
                     }
                 }
-
-                //// check if there is an Nitrogen
-                //for (int i = 0; i < world.Actors.Count; ++i)
-                //{
-                //    if ((world.Actors[i] is Nitrogen) == true)
-                //    {
-                //        Vector2 distance = this.position - world.Actors[i].Position;
-                //        if (distance.Length() <= this.collisionRadius)
-                //        {
-                //            world.Actors[i].Velocity += -distance * 0.02f;
-                //            return;
-                //        }
-                //    }
-                //}
-
-                //// check if there is an Methylene
-                //for (int i = 0; i < world.Actors.Count; ++i)
-                //{
-                //    if ((world.Actors[i] is Methylene) == true)
-                //    {
-                //        Vector2 distance = this.position - world.Actors[i].Position;
-                //        if (distance.Length() <= this.collisionRadius)
-                //        {
-                //            world.Actors[i].Velocity += -distance * 0.02f;
-                //            return;
-                //        }
-                //    }
-                //}
-
-                //// check if there is an Carbon
-                //for (int i = 0; i < world.Actors.Count; ++i)
-                //{
-                //    if ((world.Actors[i] is Carbon) == true)
-                //    {
-                //        Vector2 distance = this.position - world.Actors[i].Position;
-                //        if (distance.Length() <= this.collisionRadius)
-                //        {
-                //            world.Actors[i].Velocity += -distance * 0.02f;
-                //            return;
-                //        }
-                //    }
-                //}
-
-                //// check if there is an Deuterium
-                //for (int i = 0; i < world.Actors.Count; ++i)
-                //{
-                //    if ((world.Actors[i] is Deuterium) == true)
-                //    {
-                //        Vector2 distance = this.position - world.Actors[i].Position;
-                //        if (distance.Length() <= this.collisionRadius)
-                //        {
-                //            world.Actors[i].Velocity += -distance * 0.02f;
-                //            return;
-                //        }
-                //    }
-                //}
-
-                //// check if there is an Hydrogen
-                //for (int i = 0; i < world.Actors.Count; ++i)
-                //{
-                //    if ((world.Actors[i] is Hydrogen) == true)
-                //    {
-                //        Vector2 distance = this.position - world.Actors[i].Position;
-                //        if (distance.Length() <= this.collisionRadius)
-                //        {
-                //            world.Actors[i].Velocity += -distance * 0.02f;
-                //            return;
-                //        }
-                //    }
-                //}
-
-                //// check if there is an Oxygen
-                //for (int i = 0; i < world.Actors.Count; ++i)
-                //{
-                //    if ((world.Actors[i] is Oxygen) == true)
-                //    {
-                //        Vector2 distance = this.position - world.Actors[i].Position;
-                //        if (distance.Length() <= this.collisionRadius)
-                //        {
-                //            world.Actors[i].Velocity += -distance * 0.02f;
-                //            return;
-                //        }
-                //    }
-                //}
-
-                //// check if there is an OxygenTwo
-                //for (int i = 0; i < world.Actors.Count; ++i)
-                //{
-                //    if ((world.Actors[i] is OxygenTwo) == true)
-                //    {
-                //        Vector2 distance = this.position - world.Actors[i].Position;
-                //        if (distance.Length() <= this.collisionRadius)
-                //        {
-                //            world.Actors[i].Velocity += -distance * 0.02f;
-                //            return;
-                //        }
-                //    }
-                //}
-
-                //// check if there is an NitrogenTwo
-                //for (int i = 0; i < world.Actors.Count; ++i)
-                //{
-                //    if ((world.Actors[i] is NitrogenTwo) == true)
-                //    {
-                //        Vector2 distance = this.position - world.Actors[i].Position;
-                //        if (distance.Length() <= this.collisionRadius)
-                //        {
-                //            world.Actors[i].Velocity += -distance * 0.02f;
-                //            return;
-                //        }
-                //    }
-                //}
 
                 // check if there is an CarbonDioxide
                 for (int i = 0; i < world.Actors.Count; ++i)
@@ -660,7 +637,10 @@ namespace FreeRadicals.Gameplay
                         if (distance.Length() <= this.collisionRadius)
                         {
                             world.Actors[i].Velocity += -distance * 0.02f;
-                            return;
+                            if (world.Actors.Count == i)
+                            {
+                                return;
+                            }
                         }
                     }
                 }
@@ -674,7 +654,10 @@ namespace FreeRadicals.Gameplay
                         if (distance.Length() <= this.collisionRadius)
                         {
                             world.Actors[i].Velocity += -distance * 0.02f;
-                            return;
+                            if (world.Actors.Count == i)
+                            {
+                                return;
+                            }
                         }
                     }
                 }
@@ -688,7 +671,10 @@ namespace FreeRadicals.Gameplay
                         if (distance.Length() <= this.collisionRadius)
                         {
                             world.Actors[i].Velocity += -distance * 0.02f;
-                            return;
+                            if (world.Actors.Count == i)
+                            {
+                                return;
+                            }
                         }
                     }
                 }
@@ -702,7 +688,10 @@ namespace FreeRadicals.Gameplay
                         if (distance.Length() <= this.collisionRadius)
                         {
                             world.Actors[i].Velocity += -distance * 0.02f;
-                            return;
+                            if (world.Actors.Count == i)
+                            {
+                                return;
+                            }
                         }
                     }
                 }
@@ -716,7 +705,10 @@ namespace FreeRadicals.Gameplay
                         if (distance.Length() <= this.collisionRadius)
                         {
                             world.Actors[i].Velocity += -distance * 0.02f;
-                            return;
+                            if (world.Actors.Count == i)
+                            {
+                                return;
+                            }
                         }
                     }
                 }
@@ -735,80 +727,13 @@ namespace FreeRadicals.Gameplay
                         if (distance.Length() <= this.collisionRadius)
                         {
                             world.Actors[i].Velocity -= -distance * 0.02f;
-                            return;
+                            if (world.Actors.Count == i)
+                            {
+                                return;
+                            }
                         }
                     }
                 }
-                
-                //// check if there is an Nitrogen
-                //for (int i = 0; i < world.Actors.Count; ++i)
-                //{
-                //    if ((world.Actors[i] is Nitrogen) == true)
-                //    {
-                //        Vector2 distance = this.position - world.Actors[i].Position;
-                //        if (distance.Length() <= this.collisionRadius)
-                //        {
-                //            world.Actors[i].Velocity -= -distance * 0.02f;
-                //            return;
-                //        }
-                //    }
-                //}
-
-                //// check if there is an Methylene
-                //for (int i = 0; i < world.Actors.Count; ++i)
-                //{
-                //    if ((world.Actors[i] is Methylene) == true)
-                //    {
-                //        Vector2 distance = this.position - world.Actors[i].Position;
-                //        if (distance.Length() <= this.collisionRadius)
-                //        {
-                //            world.Actors[i].Velocity -= -distance * 0.02f;
-                //            return;
-                //        }
-                //    }
-                //}
-
-                //// check if there is an Carbon
-                //for (int i = 0; i < world.Actors.Count; ++i)
-                //{
-                //    if ((world.Actors[i] is Carbon) == true)
-                //    {
-                //        Vector2 distance = this.position - world.Actors[i].Position;
-                //        if (distance.Length() <= this.collisionRadius)
-                //        {
-                //            world.Actors[i].Velocity -= -distance * 0.02f;
-                //            return;
-                //        }
-                //    }
-                //}
-
-                //// check if there is an Deuterium
-                //for (int i = 0; i < world.Actors.Count; ++i)
-                //{
-                //    if ((world.Actors[i] is Deuterium) == true)
-                //    {
-                //        Vector2 distance = this.position - world.Actors[i].Position;
-                //        if (distance.Length() <= this.collisionRadius)
-                //        {
-                //            world.Actors[i].Velocity -= -distance * 0.02f;
-                //            return;
-                //        }
-                //    }
-                //}
-
-                //// check if there is an Hydrogen
-                //for (int i = 0; i < world.Actors.Count; ++i)
-                //{
-                //    if ((world.Actors[i] is Hydrogen) == true)
-                //    {
-                //        Vector2 distance = this.position - world.Actors[i].Position;
-                //        if (distance.Length() <= this.collisionRadius)
-                //        {
-                //            world.Actors[i].Velocity -= -distance * 0.02f;
-                //            return;
-                //        }
-                //    }
-                //}
 
                 // check if there is an Oxygen
                 for (int i = 0; i < world.Actors.Count; ++i)
@@ -819,38 +744,13 @@ namespace FreeRadicals.Gameplay
                         if (distance.Length() <= this.collisionRadius)
                         {
                             world.Actors[i].Velocity -= -distance * 0.02f;
-                            return;
+                            if (world.Actors.Count == i)
+                            {
+                                return;
+                            }
                         }
                     }
                 }
-
-                //// check if there is an OxygenTwo
-                //for (int i = 0; i < world.Actors.Count; ++i)
-                //{
-                //    if ((world.Actors[i] is OxygenTwo) == true)
-                //    {
-                //        Vector2 distance = this.position - world.Actors[i].Position;
-                //        if (distance.Length() <= this.collisionRadius)
-                //        {
-                //            world.Actors[i].Velocity -= -distance * 0.02f;
-                //            return;
-                //        }
-                //    }
-                //}
-
-                //// check if there is an NitrogenTwo
-                //for (int i = 0; i < world.Actors.Count; ++i)
-                //{
-                //    if ((world.Actors[i] is NitrogenTwo) == true)
-                //    {
-                //        Vector2 distance = this.position - world.Actors[i].Position;
-                //        if (distance.Length() <= this.collisionRadius)
-                //        {
-                //            world.Actors[i].Velocity -= -distance * 0.02f;
-                //            return;
-                //        }
-                //    }
-                //}
 
                 // check if there is an CarbonDioxide
                 for (int i = 0; i < world.Actors.Count; ++i)
@@ -861,7 +761,10 @@ namespace FreeRadicals.Gameplay
                         if (distance.Length() <= this.collisionRadius)
                         {
                             world.Actors[i].Velocity -= -distance * 0.02f;
-                            return;
+                            if (world.Actors.Count == i)
+                            {
+                                return;
+                            }
                         }
                     }
                 }
@@ -875,7 +778,10 @@ namespace FreeRadicals.Gameplay
                         if (distance.Length() <= this.collisionRadius)
                         {
                             world.Actors[i].Velocity -= -distance * 0.02f;
-                            return;
+                            if (world.Actors.Count == i)
+                            {
+                                return;
+                            }
                         }
                     }
                 }
@@ -889,7 +795,10 @@ namespace FreeRadicals.Gameplay
                         if (distance.Length() <= this.collisionRadius)
                         {
                             world.Actors[i].Velocity -= -distance * 0.02f;
-                            return;
+                            if (world.Actors.Count == i)
+                            {
+                                return;
+                            }
                         }
                     }
                 }
@@ -903,7 +812,10 @@ namespace FreeRadicals.Gameplay
                         if (distance.Length() <= this.collisionRadius)
                         {
                             world.Actors[i].Velocity -= -distance * 0.02f;
-                            return;
+                            if (world.Actors.Count == i)
+                            {
+                                return;
+                            }
                         }
                     }
                 }
@@ -917,7 +829,10 @@ namespace FreeRadicals.Gameplay
                         if (distance.Length() <= this.collisionRadius)
                         {
                             world.Actors[i].Velocity -= -distance * 0.02f;
-                            return;
+                            if (world.Actors.Count == i)
+                            {
+                                return;
+                            }
                         }
                     }
                 }
@@ -936,7 +851,10 @@ namespace FreeRadicals.Gameplay
                         if (distance.Length() <= this.collisionRadius)
                         {
                             world.Actors[i].Velocity -= -distance * 0.02f;
-                            return;
+                            if (world.Actors.Count == i)
+                            {
+                                return;
+                            }
                         }
                     }
                 }
@@ -950,7 +868,10 @@ namespace FreeRadicals.Gameplay
                         if (distance.Length() <= this.collisionRadius)
                         {
                             world.Actors[i].Velocity -= -distance * 0.02f;
-                            return;
+                            if (world.Actors.Count == i)
+                            {
+                                return;
+                            }
                         }
                     }
                 }
@@ -964,7 +885,10 @@ namespace FreeRadicals.Gameplay
                         if (distance.Length() <= this.collisionRadius)
                         {
                             world.Actors[i].Velocity -= -distance * 0.02f;
-                            return;
+                            if (world.Actors.Count == i)
+                            {
+                                return;
+                            }
                         }
                     }
                 }
@@ -978,7 +902,10 @@ namespace FreeRadicals.Gameplay
                         if (distance.Length() <= this.collisionRadius)
                         {
                             world.Actors[i].Velocity -= -distance * 0.02f;
-                            return;
+                            if (world.Actors.Count == i)
+                            {
+                                return;
+                            }
                         }
                     }
                 }
@@ -1197,7 +1124,11 @@ namespace FreeRadicals.Gameplay
                 player.Damage(this, this.mass * rammingSpeed * damageScalar);
 
             }
-
+            // if the oxygen didn't hit a projectile, play the oxygen-touch cue
+            if ((target is Projectile) == false)
+            {
+                this.world.AudioManager.PlayCue("asteroidTouch");
+            }
             if (negativeCharge)
             {
                 world.ParticleSystems.Add(new ParticleSystem(target.Position,
@@ -1221,13 +1152,9 @@ namespace FreeRadicals.Gameplay
                 {
                     this.oxygenAmmo += 1;
                     target.Die(target);
-                    Vector2 newPosition = (target.Position + this.position) / 2;
-                    Vector2 newVelocity = (target.Velocity + this.velocity) / 2;
-                    Vector2 newDirection = (target.Direction + this.direction) / 2;
-                    //world.BondWater(newPosition, newVelocity, newDirection);
-                    world.ParticleSystems.Add(new ParticleSystem(newPosition,
-                        newDirection, 36, 64f, 128f, 2f, 0.05f, Color.Red));
-                    this.world.AudioManager.PlayCue("asteroidTouch");
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Red));
+                    this.FireGamepadMotors(0.0f, 0.16f);
                 }
 
                 // Touches Hydrogen
@@ -1235,13 +1162,19 @@ namespace FreeRadicals.Gameplay
                 {
                     this.hydrogenAmmo += 1;
                     target.Die(target);
-                    Vector2 newPosition = (target.Position + this.position) / 2;
-                    Vector2 newVelocity = (target.Velocity + this.velocity) / 2;
-                    Vector2 newDirection = (target.Direction + this.direction) / 2;
-                    //world.BondWater(newPosition, newVelocity, newDirection);
-                    world.ParticleSystems.Add(new ParticleSystem(newPosition,
-                        newDirection, 36, 64f, 128f, 2f, 0.05f, Color.Yellow));
-                    this.world.AudioManager.PlayCue("asteroidTouch");
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Yellow));
+                    this.FireGamepadMotors(0.0f, 0.05f);
+                }
+
+                // Touches Deuterium
+                if ((target is Deuterium) == true)
+                {
+                    this.hydrogenAmmo += 2;
+                    target.Die(target);
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Yellow));
+                    this.FireGamepadMotors(0.0f, 0.05f);
                 }
 
                 // Touches Carbon
@@ -1249,28 +1182,10 @@ namespace FreeRadicals.Gameplay
                 {
                     this.carbonAmmo += 1;
                     target.Die(target);
-                    Vector2 newPosition = (target.Position + this.position) / 2;
-                    Vector2 newVelocity = (target.Velocity + this.velocity) / 2;
-                    Vector2 newDirection = (target.Direction + this.direction) / 2;
-                    //world.BondWater(newPosition, newVelocity, newDirection);
-                    world.ParticleSystems.Add(new ParticleSystem(newPosition,
-                        newDirection, 36, 64f, 128f, 2f, 0.05f, Color.Yellow));
-                    this.world.AudioManager.PlayCue("asteroidTouch");
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Gray));
+                    this.FireGamepadMotors(0.0f, 0.12f);
                 }
-
-                //// Touches OxygenTwo
-                //if ((target is OxygenTwo) == true)
-                //{
-                //    this.oxygenAmmo += this.oxygenAmmo + 2;
-                //    target.Die(target);
-                //    Vector2 newPosition = (target.Position + this.position) / 2;
-                //    Vector2 newVelocity = (target.Velocity + this.velocity) / 2;
-                //    Vector2 newDirection = (target.Direction + this.direction) / 2;
-                //    //world.BondWater(newPosition, newVelocity, newDirection);
-                //    world.ParticleSystems.Add(new ParticleSystem(newPosition,
-                //        newDirection, 36, 64f, 128f, 2f, 0.05f, Color.Red));
-                //    this.world.AudioManager.PlayCue("asteroidTouch");
-                //}
 
                 // Touches CarbonDioxide
                 if ((target is CarbonDioxide) == true)
@@ -1278,13 +1193,9 @@ namespace FreeRadicals.Gameplay
                     this.oxygenAmmo += 2;
                     this.carbonAmmo += 1;
                     target.Die(target);
-                    Vector2 newPosition = (target.Position + this.position) / 2;
-                    Vector2 newVelocity = (target.Velocity + this.velocity) / 2;
-                    Vector2 newDirection = (target.Direction + this.direction) / 2;
-                    //world.BondWater(newPosition, newVelocity, newDirection);
-                    world.ParticleSystems.Add(new ParticleSystem(newPosition,
-                        newDirection, 36, 64f, 128f, 2f, 0.05f, CO2Color));
-                    this.world.AudioManager.PlayCue("asteroidTouch");
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, CO2Color));
+                    this.FireGamepadMotors(0.0f, 0.42f);
                 }
 
                 // Touches Water
@@ -1293,28 +1204,10 @@ namespace FreeRadicals.Gameplay
                     this.hydrogenAmmo += 2;
                     this.oxygenAmmo += 1;
                     target.Die(target);
-                    Vector2 newPosition = (target.Position + this.position) / 2;
-                    Vector2 newVelocity = (target.Velocity + this.velocity) / 2;
-                    Vector2 newDirection = (target.Direction + this.direction) / 2;
-                    //world.BondWater(newPosition, newVelocity, newDirection);
-                    world.ParticleSystems.Add(new ParticleSystem(newPosition,
-                        newDirection, 36, 64f, 128f, 2f, 0.05f, H2OColor));
-                    this.world.AudioManager.PlayCue("asteroidTouch");
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, H2OColor));
+                    this.FireGamepadMotors(0.0f, 0.40f);
                 }
-
-                //// Touches Ozone
-                //if ((target is Ozone) == true)
-                //{
-                //    this.oxygenAmmo += this.oxygenAmmo + 3;
-                //    target.Die(target);
-                //    Vector2 newPosition = (target.Position + this.position) / 2;
-                //    Vector2 newVelocity = (target.Velocity + this.velocity) / 2;
-                //    Vector2 newDirection = (target.Direction + this.direction) / 2;
-                //    //world.BondWater(newPosition, newVelocity, newDirection);
-                //    world.ParticleSystems.Add(new ParticleSystem(newPosition,
-                //        newDirection, 36, 64f, 128f, 2f, 0.05f, Color.Red));
-                //    this.world.AudioManager.PlayCue("asteroidTouch");
-                //}
 
                 // Touches NitrousOxide
                 if ((target is NitrousOxide) == true)
@@ -1324,9 +1217,9 @@ namespace FreeRadicals.Gameplay
                     Vector2 newPosition = (target.Position + this.position) / 2;
                     Vector2 newVelocity = (target.Velocity + this.velocity) / 2;
                     Vector2 newDirection = (target.Direction + this.direction) / 2;
-                    world.ParticleSystems.Add(new ParticleSystem(newPosition,
-                        newDirection, 36, 64f, 128f, 2f, 0.05f, N2OColor));
-                    this.world.AudioManager.PlayCue("asteroidTouch");
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, N2OColor));
+                    this.FireGamepadMotors(0.0f, 0.30f);
                     
                     NitrogenTwo nitrogenTwo = new NitrogenTwo(world);
                     nitrogenTwo.Spawn(false);
@@ -1334,7 +1227,7 @@ namespace FreeRadicals.Gameplay
                     nitrogenTwo.Velocity = newVelocity;
                     nitrogenTwo.Direction = newDirection;
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        newDirection, 18, 32f, 64f, 1.5f, 0.05f, Color.Blue));
+                        target.Direction, 18, 32f, 64f, 1.5f, 0.05f, Color.Blue));
                 }
 
                 // Touches Methane
@@ -1343,16 +1236,181 @@ namespace FreeRadicals.Gameplay
                     this.carbonAmmo += 1;
                     this.hydrogenAmmo += 4;
                     target.Die(target);
-                    Vector2 newPosition = (target.Position + this.position) / 2;
-                    Vector2 newVelocity = (target.Velocity + this.velocity) / 2;
-                    Vector2 newDirection = (target.Direction + this.direction) / 2;
-                    //world.BondWater(newPosition, newVelocity, newDirection);
-                    world.ParticleSystems.Add(new ParticleSystem(newPosition,
-                        newDirection, 36, 64f, 128f, 2f, 0.05f, CH4Color));
-                    this.world.AudioManager.PlayCue("asteroidTouch");
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, CH4Color));
+                    this.FireGamepadMotors(0.0f, 0.28f);
                 } 
             }
+            else
+            {
+                // Touches Oxygen
+                if ((target is Oxygen) == true)
+                {
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Red));
+                    this.FireGamepadMotors(0.0f, 0.16f);
+                }
 
+                // Touches Bromine
+                if ((target is Bromine) == true)
+                {
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Indigo));
+                    this.FireGamepadMotors(0.0f, 0.35f);
+                }
+
+                // Touches Carbon
+                if ((target is Carbon) == true)
+                {
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Gray));
+                    this.FireGamepadMotors(0.0f, 0.12f);
+                }
+
+                // Touches Hydrogen
+                if ((target is Hydrogen) == true)
+                {
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Yellow));
+                    this.FireGamepadMotors(0.0f, 0.04f);
+                }
+
+                // Touches Fluorine
+                if ((target is Fluorine) == true)
+                {
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Purple));
+                    this.FireGamepadMotors(0.0f, 0.19f);
+                }
+
+                // Touches Chlorine
+                if ((target is Chlorine) == true)
+                {
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Green));
+                    this.FireGamepadMotors(0.0f, 0.35f);
+                }
+
+                // Touches Nitrogen
+                if ((target is Nitrogen) == true)
+                {
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Blue));
+                    this.FireGamepadMotors(0.0f, 0.14f);
+                }
+
+                // Touches OxygenTwo
+                if ((target is OxygenTwo) == true)
+                {
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Red));
+                    this.FireGamepadMotors(0.0f, 0.14f);
+                }
+
+                // Touches CarbonDioxide
+                if ((target is CarbonDioxide) == true)
+                {
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, CO2Color));
+                    this.FireGamepadMotors(0.0f, 0.42f);
+                }
+
+                // Touches Water
+                if ((target is Water) == true)
+                {
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, H2OColor));
+                    this.FireGamepadMotors(0.0f, 0.40f);
+                }
+
+                // Touches Ozone
+                if ((target is Ozone) == true)
+                {
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Red));
+                    this.FireGamepadMotors(0.0f, 0.48f);
+                }
+
+                // Touches NitrousOxide
+                if ((target is NitrousOxide) == true)
+                {
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, N2OColor));
+                    this.FireGamepadMotors(0.0f, 0.30f);
+                }
+
+                // Touches Methane
+                if ((target is Methane) == true)
+                {
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, CH4Color));
+                    this.FireGamepadMotors(0.0f, 0.28f);
+                }
+
+                // Touches Deuterium
+                if ((target is Deuterium) == true)
+                {
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Yellow));
+                    this.FireGamepadMotors(0.0f, 0.08f);
+                }
+
+                // Touches Methylene
+                if ((target is Methylene) == true)
+                {
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, CH2Color));
+                    this.FireGamepadMotors(0.0f, 0.28f);
+                }
+
+                // Touches NitrogenTwo
+                if ((target is NitrogenTwo) == true)
+                {
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Blue));
+                    this.FireGamepadMotors(0.0f, 0.28f);
+                }
+
+                // Touches OxygenTwo
+                if ((target is OxygenTwo) == true)
+                {
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, Color.Red));
+                    this.FireGamepadMotors(0.0f, 0.28f);
+                }
+
+                // Touches CFC1
+                if ((target is CFC1) == true)
+                {
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, CFC1Color));
+                    this.FireGamepadMotors(0.2f, 0.5f);
+                }
+
+                // Touches CFC2
+                if ((target is CFC2) == true)
+                {
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, CFC2Color));
+                    this.FireGamepadMotors(0.2f, 0.7f);
+                }
+
+                // Touches Hydroxyl
+                if ((target is Hydroxyl) == true)
+                {
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, OHColor));
+                    this.FireGamepadMotors(0.0f, 0.20f);
+                }
+
+                // Touches NitrousOxide
+                if ((target is NitrousOxide) == true)
+                {
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f, 128f, 2f, 0.05f, NOColor));
+                    this.FireGamepadMotors(0.0f, 0.30f);
+                }
+            }
             return base.Touch(target);
         }
 
@@ -1544,7 +1602,8 @@ namespace FreeRadicals.Gameplay
 	                // if the timer has exceeded the expected value, join the game       
 	                if (aButtonTimer > aButtonHeldToPlay)                   
                     {                       
-		                JoinGame();                
+		                JoinGame();
+                        world.SpawnFreeRadicals(1, 1, 1, 1);
 		            }              
 		         }              
 		         else            
@@ -1618,8 +1677,9 @@ namespace FreeRadicals.Gameplay
 				            //finally, add this vector to our velocity.           
 				            Velocity += shipVelocityAdd;           
 				            // Lets drop some Mines                     
-				            if (currentKeyboardState.IsKeyDown(Keys.A)) 
-					        {
+				            if (currentKeyboardState.IsKeyDown(Keys.A))
+                            {
+                                UpdateGameLevels();
                                 if ((this.carbonAmmo >= 1) == true)
                                 {
                                     this.direction = Vector2.Normalize(forward);
@@ -1659,6 +1719,7 @@ namespace FreeRadicals.Gameplay
                         if ((currentGamePadState.Buttons.X == ButtonState.Pressed) &&
                            (lastGamePadState.Buttons.X == ButtonState.Released))
                         {
+                            UpdateGameLevels();
                             if (((this.oxygenAmmo >= 3) && (this.hydrogenAmmo >= 1)) == true)
                             {
                                 Ozone ozone = new Ozone(world);
@@ -1667,7 +1728,7 @@ namespace FreeRadicals.Gameplay
                                 ozone.Velocity = this.velocity;
                                 ozone.Direction = Vector2.Normalize(leftStick);// forward;
                                 this.oxygenAmmo -= 3;
-                                world.ParticleSystems.Add(new ParticleSystem(ozone.Position + new Vector2(15f, -25f),
+                                world.ParticleSystems.Add(new ParticleSystem(ozone.Position + new Vector2(15f, 0),
                                     ozone.Velocity * 1.5f, 128, 64f, 128f, 0.85f, 0.1f, ozone.Color));
                                 world.AudioManager.PlayCue("playerSpawn");
                                 this.hydrogenAmmo -= 1;
@@ -1681,6 +1742,7 @@ namespace FreeRadicals.Gameplay
                         if ((currentGamePadState.Buttons.A == ButtonState.Pressed) &&
                            (lastGamePadState.Buttons.A == ButtonState.Released))
                         {
+                            UpdateGameLevels();
                             if ((this.carbonAmmo >= 1) == true)
                             {
                                 this.direction = Vector2.Normalize(forward); 
@@ -1695,8 +1757,9 @@ namespace FreeRadicals.Gameplay
                         // Fire the Hydrogen Boost 
                         if ((currentGamePadState.Buttons.B == ButtonState.Pressed) &&   
 				                (lastGamePadState.Buttons.B == ButtonState.Released) &&
-                                leftStick.LengthSquared() > 0f)         
-					    {
+                                leftStick.LengthSquared() > 0f)
+                        {
+                            UpdateGameLevels();
                             if ((this.hydrogenAmmo >= 1) == true)
                             {
 
@@ -1714,7 +1777,13 @@ namespace FreeRadicals.Gameplay
                                 {
                                     Velocity += Velocity * 2f;
                                 }
-                            }                     
+                            }
+                        }
+                        // Update Game Levels
+                        if ((currentGamePadState.Buttons.Y == ButtonState.Pressed) &&
+                                (lastGamePadState.Buttons.Y == ButtonState.Released))
+                        {
+                            UpdateGameLevels();
                         }
                         // Apply positive or negative force to 
                         // the exterior of the nano bot
@@ -1747,45 +1816,80 @@ namespace FreeRadicals.Gameplay
 	        return;   
         }
 
+        /// <summary>
+        /// Place this ship in the world.
+        /// </summary>
+        /// <param name="findSpawnPoint">
+        /// If true, the actor's position is changed to a valid, non-colliding point.
+        /// </param>
+        public void UpdateGameLevels()
+        {
+            // Reset count values
+            world.FreeRadicalCount = 0;
+            world.CFC1Count = 0;
+            world.CFC2Count = 0;
+            world.HydroxylCount = 0;
+            world.NitricOxideCount = 0;
+            world.GreenhouseGasesCount = 0;
+            world.OzoneCount = 0;
+            world.NitrousOxideCount = 0;
+            world.MethaneCount = 0;
+            world.WaterCount = 0;
+            world.CarbonDioxideCount = 0;
+            // Recount molecules
+            for (int i = 0; i < world.Actors.Count; ++i)
+            {
+                if ((world.Actors[i] is CFC1) == true)
+                {
+                    world.FreeRadicalCount += 1;
+                    world.CFC1Count += 1;
+                }
+                else if ((world.Actors[i] is CFC2) == true)
+                {
+                    world.FreeRadicalCount += 1;
+                    world.CFC2Count += 1;
+                }
+                else if ((world.Actors[i] is Hydroxyl) == true)
+                {
+                    world.FreeRadicalCount += 1;
+                    world.HydroxylCount += 1;
+                }
+                else if ((world.Actors[i] is NitricOxide) == true)
+                {
+                    world.FreeRadicalCount += 1;
+                    world.NitricOxideCount += 1;
+                }
+                else if ((world.Actors[i] is Ozone) == true)
+                {
+                    world.GreenhouseGasesCount += 1;
+                    world.OzoneCount += 1;
+                }
+                else if ((world.Actors[i] is NitrousOxide) == true)
+                {
+                    world.GreenhouseGasesCount += 1;
+                    world.NitrousOxideCount += 1;
+                }
+                else if ((world.Actors[i] is Methane) == true)
+                {
+                    world.GreenhouseGasesCount += 1;
+                    world.MethaneCount += 1;
+                }
+                else if ((world.Actors[i] is Water) == true)
+                {
+                    world.GreenhouseGasesCount += 1;
+                    world.WaterCount += 1;
+                }
+                else if ((world.Actors[i] is CarbonDioxide) == true)
+                {
+                    world.GreenhouseGasesCount += 1;
+                    world.CarbonDioxideCount += 1;
+                }
+                else if (world.Actors.Count == i)
+                {
+                    return;
+                }
+            }
+        }
         #endregion
     }
 }
-
-
-//protected override void Draw(GameTime gameTime)
-//{
-//GraphicsDevice device = graphics.GraphicsDevice;
-
-//device.Clear(Color.CornflowerBlue);
-
-//spriteBatch.Begin();
-
-//// draw the tank, cat and mouse...
-//spriteBatch.Draw(tankTexture, tankPosition, null, Color.White,
-//tankOrientation, tankTextureCenter, 1.0f, SpriteEffects.None, 0.0f);
-//spriteBatch.Draw(catTexture, catPosition, null, Color.White,
-//0.0f, catTextureCenter, 1.0f, SpriteEffects.None, 0.0f);
-//spriteBatch.Draw(mouseTexture, mousePosition, null, Color.White,
-//mouseOrientation, mouseTextureCenter, 1.0f, SpriteEffects.None, 0.0f);
-
-//// and then draw some text showing the tank's and mouse's current state.
-//// to make the text stand out more, we'll draw the text twice, once black
-//// and once white, to create a drop shadow effect.
-//Vector2 shadowOffset = Vector2.One;
-
-//spriteBatch.DrawString(spriteFont, "Tank State: " + tankState.ToString(),
-//new Vector2(50, 50) + shadowOffset, Color.Black);
-//spriteBatch.DrawString(spriteFont, "Tank State: " + tankState.ToString(),
-//new Vector2(50, 50), Color.White);
-
-//spriteBatch.DrawString(spriteFont, "Mouse State: " + mouseState.ToString(),
-//new Vector2(50, 75) + shadowOffset, Color.Black);
-//spriteBatch.DrawString(spriteFont, "Mouse State: " + mouseState.ToString(),
-//new Vector2(50, 75), Color.White);
-
-//spriteBatch.End();
-
-//base.Draw(gameTime);
-//}
-//thats got the tex tthing in it there
-//spriteBatch.DrawString(spriteFont, "Tank State: " + tankState.ToString(),

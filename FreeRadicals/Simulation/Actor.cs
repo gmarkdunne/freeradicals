@@ -9,7 +9,7 @@ namespace FreeRadicals.Simulation
     /// <summary>
     /// A base class for all active objects in the game.
     /// </summary>
-    abstract class Actor //: IBaseAgent
+    abstract class Actor
     {
         #region Fields
         /// <summary>
@@ -48,21 +48,7 @@ namespace FreeRadicals.Simulation
         protected Random random = new Random();
         #endregion
 
-        #region AI Related Stuff
-        protected float HP = 100;
-        protected CustomAI.BasicModelAgent agent;
-        public string State
-        {
-            get { return agent.State().Substring(23); }
-        }
-        #endregion
-
         #region Properties
-        public CustomAI.BasicModelAgent Agent
-        {
-            get { return agent; }
-        }
-
         public float Life
         {
             get { return life; }
@@ -203,9 +189,6 @@ namespace FreeRadicals.Simulation
                 throw new ArgumentNullException("world");
             }
             this.world = world;
-
-            //// Set the AI agent up with an initial state.
-            //agent = new BasicModelAgent(this, new State_Patrol());
         }
         #endregion
 
@@ -217,13 +200,6 @@ namespace FreeRadicals.Simulation
         public virtual void Update(float elapsedTime) 
         {
             collidedThisFrame = false;
-            
-            //// This is basicly the healing rate of out NPC. Each update it gets .125 hits back.
-            //if (HP < 100)
-            //    HP += .125f;
-
-            //// This is the AI bit, Execute the agents current state.
-            //agent.ExecuteState();
         }
         #endregion
 
@@ -526,113 +502,6 @@ namespace FreeRadicals.Simulation
             }
             return radians;
         }
-        #endregion
-
-        #region Finite State Machine Methods
-        ///// <summary>
-        ///// Method called to patrol
-        ///// </summary>
-        //public void Patrol()
-        //{
-        //    // wander works just like the mouse's.
-        //    Wander(position, ref direction, ref orientation,
-        //        turnSpeed);
-        //    currentSpeed = .25f * maxSpeed;
-        //}
-        ///// <summary>
-        ///// Yes, you guessed it my fight method.
-        ///// </summary>
-        //public void Bond()
-        //{
-        //    //// This is where you would put all your lovely shoot the Player and dive for cover stuff
-        //    //// and maybe some more path finding to get a better shot on your target.
-
-        //    //// Simulate that I am taking damage. 
-        //    //HP -= .5f;
-        //    //// Stop and fight.
-        //    //speed = 0;
-        //    //// Set to a threatenign color.
-        //    //AmbientColor = Color.Red.ToVector4();
-
-        //    //// Look at the Player with an angry face.... or in this case prop.
-        //    //LookAt(Camera.myPosition, .1f);
-        //}
-        ///// <summary>
-        ///// Guess what this method is for??
-        ///// </summary>
-        //public void Flee()
-        //{
-        //    //// Run really fast!
-        //    //speed = .02f;
-
-        //    //// Yellow belly!
-        //    //AmbientColor = Color.Yellow.ToVector4();
-
-        //    //// Probably be better to again pathfind your way out, but this is a simple tut, so just run!
-        //    //velocity.Z -= .25f;
-
-        //    //Move();
-        //}
-
-        ///// <summary>
-        ///// Simply, am I in any danger, or have I come into contact with the player in this case.
-        ///// </summary>
-        ///// <returns>true if safe else false.</returns>
-        //public bool isSafe()
-        //{
-        //    //bool retVal = true;
-
-        //    //// Am I in range of the player or are my hits too low?
-        //    //if (Vector3.Distance(myPosition, Camera.myPosition) <= 10 || HP < 70)
-        //    //    retVal = false;
-
-        //    //return retVal;
-        //    return false;
-        //}
-
-        ///// <summary>
-        ///// Do I think I should do a runner??
-        ///// </summary>
-        ///// <returns>true, "yes I should leave.". false "naa I am OK"</returns>
-        //public bool runAway()
-        //{
-        //    //// If I have lost half or more of my hits, I want to leave...
-        //    //if (HP <= 50)
-        //    //    return true;
-        //    //else
-        //    //    return false;
-        //    return false;
-        //}
-
-        ///// <summary>
-        ///// Once a certain target is found chase until it is bound.
-        ///// </summary>
-        ///// <returns>true if safe else false.</returns>
-        //public bool Chase()
-        //{
-        //    //bool retVal = true;
-
-        //    //// Am I in range of the player or are my hits too low?
-        //    //if (Vector3.Distance(position, Camera.myPosition) <= 10 || HP < 70)
-        //    //    retVal = false;
-
-        //    //return retVal;
-        //    return false;
-        //}
-
-        ///// <summary>
-        ///// Seek a certain target??
-        ///// </summary>
-        ///// <returns>true, "yes I should leave.". false "naa I am OK"</returns>
-        //public bool Seek()
-        //{
-        //    //// If I have lost half or more of my hits, I want to leave...
-        //    //if (HP <= 50)
-        //    //    return true;
-        //    //else
-        //    //    return false;
-        //    return false;
-        //}
         #endregion
     }
 }

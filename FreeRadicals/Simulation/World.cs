@@ -50,6 +50,39 @@ namespace FreeRadicals.Simulation
         // Create a Random Number
         Random random = new Random();
 
+        // Number of Free Radicals
+        int freeRadicalCount = 0;
+
+        // Number of CFC1s
+        int cFC1Count = 0;
+
+        // Number of CFC2s
+        int cFC2Count = 0;
+
+        // Number of hydroxyls
+        int hydroxylCount = 0;
+
+        // Number of nitric oxides
+        int nitricOxideCount = 0;
+
+        // Number of Greenhouse Gases
+        int greenhouseGasesCount = 0;
+
+        // Number of Ozone molecules
+        int ozoneCount = 0;
+
+        // Number of Water molecules
+        int waterCount = 0;
+
+        // Number of nitrous oxides
+        int nitrousOxideCount = 0;
+
+        // Number of methane molecules
+        int methaneCount = 0;
+
+        // Number of carbon dioxides
+        int carbonDioxideCount = 0;
+
         /// <summary>
         /// The dimensions of the game board.
         /// </summary>
@@ -71,9 +104,9 @@ namespace FreeRadicals.Simulation
         private AudioManager audioManager;
 
         /// <summary>
-        /// All ships that might enter the game.
+        /// All nanoBots that might enter the game.
         /// </summary>
-        NanoBot[] ships;
+        NanoBot[] nanoBots;
 
         /// <summary>
         /// The walls in the game.
@@ -83,7 +116,7 @@ namespace FreeRadicals.Simulation
         /// <summary>
         /// The Atmosphere effect behind the game-board.
         /// </summary>
-        //Atmosphere atmosphere;
+        Atmosphere atmosphere;
 
         /// <summary>
         /// All actors in the game.
@@ -99,6 +132,125 @@ namespace FreeRadicals.Simulation
         /// Cached list of collision results, for more optimal collision detection.
         /// </summary>
         List<CollisionResult> collisionResults = new List<CollisionResult>();
+
+        /// <summary>
+        /// Particle system colors effect for CFC1.
+        /// </summary>
+        static readonly Color[] CFC1Color = 
+        { 
+            Color.White, Color.Gray, Color.Purple, 
+            Color.Purple, Color.Green, Color.Green,
+            Color.Gold, Color.Silver
+        };
+
+        /// <summary>
+        /// Particle system colors effect for CFC2.
+        /// </summary>
+        static readonly Color[] CFC2Color = 
+        { 
+            Color.White, Color.Gray, Color.Purple, 
+            Color.Green, Color.Green, Color.Green,
+            Color.Gold, Color.Silver
+        };
+
+        /// <summary>
+        /// Particle system colors effect for NO.
+        /// </summary>
+        static readonly Color[] NOColor = 
+        { 
+            Color.White, Color.Red, Color.Blue, 
+            Color.Gold, Color.Silver
+        };
+
+        /// <summary>
+        /// Particle system colors effect for OH.
+        /// </summary>
+        static readonly Color[] OHColor = 
+        { 
+            Color.White, Color.Red, Color.Yellow, 
+            Color.Gold, Color.Silver
+        };
+
+        /// <summary>
+        /// Particle system colors effect for O2.
+        /// </summary>
+        static readonly Color[] O2Color = 
+        { 
+            Color.White, Color.Red, Color.Red, 
+            Color.Gold, Color.Silver
+        };
+
+        /// <summary>
+        /// Particle system colors effect for N2.
+        /// </summary>
+        static readonly Color[] N2Color = 
+        { 
+            Color.White, Color.Blue, Color.Blue, 
+            Color.Gold, Color.Silver
+        };
+
+        /// <summary>
+        /// Particle system colors effect for CH2.
+        /// </summary>
+        static readonly Color[] CH2Color = 
+        { 
+            Color.White, Color.Gray, Color.Yellow, Color.Yellow, 
+            Color.Gold, Color.Silver
+        };
+
+        /// <summary>
+        /// Particle system colors effect for CH4.
+        /// </summary>
+        static readonly Color[] CH4Color = 
+        { 
+            Color.White, Color.Gray, Color.Yellow, Color.Yellow, 
+            Color.Yellow, Color.Yellow, Color.Gold, Color.Silver
+        };
+
+        /// <summary>
+        /// Particle system colors effect for HH.
+        /// </summary>
+        static readonly Color[] HHColor = 
+        { 
+            Color.White, Color.Yellow, Color.Yellow, 
+            Color.Gold, Color.Silver
+        };
+
+        /// <summary>
+        /// Particle system colors effect for H2.
+        /// </summary>
+        static readonly Color[] H2OColor = 
+        { 
+            Color.White, Color.Red, Color.Red, 
+            Color.Yellow, Color.Gold, Color.Silver
+        };
+
+        /// <summary>
+        /// Particle system colors effect for O3.
+        /// </summary>
+        static readonly Color[] O3Color = 
+        { 
+            Color.White, Color.Red, Color.Red, 
+            Color.Red, Color.Gold, Color.Silver
+        };
+
+        /// <summary>
+        /// Particle system colors effect for CO2.
+        /// </summary>
+        static readonly Color[] CO2Color = 
+        { 
+            Color.White, Color.Red, Color.Gray, 
+            Color.Gray, Color.Gold, Color.Silver
+        };
+
+        /// <summary>
+        /// Particle system colors effect for N2O.
+        /// </summary>
+        static readonly Color[] N2OColor = 
+        { 
+            Color.White, Color.Red, Color.Blue, 
+            Color.Blue, Color.Gold, Color.Silver
+        };
         #endregion
 
         #region Properties
@@ -117,20 +269,97 @@ namespace FreeRadicals.Simulation
             get { return deadN; }
         }
 
+        // Number of Free Radicals
+        public int FreeRadicalCount
+        {
+            get { return freeRadicalCount; }
+            set { freeRadicalCount = value; }
+        }
+
+        // Number of CFC1s
+        public int CFC1Count
+        {
+            get { return cFC1Count; }
+            set { cFC1Count = value; }
+        }
+
+        // Number of CFC2s
+        public int CFC2Count
+        {
+            get { return cFC2Count; }
+            set { cFC2Count = value; }
+        }
+
+        // Number of hydroxyls
+        public int HydroxylCount
+        {
+            get { return hydroxylCount; }
+            set { hydroxylCount = value; }
+        }
+
+        // Number of nitric oxides
+        public int NitricOxideCount
+        {
+            get { return nitricOxideCount; }
+            set { nitricOxideCount = value; }
+        }
+
+        // Number of Greenhouse Gases
+        public int GreenhouseGasesCount
+        {
+            get { return greenhouseGasesCount; }
+            set { greenhouseGasesCount = value; }
+        }
+
+        // Number of Ozone molecules
+        public int OzoneCount
+        {
+            get { return ozoneCount; }
+            set { ozoneCount = value; }
+        }
+
+        // Number of Water molecules
+        public int WaterCount
+        {
+            get { return waterCount; }
+            set { waterCount = value; }
+        }
+
+        // Number of nitrous 
+        public int NitrousOxideCount
+        {
+            get { return nitrousOxideCount; }
+            set { nitrousOxideCount = value; }
+        }
+
+        // Number of methane molecules
+        public int MethaneCount
+        {
+            get { return methaneCount; }
+            set { methaneCount = value; }
+        }
+
+        // Number of carbon dioxides
+        public int CarbonDioxideCount
+        {
+            get { return carbonDioxideCount; }
+            set { carbonDioxideCount = value; }
+        }
+
         public AudioManager AudioManager
         {
             get { return audioManager; }
             set { audioManager = value; }
         }
 
-        //public Atmosphere Atmosphere
-        //{
-        //    get { return atmosphere; }
-        //}
-
-        public NanoBot[] Ships
+        public Atmosphere Atmosphere
         {
-            get { return ships; }
+            get { return atmosphere; }
+        }
+
+        public NanoBot[] NanoBots
+        {
+            get { return nanoBots; }
         }
 
         public CollectCollection<Actor> Actors
@@ -155,18 +384,18 @@ namespace FreeRadicals.Simulation
                 (int)(dimensions.X * 0.05f), (int)(dimensions.Y * 0.05f), 
                 (int)(dimensions.X * 0.90f), (int)(dimensions.Y * 0.90f));
             // create the players
-            ships = new NanoBot[4];
-            ships[0] = new NanoBot(this, PlayerIndex.One);
-            ships[1] = new NanoBot(this, PlayerIndex.Two);
-            ships[2] = new NanoBot(this, PlayerIndex.Three);
-            ships[3] = new NanoBot(this, PlayerIndex.Four);
+            nanoBots = new NanoBot[4];
+            nanoBots[0] = new NanoBot(this, PlayerIndex.One);
+            nanoBots[1] = new NanoBot(this, PlayerIndex.Two);
+            nanoBots[2] = new NanoBot(this, PlayerIndex.Three);
+            nanoBots[3] = new NanoBot(this, PlayerIndex.Four);
 
             // create the Atmosphere
-            //atmosphere = new Atmosphere(atomCount, new Rectangle(
-            //    atmosphereBuffer * -1,
-            //    atmosphereBuffer  * -1,
-            //    (int)this.dimensions.X + atmosphereBuffer * 2,
-            //    (int)this.dimensions.Y + atmosphereBuffer * 2));
+            atmosphere = new Atmosphere(atomCount, new Rectangle(
+                atmosphereBuffer * -1,
+                atmosphereBuffer * -1,
+                (int)this.dimensions.X + atmosphereBuffer * 2,
+                (int)this.dimensions.Y + atmosphereBuffer * 2));
 
             // create a new list of actors
             actors = new CollectCollection<Actor>(this);
@@ -174,13 +403,12 @@ namespace FreeRadicals.Simulation
             // create a new list of particle systems
             particleSystems = new CollectCollection<ParticleSystem>(this);
         }
-
         #endregion
 
         #region New Game
         public void StartNewGame()
         {
-            //// create the walls
+            // create the walls
             CreateWalls();
 
             // clear out the actors list
@@ -188,29 +416,42 @@ namespace FreeRadicals.Simulation
             // add the world actor
             WorldActor worldActor = new WorldActor(this);
             actors.Add(worldActor);
+
             // add the players to the actor list - they won't be removed
-            for (int i = 0; i < ships.Length; i++)
+            for (int i = 0; i < nanoBots.Length; i++)
             {
-                actors.Add(ships[i]);
+                actors.Add(nanoBots[i]);
             }
+
+            // spawn the poles
+            SpawnPoles();
 
             // spawn atoms density
             switch (WorldRules.AtomDensity)
             {
                 case AtomDensity.None:
-                    SpawnAtoms(10, 10, 10, 10, 0, 0, 0);
-                    SpawnFreeRadicals(0, 0, 2, 2);
-                    SpawnGreenHouseGases(0, 0, 0, 0, 0);
+                    SpawnAtoms(0, 0, 0, 0, 0, 0, 0);
+                    SpawnFreeRadicals(0, 0, 0, 0);
+                    SpawnGreenHouseGases(70, 5, 5, 5, 5);
                     SpawnJointMolecules(0, 0, 0, 0);
                     break;
                 case AtomDensity.Low:
-                    SpawnAtoms(30, 22, 6, 50, 10, 10, 1);
+                    SpawnAtoms(0, 0, 0, 0, 0, 0, 0);
+                    SpawnFreeRadicals(0, 0, 0, 0);
+                    SpawnGreenHouseGases(0, 0, 0, 0, 0);
+                    SpawnJointMolecules(0, 0, 0, 0);
                     break;
                 case AtomDensity.Medium:
-                    SpawnAtoms(60, 44, 12, 100, 20, 20, 1);
+                    SpawnAtoms(0, 0, 0, 0, 0, 0, 0);
+                    SpawnFreeRadicals(0, 0, 0, 0);
+                    SpawnGreenHouseGases(0, 0, 0, 0, 0);
+                    SpawnJointMolecules(0, 0, 0, 0);
                     break;
                 case AtomDensity.High:
-                    SpawnAtoms(120, 88, 24, 200, 40, 40, 1);
+                    SpawnAtoms(0, 0, 0, 0, 0, 0, 0);
+                    SpawnFreeRadicals(0, 0, 0, 0);
+                    SpawnGreenHouseGases(0, 0, 0, 0, 0);
+                    SpawnJointMolecules(0, 0, 0, 0);
                     break;
             }
 
@@ -218,7 +459,7 @@ namespace FreeRadicals.Simulation
             powerUpTimer = initialPowerUpDelay;
 
             // set up the atmosphere
-            //atmosphere.SetTargetPosition(dimensions * 0.5f);
+            atmosphere.SetTargetPosition(dimensions);
         }
 
 
@@ -308,7 +549,7 @@ namespace FreeRadicals.Simulation
         /// <param name="mediumCount">The number of "medium" asteroids to create.
         /// </param>
         /// <param name="largeCount">The number of "large" asteroids to create.</param>
-        private void SpawnFreeRadicals(int NO, int CFCa, int CFCb, int HO)
+        public void SpawnFreeRadicals(int NO, int CFCa, int CFCb, int HO)
         {
             // create Nitric Oxide atoms
             for (int i = 0; i < NO; ++i)
@@ -344,7 +585,7 @@ namespace FreeRadicals.Simulation
         /// <param name="mediumCount">The number of "medium" asteroids to create.
         /// </param>
         /// <param name="largeCount">The number of "large" asteroids to create.</param>
-        private void SpawnGreenHouseGases(int O3, int H2O, int N2O, int CO2, int CH4)
+        public void SpawnGreenHouseGases(int O3, int H2O, int N2O, int CO2, int CH4)
         {
             // create Ozone atoms
             for (int i = 0; i < O3; ++i)
@@ -386,7 +627,7 @@ namespace FreeRadicals.Simulation
         /// <param name="mediumCount">The number of "medium" asteroids to create.
         /// </param>
         /// <param name="largeCount">The number of "large" asteroids to create.</param>
-        private void SpawnAtoms(int H, int C, int N, int O, int F, int Cl, int Br)
+        public void SpawnAtoms(int H, int C, int N, int O, int F, int Cl, int Br)
         {
             // create hydrogen atoms
             for (int i = 0; i < H; ++i)
@@ -439,7 +680,7 @@ namespace FreeRadicals.Simulation
         /// <param name="mediumCount">The number of "medium" asteroids to create.
         /// </param>
         /// <param name="largeCount">The number of "large" asteroids to create.</param>
-        private void SpawnJointMolecules(int O2, int N2, int HH, int CH2)
+        public void SpawnJointMolecules(int O2, int N2, int HH, int CH2)
         {
             // create Oxygen Two atoms
             for (int i = 0; i < O2; ++i)
@@ -466,12 +707,12 @@ namespace FreeRadicals.Simulation
                 methylene.Spawn(true);
             }
         }
-        
-        
+
+
         /// <summary>
         /// Create a new power-up in the world, if possible
         /// </summary>
-        void SpawnPowerUp()
+        void SpawnGreenhouseGases()
         {
             // check if there is a powerup in the world
             for (int i = 0; i < actors.Count; ++i)
@@ -483,7 +724,7 @@ namespace FreeRadicals.Simulation
             }
             // create the new power-up
             //PowerUp powerup = null;
-            switch (random.Next(3))
+            switch (random.Next(5))
             {
                 case 0:
                     //powerup = new DoubleLaserPowerUp(this);
@@ -494,9 +735,98 @@ namespace FreeRadicals.Simulation
                 case 2:
                     //powerup = new RocketPowerUp(this);
                     break;
+                case 3:
+                    //powerup = new RocketPowerUp(this);
+                    break;
+                case 4:
+                    //powerup = new RocketPowerUp(this);
+                    break;
             }
             // add the new power-up to the world
             //powerup.Spawn(true);
+        }
+
+
+        /// <summary>
+        /// Create a new power-up in the world, if possible
+        /// </summary>
+        void FreeRadicalsSpawning()
+        {
+            // check if there is a powerup in the world
+            for (int i = 0; i < actors.Count; ++i)
+            {
+                //if (actors[i] is PowerUp)
+                //{
+                //    return;
+                //}
+            }
+            // create the new power-up
+            //PowerUp powerup = null;
+            switch (random.Next(5))
+            {
+                case 0:
+                    //powerup = new DoubleLaserPowerUp(this);
+                    break;
+                case 1:
+                    //powerup = new TripleLaserPowerUp(this);
+                    break;
+                case 2:
+                    //powerup = new RocketPowerUp(this);
+                    break;
+                case 3:
+                    //powerup = new RocketPowerUp(this);
+                    break;
+                case 4:
+                    //powerup = new RocketPowerUp(this);
+                    break;
+            }
+            // add the new power-up to the world
+            //powerup.Spawn(true);
+        }
+
+
+
+        /// <summary>
+        /// Create a new power-up in the world, if possible
+        /// </summary>
+        public void SpawnPoles()
+        {
+            North north0 = new North(this);
+            north0.Spawn(false);
+            north0.Position = new Vector2(0, -7000f);
+            North north1 = new North(this);
+            north1.Spawn(false);
+            north1.Position = new Vector2(250f, -7000f);
+            North north2 = new North(this);
+            north2.Spawn(false);
+            north2.Position = new Vector2(500f, -7000f);
+            North north3 = new North(this);
+            north3.Spawn(false);
+            north3.Position = new Vector2(750f, -7000f);
+            North north4 = new North(this);
+            north4.Spawn(false);
+            north4.Position = new Vector2(1000f, -7000f);
+            North north5 = new North(this);
+            north5.Spawn(false);
+            north5.Position = new Vector2(1250f, -7000f);
+            North north6 = new North(this);
+            north6.Spawn(false);
+            north6.Position = new Vector2(1500f, -7000f);
+            North north7 = new North(this);
+            north7.Spawn(false);
+            north7.Position = new Vector2(1750f, -7000f);
+            North north8 = new North(this);
+            north8.Spawn(false);
+            north8.Position = new Vector2(2000f, -1000f);
+            //South south = new South(this);
+            //south.Spawn(true);
+            //south.Position = new Vector2(0, 500f);
+            //East east = new East(this);
+            //east.Spawn(false);
+            //east.Position = new Vector2(-500f, 0);
+            //West west = new West(this);
+            //west.Spawn(false);
+            //west.Position = new Vector2(500f, 0);
         }        
         #endregion
 
@@ -529,19 +859,19 @@ namespace FreeRadicals.Simulation
             // update the starfield
             Vector2 starfieldTarget = Vector2.Zero;
             int playingPlayers = 0;
-            for (int i = 0; i < ships.Length; i++)
+            for (int i = 0; i < nanoBots.Length; i++)
             {
-                if (ships[i].Playing)
+                if (nanoBots[i].Playing)
                 {
-                    starfieldTarget += ships[i].Position;
+                    starfieldTarget += nanoBots[i].Position;
                     playingPlayers++;
                 }
             }
             if (playingPlayers > 0)
             {
-                //starfield.SetTargetPosition(starfieldTarget / playingPlayers);
+                atmosphere.SetTargetPosition(starfieldTarget / playingPlayers);
             }
-            //starfield.Update(elapsedTime);
+            atmosphere.Update(elapsedTime);
 
             // check if we can create a new power-up yet
             if (powerUpTimer > 0f)
@@ -550,9 +880,63 @@ namespace FreeRadicals.Simulation
             }
             if (powerUpTimer <= 0.0f)
             {
-                SpawnPowerUp();
+                SpawnGreenhouseGases();
                 powerUpTimer = powerUpDelay;
             }
+
+            //// Count number of certain molecules
+            //for (int i = 0; i <Actors.Count; ++i)
+            //{
+            //    if ((Actors[i] is CFC1) == true)
+            //    {
+            //        freeRadicalCount += 1;
+            //        cFC1Count += 1;
+            //    } 
+            //    else if ((Actors[i] is CFC2) == true)
+            //    {
+            //        freeRadicalCount += 1;
+            //        cFC2Count += 1;
+            //    }
+            //    else if ((Actors[i] is Hydroxyl) == true)
+            //    {
+            //        freeRadicalCount += 1;
+            //        hydroxylCount += 1;
+            //    }
+            //    else if ((Actors[i] is NitricOxide) == true)
+            //    {
+            //        freeRadicalCount += 1;
+            //        nitricOxideCount += 1;
+            //    }
+            //    else if ((Actors[i] is Ozone) == true)
+            //    {
+            //        greenhouseGasesCount += 1;
+            //        ozoneCount += 1;
+            //    }
+            //    else if ((Actors[i] is NitrousOxide) == true)
+            //    {
+            //        greenhouseGasesCount += 1;
+            //        nitrousOxideCount += 1;
+            //    }
+            //    else if ((Actors[i] is Methane) == true)
+            //    {
+            //        greenhouseGasesCount += 1;
+            //        methaneCount += 1;
+            //    }
+            //    else if ((Actors[i] is Water) == true)
+            //    {
+            //        greenhouseGasesCount += 1;
+            //        waterCount += 1;
+            //    }
+            //    else if ((Actors[i] is CarbonDioxide) == true)
+            //    {
+            //        greenhouseGasesCount += 1;
+            //        carbonDioxideCount += 1;
+            //    }
+            //    else if (Actors.Count == i)
+            //    {
+            //        return;
+            //    }
+            //}
 
             // clean up the lists
             actors.Collect();
@@ -914,7 +1298,6 @@ namespace FreeRadicals.Simulation
                 oxygenTwo.Direction = dir;
                 ParticleSystems.Add(new ParticleSystem(pos,
                     dir, 36, 64f, 128f, 2f, 0.05f, Color.Red));
-                AudioManager.PlayCue("asteroidTouch");
                 deadO = 0;
             }
         }
@@ -927,10 +1310,12 @@ namespace FreeRadicals.Simulation
             oxygen1.Direction = dir * 0.5f;
             Oxygen oxygen2 = new Oxygen(this);
             oxygen2.Spawn(false);
-            Vector2 newPos = new Vector2(36f, 0);
+            Vector2 newPos = new Vector2(45f, 0);
             oxygen2.Position = pos + newPos;
             oxygen2.Velocity = vel * 2f;
             oxygen2.Direction = dir * 2f;
+            ParticleSystems.Add(new ParticleSystem(pos,
+                dir, 36, 64f, 128f, 2f, 0.05f, Color.Red));
         }
         public void BondDeuterium(Actor hydrogen1, Actor hydrogen2, int H)
         {
@@ -948,8 +1333,7 @@ namespace FreeRadicals.Simulation
                 deuterium.Velocity = vel;
                 deuterium.Direction = dir;
                 ParticleSystems.Add(new ParticleSystem(pos,
-                    dir, 18, 32f, 64f, 1.5f, 0.05f, Color.Yellow));
-                AudioManager.PlayCue("asteroidTouch");
+                    dir, 16, 32f, 64f, 2f, 0.05f, Color.Yellow));
                 deadH = 0;
             }
         }
@@ -966,6 +1350,8 @@ namespace FreeRadicals.Simulation
             H2.Position = pos + newPos;
             H2.Velocity = vel * 2f;
             H2.Direction = dir * 2f;
+            ParticleSystems.Add(new ParticleSystem(pos,
+                dir, 16, 32f, 64f, 2f, 0.05f, Color.Yellow));
         }
         public void BondNitrogenTwo(Actor nitrogen1, Actor nitrogen2, int N)
         {
@@ -983,8 +1369,7 @@ namespace FreeRadicals.Simulation
                 nitrogenTwo.Velocity = vel;
                 nitrogenTwo.Direction = dir;
                 ParticleSystems.Add(new ParticleSystem(pos,
-                    dir, 18, 32f, 64f, 1.5f, 0.05f, Color.Blue));
-                AudioManager.PlayCue("asteroidTouch");
+                    dir, 36, 64f, 128f, 2f, 0.05f, Color.Blue));
                 deadN = 0;
             }
         }
@@ -1001,9 +1386,13 @@ namespace FreeRadicals.Simulation
             N2.Position = pos + newPos;
             N2.Velocity = vel * 2f;
             N2.Direction = dir * 2f;
+            ParticleSystems.Add(new ParticleSystem(pos,
+                dir, 36, 64f, 128f, 2f, 0.05f, Color.Blue));
         }
         public void BondOzone(Vector2 pos, Vector2 vel, Vector2 dir)
         {
+            ParticleSystems.Add(new ParticleSystem(pos,
+                dir, 36, 64f, 128f, 2f, 0.05f, Color.Red));
             Ozone ozone = new Ozone(this);
             ozone.Spawn(false);
             ozone.Position = pos;
@@ -1012,6 +1401,8 @@ namespace FreeRadicals.Simulation
         }
         public void UnbondOzone(Vector2 pos, Vector2 vel, Vector2 dir)
         {
+            ParticleSystems.Add(new ParticleSystem(pos,
+                dir, 36, 64f, 128f, 2f, 0.05f, Color.Red));
             OxygenTwo oxygenTwo = new OxygenTwo(this);
             oxygenTwo.Spawn(false);
             oxygenTwo.Position = pos;
@@ -1031,6 +1422,8 @@ namespace FreeRadicals.Simulation
             CO2.Position = pos;
             CO2.Velocity = vel;
             CO2.Direction = dir;
+            ParticleSystems.Add(new ParticleSystem(pos,
+                dir, 36, 64f, 128f, 2f, 0.05f, CO2Color));
         }
         public void UnbondCarbonDioxide(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1045,6 +1438,8 @@ namespace FreeRadicals.Simulation
             C.Position = pos + newPos;
             C.Velocity = vel * 2f;
             C.Direction = dir * 2f;
+            ParticleSystems.Add(new ParticleSystem(pos,
+                dir, 36, 64f, 128f, 2f, 0.05f, CO2Color));
         }
         public void BondHydroxyl(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1053,6 +1448,8 @@ namespace FreeRadicals.Simulation
             OH.Position = pos;
             OH.Velocity = vel;
             OH.Direction = dir;
+            ParticleSystems.Add(new ParticleSystem(pos,
+                dir, 36, 64f, 128f, 2f, 0.05f, OHColor));
         }
         public void UnbondHydroxyl(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1067,6 +1464,8 @@ namespace FreeRadicals.Simulation
             H.Position = pos + newPos;
             H.Velocity = vel * 2f;
             H.Direction = dir * 2f;
+            ParticleSystems.Add(new ParticleSystem(pos,
+                dir, 36, 64f, 128f, 2f, 0.05f, OHColor));
         }
         public void BondNitricOxide(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1075,6 +1474,8 @@ namespace FreeRadicals.Simulation
             NO.Position = pos;
             NO.Velocity = vel;
             NO.Direction = dir;
+            ParticleSystems.Add(new ParticleSystem(pos,
+                dir, 36, 64f, 128f, 2f, 0.05f, NOColor));
         }
         public void UnbondNitricOxide(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1085,10 +1486,12 @@ namespace FreeRadicals.Simulation
             O.Direction = dir * 0.5f;
             Nitrogen N = new Nitrogen(this);
             N.Spawn(false);
-            Vector2 newPos = new Vector2(40f, 0);
+            Vector2 newPos = new Vector2(45f, 0);
             N.Position = pos + newPos;
             N.Velocity = vel * 2f;
             N.Direction = dir * 2f;
+            ParticleSystems.Add(new ParticleSystem(pos,
+                dir, 36, 64f, 128f, 2f, 0.05f, NOColor));
         }
         public void BondWater(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1097,6 +1500,8 @@ namespace FreeRadicals.Simulation
             H2O.Position = pos;
             H2O.Velocity = vel;
             H2O.Direction = dir;
+            ParticleSystems.Add(new ParticleSystem(pos,
+                dir, 36, 64f, 128f, 2f, 0.05f, H2OColor));
         }
         public void UnbondWater(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1111,6 +1516,8 @@ namespace FreeRadicals.Simulation
             D.Position = pos + newPos;
             D.Velocity = vel * 2f;
             D.Direction = dir * 2f;
+            ParticleSystems.Add(new ParticleSystem(pos,
+                dir, 36, 64f, 128f, 2f, 0.05f, H2OColor));
         }
         public void BondMethylene(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1119,6 +1526,8 @@ namespace FreeRadicals.Simulation
             CH2.Position = pos;
             CH2.Velocity = vel;
             CH2.Direction = dir;
+            ParticleSystems.Add(new ParticleSystem(pos,
+                dir, 36, 64f, 128f, 2f, 0.05f, CH2Color));
         }
         public void UnbondMethylene(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1133,6 +1542,8 @@ namespace FreeRadicals.Simulation
             D.Position = pos + newPos;
             D.Velocity = vel * 2f;
             D.Direction = dir * 2f;
+            ParticleSystems.Add(new ParticleSystem(pos,
+                dir, 36, 64f, 128f, 2f, 0.05f, CH2Color));
         }
         public void BondMethane(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1141,6 +1552,8 @@ namespace FreeRadicals.Simulation
             CH4.Position = pos;
             CH4.Velocity = vel;
             CH4.Direction = dir;
+            ParticleSystems.Add(new ParticleSystem(pos,
+                dir, 36, 64f, 128f, 2f, 0.05f, CH4Color));
         }
         public void UnbondMethane(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1161,6 +1574,8 @@ namespace FreeRadicals.Simulation
             D2.Position = pos + newPos2;
             D2.Velocity = vel * 2f;
             D2.Direction = dir * 2f;
+            ParticleSystems.Add(new ParticleSystem(pos,
+                dir, 36, 64f, 128f, 2f, 0.05f, CH4Color));
         }
         public void BondNitrousOxide(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1169,6 +1584,8 @@ namespace FreeRadicals.Simulation
             N2O.Position = pos;
             N2O.Velocity = vel;
             N2O.Direction = dir;
+            ParticleSystems.Add(new ParticleSystem(pos,
+                dir, 36, 64f, 128f, 2f, 0.05f, N2OColor));
         }
         public void UnbondNitrousOxide(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1179,10 +1596,12 @@ namespace FreeRadicals.Simulation
             O.Direction = dir * 0.5f;
             NitrogenTwo N2 = new NitrogenTwo(this);
             N2.Spawn(false);
-            Vector2 newPos = new Vector2(40f, 0);
+            Vector2 newPos = new Vector2(45f, 0);
             N2.Position = pos + newPos;
             N2.Velocity = vel * 2f;
             N2.Direction = dir * 2f;
+            ParticleSystems.Add(new ParticleSystem(pos,
+                dir, 36, 64f, 128f, 2f, 0.05f, N2OColor));
         }
         #endregion
 
