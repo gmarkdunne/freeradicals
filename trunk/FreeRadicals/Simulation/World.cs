@@ -136,6 +136,19 @@ namespace FreeRadicals.Simulation
 
         #region Particle Colors
         /// <summary>
+        /// Particle system colors effect for NanoBot.
+        /// </summary>
+        static readonly Color[] nanoBotColor = 
+        { 
+            Color.White,  Color.Yellow, Color.CornflowerBlue, 
+            Color.DeepPink, Color.Indigo,
+            Color.Gold, Color.Silver
+        };
+        public Color[] NanoBotColor
+        {
+            get { return nanoBotColor; }
+        }
+        /// <summary>
         /// Particle system colors effect for CFC1.
         /// </summary>
         static readonly Color[] aMBColor = 
