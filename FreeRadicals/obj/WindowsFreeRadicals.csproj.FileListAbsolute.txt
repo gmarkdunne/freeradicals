@@ -1,0 +1,23 @@
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Effects\BloomCombine.xnb
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Effects\BloomExtract.xnb
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Effects\GaussianBlur.xnb
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Effects\refraction.xnb
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Fonts\Arial.xnb
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Fonts\DefaultFont.xnb
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Fonts\retroMedium.xnb
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Fonts\retroSmall.xnb
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\blank.xnb
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\spotlight.xnb
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\title.xnb
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\waterfall.xnb
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\Legend.xnb
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Audio\FreeRadicals.xgs
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Audio\Wave Bank.xwb
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Audio\Sound Bank.xsb
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\FreeRadicals.exe
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\FreeRadicals.pdb
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\obj\x86\Debug\FreeRadicals.obj.x86.Debug.Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\obj\x86\Debug\FreeRadicals.exe
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\obj\x86\Debug\FreeRadicals.pdb

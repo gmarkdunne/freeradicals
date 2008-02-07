@@ -1,0 +1,2 @@
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\Content\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\Content\obj\x86\Debug\Audio\FreeRadicals.xml

@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
+  <Asset Type="Pipeline:BuildItemCollection">
+    <Item>
+      <Source>Effects\BloomCombine.fx</Source>
+      <Name>Effects\BloomCombine</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Effects\BloomCombine.xnb</Output>
+      <Time>2008-01-15T09:22:06+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Effects\BloomExtract.fx</Source>
+      <Name>Effects\BloomExtract</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Effects\BloomExtract.xnb</Output>
+      <Time>2008-01-15T09:22:06+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Effects\GaussianBlur.fx</Source>
+      <Name>Effects\GaussianBlur</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Effects\GaussianBlur.xnb</Output>
+      <Time>2008-01-15T09:22:06+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Effects\refraction.fx</Source>
+      <Name>Effects\refraction</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Effects\refraction.xnb</Output>
+      <Time>2008-01-24T11:26:32+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\Arial.spritefont</Source>
+      <Name>Fonts\Arial</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Fonts\Arial.xnb</Output>
+      <Time>2007-12-06T03:08:16+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\DefaultFont.spritefont</Source>
+      <Name>Fonts\DefaultFont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Fonts\DefaultFont.xnb</Output>
+      <Time>2007-09-19T00:24:28+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\retroMedium.spritefont</Source>
+      <Name>Fonts\retroMedium</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Fonts\retroMedium.xnb</Output>
+      <Time>2008-01-15T09:22:06+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\retroSmall.spritefont</Source>
+      <Name>Fonts\retroSmall</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Fonts\retroSmall.xnb</Output>
+      <Time>2008-01-15T09:22:06+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Textures\blank.png</Source>
+      <Name>Textures\blank</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\blank.xnb</Output>
+      <Time>2008-01-26T19:08:51.0950937+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Textures\spotlight.png</Source>
+      <Name>Textures\spotlight</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\spotlight.xnb</Output>
+      <Time>2008-01-24T11:26:20+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Textures\title.png</Source>
+      <Name>Textures\title</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\title.xnb</Output>
+      <Time>2008-01-28T03:37:31.515625+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Textures\waterfall.jpg</Source>
+      <Name>Textures\waterfall</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\waterfall.xnb</Output>
+      <Time>2008-01-25T03:29:00+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Textures\Legend.PNG</Source>
+      <Name>Textures\Legend</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\Textures\Legend.xnb</Output>
+      <Time>2008-01-28T03:39:34.375+00:00</Time>
+    </Item>
+    <BuildSuccessful>true</BuildSuccessful>
+    <Settings>
+      <TargetPlatform>Windows</TargetPlatform>
+      <BuildConfiguration>Debug</BuildConfiguration>
+      <RootDirectory>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\Content\</RootDirectory>
+      <LoggerRootDirectory>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\Content\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\x86\Debug\Content\</OutputDirectory>
+    </Settings>
+    <Assemblies>
+      <Assembly>
+        <Key>c:\Program Files\Microsoft XNA\XNA Game Studio\v2.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Value>2007-11-28T13:08:00+00:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>c:\Program Files\Microsoft XNA\XNA Game Studio\v2.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Value>2007-11-28T13:08:42+00:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>c:\Program Files\Microsoft XNA\XNA Game Studio\v2.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Value>2007-11-28T13:08:30+00:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>c:\Program Files\Microsoft XNA\XNA Game Studio\v2.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Value>2007-11-28T13:07:44+00:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\WINDOWS\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\2.0.0.0__6d5c3888ef60e27d\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2007-12-16T18:25:47.0625+00:00</Value>
+      </Assembly>
+    </Assemblies>
+  </Asset>
+</XnaContent>

@@ -1,0 +1,22 @@
+bin\x86\Debug\Content\Effects\BloomCombine.xnb
+bin\x86\Debug\Content\Effects\BloomExtract.xnb
+bin\x86\Debug\Content\Effects\GaussianBlur.xnb
+bin\x86\Debug\Content\Effects\refraction.xnb
+bin\x86\Debug\Content\Fonts\Arial.xnb
+bin\x86\Debug\Content\Fonts\DefaultFont.xnb
+bin\x86\Debug\Content\Fonts\retroMedium.xnb
+bin\x86\Debug\Content\Fonts\retroSmall.xnb
+bin\x86\Debug\Content\Textures\blank.xnb
+bin\x86\Debug\Content\Textures\spotlight.xnb
+bin\x86\Debug\Content\Textures\title.xnb
+bin\x86\Debug\Content\Textures\waterfall.xnb
+bin\x86\Debug\Content\Audio\FreeRadicals.xgs
+bin\x86\Debug\Content\Audio\Wave Bank.xwb
+bin\x86\Debug\Content\Audio\Sound Bank.xsb
+bin\x86\Debug\FreeRadicals.exe
+bin\x86\Debug\FreeRadicals.pdb
+obj\x86\Debug\ResolveAssemblyReference.cache
+obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+obj\x86\Debug\FreeRadicals.obj.x86.Debug.Microsoft.Xna.Framework.RuntimeProfile.txt
+obj\x86\Debug\FreeRadicals.exe
+obj\x86\Debug\FreeRadicals.pdb
