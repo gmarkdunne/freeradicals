@@ -2,6 +2,10 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using FreeRadicals.Simulation;
+using FreeRadicals.BaseAI;
+using FreeRadicals.Rendering;
+using FreeRadicals.CustomAI;
 #endregion
 
 namespace FreeRadicals.Gameplay
@@ -246,6 +250,7 @@ namespace FreeRadicals.Gameplay
                     }
                 }
             }
+
             // check if there is an OxygenTwo
             for (int i = 0; i < world.Actors.Count; ++i)
             {
@@ -255,6 +260,20 @@ namespace FreeRadicals.Gameplay
                     if (distance.Length() <= this.collisionRadius)
                     {
                         world.Actors[i].Velocity += distance * 0.01f;
+                        return;
+                    }
+                }
+            }
+
+            // check if there is an Ozone
+            for (int i = 0; i < world.Actors.Count; ++i)
+            {
+                if ((world.Actors[i] is Ozone) == true)
+                {
+                    Vector2 distance = this.position - world.Actors[i].Position;
+                    if (distance.Length() <= 24f)
+                    {
+                        world.Actors[i].Velocity += -distance * 0.02f;
                         return;
                     }
                 }
@@ -305,17 +324,19 @@ namespace FreeRadicals.Gameplay
             {
                 this.world.AudioManager.PlayCue("asteroidTouch");
             }
-            if ((target is NanoBot) == true)
-            {
-                this.Die(this);
-                Vector2 newPosition = this.position;
-                Vector2 newVelocity = this.velocity;
-                Vector2 newDirection = this.direction;
-                world.UnbondOzone(newPosition, newVelocity, newDirection);
-                world.ParticleSystems.Add(new ParticleSystem(newPosition,
-                    newDirection, 36, 64f, 128f, 2f, 0.05f, Color.Red));
-                this.world.AudioManager.PlayCue("asteroidTouch");
-            }
+
+            //// If nanobot hit the Ozone, Break down to O and O2
+            //if ((target is NanoBot) == true)
+            //{
+            //    this.Die(this);
+            //    Vector2 newPosition = this.position;
+            //    Vector2 newVelocity = this.velocity;
+            //    Vector2 newDirection = this.direction;
+            //    world.UnbondOzone(newPosition, newVelocity, newDirection);
+            //    world.ParticleSystems.Add(new ParticleSystem(newPosition,
+            //        newDirection, 36, 64f, 128f, 2f, 0.05f, Color.Red));
+            //    this.world.AudioManager.PlayCue("asteroidTouch");
+            //}
             return base.Touch(target); 
         }
 

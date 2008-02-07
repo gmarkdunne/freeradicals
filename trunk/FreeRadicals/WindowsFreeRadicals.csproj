@@ -38,15 +38,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AudioManager.cs" />
-    <Compile Include="Base AI\BasicAgent.cs" />
-    <Compile Include="Base AI\BasicAgentInterfaces.cs" />
-    <Compile Include="Base AI\BasicState.cs" />
+    <Compile Include="BaseAI\BasicAgent.cs" />
+    <Compile Include="BaseAI\BasicAgentInterfaces.cs" />
+    <Compile Include="BaseAI\BasicState.cs" />
     <Compile Include="BloomPostprocess\BloomComponent.cs" />
     <Compile Include="BloomPostprocess\BloomSettings.cs" />
     <Compile Include="Camera\ChaseCamera.cs" />
     <Compile Include="CollectCollection.cs" />
-    <Compile Include="Custom AI\BasicModelAgent.cs" />
-    <Compile Include="Custom AI\FiniteStates.cs" />
+    <Compile Include="CustomAI\BasicModelAgent.cs" />
+    <Compile Include="CustomAI\FiniteStates.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Gameplay\Bromine.cs" />
     <Compile Include="Gameplay\Carbon.cs" />
@@ -58,8 +58,12 @@
     <Compile Include="Gameplay\Fluorine.cs" />
     <Compile Include="Gameplay\Hydrogen.cs" />
     <Compile Include="Gameplay\Hydroxyl.cs" />
+    <Compile Include="Gameplay\LaserProjectile.cs" />
+    <Compile Include="Gameplay\LaserWeapon.cs" />
     <Compile Include="Gameplay\Methane.cs" />
     <Compile Include="Gameplay\Methylene.cs" />
+    <Compile Include="Gameplay\AtomicMoleBlastProjectile.cs" />
+    <Compile Include="Gameplay\AtomicMoleBlastWeapon.cs" />
     <Compile Include="Gameplay\Nitrogen.cs" />
     <Compile Include="Gameplay\NitrogenTwo.cs" />
     <Compile Include="Gameplay\NitricOxide.cs" />
@@ -68,6 +72,11 @@
     <Compile Include="Gameplay\OxygenTwo.cs" />
     <Compile Include="Gameplay\Ozone.cs" />
     <Compile Include="Gameplay\NanoBot.cs" />
+    <Compile Include="Gameplay\RocketPowerUp.cs" />
+    <Compile Include="Gameplay\RocketProjectile.cs" />
+    <Compile Include="Gameplay\RocketWeapon.cs" />
+    <Compile Include="Gameplay\TripleLaserPowerUp.cs" />
+    <Compile Include="Gameplay\TripleLaserWeapon.cs" />
     <Compile Include="Gameplay\Water.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rendering\LineBatch.cs" />
@@ -91,6 +100,7 @@
     <Compile Include="Simulation\Actor.cs" />
     <Compile Include="Simulation\Collision.cs" />
     <Compile Include="Simulation\CollisionResult.cs" />
+    <Compile Include="Simulation\PowerUp.cs" />
     <Compile Include="Simulation\Projectile.cs" />
     <Compile Include="Simulation\Weapon.cs" />
     <Compile Include="Simulation\World.cs" />

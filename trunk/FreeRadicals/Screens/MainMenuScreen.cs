@@ -2,7 +2,7 @@
 using System;
 #endregion
 
-namespace FreeRadicals
+namespace FreeRadicals.Screens
 {
     /// <summary>
     /// The main menu screen is the first thing displayed when the game starts up.

@@ -3,16 +3,17 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using FreeRadicals.ScreenManager;
 #endregion
 
-namespace FreeRadicals
+namespace FreeRadicals.Screens
 {
     /// <summary>
     /// Base class for screens that contain a menu of options. The user can
     /// move up and down to select an entry, or cancel to back out of the screen.
     /// </summary>
     /// <remarks>Based on a class in the Game State Management sample.</remarks>
-    abstract class MenuScreen : GameScreen
+    abstract class MenuScreen : ScreenManager.GameScreen
     {
         #region Fields
 

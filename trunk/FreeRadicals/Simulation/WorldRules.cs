@@ -2,7 +2,7 @@
 using System;
 #endregion
 
-namespace FreeRadicals
+namespace FreeRadicals.Simulation
 {
     public enum AtomDensity
     {

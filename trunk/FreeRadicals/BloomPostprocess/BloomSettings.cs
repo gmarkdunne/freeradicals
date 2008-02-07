@@ -1,4 +1,4 @@
-namespace FreeRadicals
+namespace FreeRadicals.BloomPostprocess
 {
     /// <summary>
     /// Class holds all the settings used to tweak the bloom effect.

@@ -3,6 +3,8 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using FreeRadicals.Simulation;
+using FreeRadicals.Rendering;
 #endregion
 
 namespace FreeRadicals.Gameplay
@@ -33,6 +35,12 @@ namespace FreeRadicals.Gameplay
         /// as a percentage of velocity.
         /// </summary>
         const float dragPerSecond = 0.9f;
+
+        /// <summary>
+        /// Scalar for calculated damage values that 
+        /// oxygen atoms apply to player.
+        /// </summary>
+        const float damageScalar = 0.002f;
 
         /// <summary>
         /// The amount that the right-stick must be pressed to fire, squared so that
@@ -106,19 +114,36 @@ namespace FreeRadicals.Gameplay
         const float innerRotationToScalePeriodScalar = 4f;
 
         /// <summary>
-        /// The colors used for each ship, given it's player-index.
+        /// The colors used for each nanobot, given it's player-index.
         /// </summary>
-        static readonly Color[] shipColorsByPlayerIndex = 
-            {
-                Color.Yellow
-            };
+        static readonly Color[] nanobotColorsByPlayerIndex = 
+        {
+            Color.Yellow, Color.CornflowerBlue, Color.DeepPink, Color.Indigo
+        };
+        static readonly Color[] CO2Color = 
+        {
+            Color.Gray, Color.Red
+        };
+        static readonly Color[] CH4Color = 
+        {
+            Color.Gray, Color.Yellow
+        };
+        static readonly Color[] H2OColor = 
+        {
+            Color.Red, Color.Yellow
+        };
+        static readonly Color[] N2OColor = 
+        {
+            Color.Red, Color.Blue
+        };
 
         /// <summary>
         /// Particle system colors for the ship-explosion effect.
         /// </summary>
         static readonly Color[] explosionColors = 
             { 
-                Color.Red, Color.Green, Color.Yellow
+                Color.Red, Color.Green, Color.Yellow, 
+                Color.CornflowerBlue, Color.DeepPink, Color.Indigo
             };
         #endregion
 
@@ -167,7 +192,7 @@ namespace FreeRadicals.Gameplay
         /// <summary>
         /// The ship's additional mine-laying weapon.
         /// </summary>
-        //private MineWeapon mineWeapon = null;
+        private AtomicMoleBlastWeapon ambWeapon = null;
         
         /// <summary>
         /// The Gamepad player index that is controlling this ship.
@@ -243,9 +268,29 @@ namespace FreeRadicals.Gameplay
         /// Positive Charge nano bot applied to hual
         /// </summary>
         public bool positiveCharge = false;
+
+        private int oxygenAmmo = 0;
+        private int hydrogenAmmo = 0;
+        private int carbonAmmo = 0;
+
         #endregion
 
         #region Properties
+        public int OxygenAmmo
+        {
+            get { return oxygenAmmo; }
+        }
+
+        public int HydrogenAmmo
+        {
+            get { return hydrogenAmmo; }
+        }
+
+        public int CarbonAmmo
+        {
+            get { return carbonAmmo; }
+        }
+
         public bool Playing
         {
             get { return playing; }
@@ -291,10 +336,10 @@ namespace FreeRadicals.Gameplay
             this.collisionRadius = this.radius * 30;
             this.radius = 60f;
             this.mass = 50f;
-            this.color = Color.Yellow;
-            this.polygon = VectorPolygon.CreateCircle(Vector2.Zero, 60f, 35);
-            this.innerPolygon = VectorPolygon.CreateCircle(Vector2.Zero, 30f, 20);
-            this.shieldPolygon = VectorPolygon.CreateCircle(Vector2.Zero, 90f, 50);
+            this.color = nanobotColorsByPlayerIndex[(int)this.playerIndex];
+            this.polygon = VectorPolygon.CreateCircle(Vector2.Zero, 60f, 100);
+            this.innerPolygon = VectorPolygon.CreateCircle(Vector2.Zero, 30f, 30);
+            this.shieldPolygon = VectorPolygon.CreateCircle(Vector2.Zero, 100f, 100);
         }
         #endregion
 
@@ -351,15 +396,15 @@ namespace FreeRadicals.Gameplay
                 }
             }
 
-            //// update the weapons
+            // update the weapons
             //if (weapon != null)
             //{
             //    weapon.Update(elapsedTime);
             //}
-            //if (mineWeapon != null)
-            //{
-            //    mineWeapon.Update(elapsedTime);
-            //}
+            if (ambWeapon != null)
+            {
+                ambWeapon.Update(elapsedTime);
+            }
 
             // decrement the safe timer
             if (safeTimer > 0f)
@@ -389,47 +434,47 @@ namespace FreeRadicals.Gameplay
                 this.speed += this.speed + 500f;
                 this.mass += this.mass + 100f;
 
-                // check if there is a Bromine
+                // check if there is a NanoBot
                 for (int i = 0; i < world.Actors.Count; ++i)
                 {
-                    if ((world.Actors[i] is Bromine) == true)
+                    if ((world.Actors[i] is NanoBot && world.Actors[i] != this) == true)
                     {
                         Vector2 distance = this.position - world.Actors[i].Position;
                         if (distance.Length() <= this.collisionRadius)
                         {
-                            world.Actors[i].Velocity -= -distance * 0.01f;
+                            world.Actors[i].Velocity += -distance * 0.02f;
                             return;
                         }
                     }
                 }
 
-                // check if there is a Chlorine
-                for (int i = 0; i < world.Actors.Count; ++i)
-                {
-                    if ((world.Actors[i] is Chlorine) == true)
-                    {
-                        Vector2 distance = this.position - world.Actors[i].Position;
-                        if (distance.Length() <= this.collisionRadius)
-                        {
-                            world.Actors[i].Velocity -= -distance * 0.01f;
-                            return;
-                        }
-                    }
-                }
+                //// check if there is a Chlorine
+                //for (int i = 0; i < world.Actors.Count; ++i)
+                //{
+                //    if ((world.Actors[i] is Chlorine) == true)
+                //    {
+                //        Vector2 distance = this.position - world.Actors[i].Position;
+                //        if (distance.Length() <= this.collisionRadius)
+                //        {
+                //            world.Actors[i].Velocity -= -distance * 0.01f;
+                //            return;
+                //        }
+                //    }
+                //}
 
-                // check if there is a Fluorine
-                for (int i = 0; i < world.Actors.Count; ++i)
-                {
-                    if ((world.Actors[i] is Fluorine) == true)
-                    {
-                        Vector2 distance = this.position - world.Actors[i].Position;
-                        if (distance.Length() <= this.collisionRadius)
-                        {
-                            world.Actors[i].Velocity -= -distance * 0.01f;
-                            return;
-                        }
-                    }
-                }
+                //// check if there is a Fluorine
+                //for (int i = 0; i < world.Actors.Count; ++i)
+                //{
+                //    if ((world.Actors[i] is Fluorine) == true)
+                //    {
+                //        Vector2 distance = this.position - world.Actors[i].Position;
+                //        if (distance.Length() <= this.collisionRadius)
+                //        {
+                //            world.Actors[i].Velocity -= -distance * 0.01f;
+                //            return;
+                //        }
+                //    }
+                //}
 
                 // check if there is a Nitric Oxide
                 for (int i = 0; i < world.Actors.Count; ++i)
@@ -487,117 +532,117 @@ namespace FreeRadicals.Gameplay
                     }
                 }
 
-                // check if there is an Nitrogen
-                for (int i = 0; i < world.Actors.Count; ++i)
-                {
-                    if ((world.Actors[i] is Nitrogen) == true)
-                    {
-                        Vector2 distance = this.position - world.Actors[i].Position;
-                        if (distance.Length() <= this.collisionRadius)
-                        {
-                            world.Actors[i].Velocity += distance * 0.01f;
-                            return;
-                        }
-                    }
-                }
+                //// check if there is an Nitrogen
+                //for (int i = 0; i < world.Actors.Count; ++i)
+                //{
+                //    if ((world.Actors[i] is Nitrogen) == true)
+                //    {
+                //        Vector2 distance = this.position - world.Actors[i].Position;
+                //        if (distance.Length() <= this.collisionRadius)
+                //        {
+                //            world.Actors[i].Velocity += -distance * 0.02f;
+                //            return;
+                //        }
+                //    }
+                //}
 
-                // check if there is an Methylene
-                for (int i = 0; i < world.Actors.Count; ++i)
-                {
-                    if ((world.Actors[i] is Methylene) == true)
-                    {
-                        Vector2 distance = this.position - world.Actors[i].Position;
-                        if (distance.Length() <= this.collisionRadius)
-                        {
-                            world.Actors[i].Velocity += distance * 0.01f;
-                            return;
-                        }
-                    }
-                }
+                //// check if there is an Methylene
+                //for (int i = 0; i < world.Actors.Count; ++i)
+                //{
+                //    if ((world.Actors[i] is Methylene) == true)
+                //    {
+                //        Vector2 distance = this.position - world.Actors[i].Position;
+                //        if (distance.Length() <= this.collisionRadius)
+                //        {
+                //            world.Actors[i].Velocity += -distance * 0.02f;
+                //            return;
+                //        }
+                //    }
+                //}
 
-                // check if there is an Carbon
-                for (int i = 0; i < world.Actors.Count; ++i)
-                {
-                    if ((world.Actors[i] is Carbon) == true)
-                    {
-                        Vector2 distance = this.position - world.Actors[i].Position;
-                        if (distance.Length() <= this.collisionRadius)
-                        {
-                            world.Actors[i].Velocity += distance * 0.01f;
-                            return;
-                        }
-                    }
-                }
+                //// check if there is an Carbon
+                //for (int i = 0; i < world.Actors.Count; ++i)
+                //{
+                //    if ((world.Actors[i] is Carbon) == true)
+                //    {
+                //        Vector2 distance = this.position - world.Actors[i].Position;
+                //        if (distance.Length() <= this.collisionRadius)
+                //        {
+                //            world.Actors[i].Velocity += -distance * 0.02f;
+                //            return;
+                //        }
+                //    }
+                //}
 
-                // check if there is an Deuterium
-                for (int i = 0; i < world.Actors.Count; ++i)
-                {
-                    if ((world.Actors[i] is Deuterium) == true)
-                    {
-                        Vector2 distance = this.position - world.Actors[i].Position;
-                        if (distance.Length() <= this.collisionRadius)
-                        {
-                            world.Actors[i].Velocity += distance * 0.01f;
-                            return;
-                        }
-                    }
-                }
+                //// check if there is an Deuterium
+                //for (int i = 0; i < world.Actors.Count; ++i)
+                //{
+                //    if ((world.Actors[i] is Deuterium) == true)
+                //    {
+                //        Vector2 distance = this.position - world.Actors[i].Position;
+                //        if (distance.Length() <= this.collisionRadius)
+                //        {
+                //            world.Actors[i].Velocity += -distance * 0.02f;
+                //            return;
+                //        }
+                //    }
+                //}
 
-                // check if there is an Hydrogen
-                for (int i = 0; i < world.Actors.Count; ++i)
-                {
-                    if ((world.Actors[i] is Hydrogen) == true)
-                    {
-                        Vector2 distance = this.position - world.Actors[i].Position;
-                        if (distance.Length() <= this.collisionRadius)
-                        {
-                            world.Actors[i].Velocity += distance * 0.01f;
-                            return;
-                        }
-                    }
-                }
+                //// check if there is an Hydrogen
+                //for (int i = 0; i < world.Actors.Count; ++i)
+                //{
+                //    if ((world.Actors[i] is Hydrogen) == true)
+                //    {
+                //        Vector2 distance = this.position - world.Actors[i].Position;
+                //        if (distance.Length() <= this.collisionRadius)
+                //        {
+                //            world.Actors[i].Velocity += -distance * 0.02f;
+                //            return;
+                //        }
+                //    }
+                //}
 
-                // check if there is an Oxygen
-                for (int i = 0; i < world.Actors.Count; ++i)
-                {
-                    if ((world.Actors[i] is Oxygen) == true)
-                    {
-                        Vector2 distance = this.position - world.Actors[i].Position;
-                        if (distance.Length() <= this.collisionRadius)
-                        {
-                            world.Actors[i].Velocity += distance * 0.01f;
-                            return;
-                        }
-                    }
-                }
+                //// check if there is an Oxygen
+                //for (int i = 0; i < world.Actors.Count; ++i)
+                //{
+                //    if ((world.Actors[i] is Oxygen) == true)
+                //    {
+                //        Vector2 distance = this.position - world.Actors[i].Position;
+                //        if (distance.Length() <= this.collisionRadius)
+                //        {
+                //            world.Actors[i].Velocity += -distance * 0.02f;
+                //            return;
+                //        }
+                //    }
+                //}
 
-                // check if there is an OxygenTwo
-                for (int i = 0; i < world.Actors.Count; ++i)
-                {
-                    if ((world.Actors[i] is OxygenTwo) == true)
-                    {
-                        Vector2 distance = this.position - world.Actors[i].Position;
-                        if (distance.Length() <= this.collisionRadius)
-                        {
-                            world.Actors[i].Velocity += distance * 0.01f;
-                            return;
-                        }
-                    }
-                }
+                //// check if there is an OxygenTwo
+                //for (int i = 0; i < world.Actors.Count; ++i)
+                //{
+                //    if ((world.Actors[i] is OxygenTwo) == true)
+                //    {
+                //        Vector2 distance = this.position - world.Actors[i].Position;
+                //        if (distance.Length() <= this.collisionRadius)
+                //        {
+                //            world.Actors[i].Velocity += -distance * 0.02f;
+                //            return;
+                //        }
+                //    }
+                //}
 
-                // check if there is an NitrogenTwo
-                for (int i = 0; i < world.Actors.Count; ++i)
-                {
-                    if ((world.Actors[i] is NitrogenTwo) == true)
-                    {
-                        Vector2 distance = this.position - world.Actors[i].Position;
-                        if (distance.Length() <= this.collisionRadius)
-                        {
-                            world.Actors[i].Velocity += distance * 0.01f;
-                            return;
-                        }
-                    }
-                }
+                //// check if there is an NitrogenTwo
+                //for (int i = 0; i < world.Actors.Count; ++i)
+                //{
+                //    if ((world.Actors[i] is NitrogenTwo) == true)
+                //    {
+                //        Vector2 distance = this.position - world.Actors[i].Position;
+                //        if (distance.Length() <= this.collisionRadius)
+                //        {
+                //            world.Actors[i].Velocity += -distance * 0.02f;
+                //            return;
+                //        }
+                //    }
+                //}
 
                 // check if there is an CarbonDioxide
                 for (int i = 0; i < world.Actors.Count; ++i)
@@ -607,7 +652,7 @@ namespace FreeRadicals.Gameplay
                         Vector2 distance = this.position - world.Actors[i].Position;
                         if (distance.Length() <= this.collisionRadius)
                         {
-                            world.Actors[i].Velocity += distance * 0.01f;
+                            world.Actors[i].Velocity += -distance * 0.02f;
                             return;
                         }
                     }
@@ -621,7 +666,7 @@ namespace FreeRadicals.Gameplay
                         Vector2 distance = this.position - world.Actors[i].Position;
                         if (distance.Length() <= this.collisionRadius)
                         {
-                            world.Actors[i].Velocity += distance * 0.01f;
+                            world.Actors[i].Velocity += -distance * 0.02f;
                             return;
                         }
                     }
@@ -635,7 +680,7 @@ namespace FreeRadicals.Gameplay
                         Vector2 distance = this.position - world.Actors[i].Position;
                         if (distance.Length() <= this.collisionRadius)
                         {
-                            world.Actors[i].Velocity += distance * 0.01f;
+                            world.Actors[i].Velocity += -distance * 0.02f;
                             return;
                         }
                     }
@@ -649,7 +694,7 @@ namespace FreeRadicals.Gameplay
                         Vector2 distance = this.position - world.Actors[i].Position;
                         if (distance.Length() <= this.collisionRadius)
                         {
-                            world.Actors[i].Velocity += distance * 0.01f;
+                            world.Actors[i].Velocity += -distance * 0.02f;
                             return;
                         }
                     }
@@ -663,7 +708,7 @@ namespace FreeRadicals.Gameplay
                         Vector2 distance = this.position - world.Actors[i].Position;
                         if (distance.Length() <= this.collisionRadius)
                         {
-                            world.Actors[i].Velocity += distance * 0.01f;
+                            world.Actors[i].Velocity += -distance * 0.02f;
                             return;
                         }
                     }
@@ -673,76 +718,90 @@ namespace FreeRadicals.Gameplay
             {
                 this.speed += this.speed + 500f;
                 this.mass += this.mass + 100f;
+
+                // check if there is a NanoBot
+                for (int i = 0; i < world.Actors.Count; ++i)
+                {
+                    if ((world.Actors[i] is NanoBot && world.Actors[i] != this) == true)
+                    {
+                        Vector2 distance = this.position - world.Actors[i].Position;
+                        if (distance.Length() <= this.collisionRadius)
+                        {
+                            world.Actors[i].Velocity -= -distance * 0.02f;
+                            return;
+                        }
+                    }
+                }
                 
-                // check if there is an Nitrogen
-                for (int i = 0; i < world.Actors.Count; ++i)
-                {
-                    if ((world.Actors[i] is Nitrogen) == true)
-                    {
-                        Vector2 distance = this.position - world.Actors[i].Position;
-                        if (distance.Length() <= this.collisionRadius)
-                        {
-                            world.Actors[i].Velocity += distance * 0.01f;
-                            return;
-                        }
-                    }
-                }
+                //// check if there is an Nitrogen
+                //for (int i = 0; i < world.Actors.Count; ++i)
+                //{
+                //    if ((world.Actors[i] is Nitrogen) == true)
+                //    {
+                //        Vector2 distance = this.position - world.Actors[i].Position;
+                //        if (distance.Length() <= this.collisionRadius)
+                //        {
+                //            world.Actors[i].Velocity -= -distance * 0.02f;
+                //            return;
+                //        }
+                //    }
+                //}
 
-                // check if there is an Methylene
-                for (int i = 0; i < world.Actors.Count; ++i)
-                {
-                    if ((world.Actors[i] is Methylene) == true)
-                    {
-                        Vector2 distance = this.position - world.Actors[i].Position;
-                        if (distance.Length() <= this.collisionRadius)
-                        {
-                            world.Actors[i].Velocity += distance * 0.01f;
-                            return;
-                        }
-                    }
-                }
+                //// check if there is an Methylene
+                //for (int i = 0; i < world.Actors.Count; ++i)
+                //{
+                //    if ((world.Actors[i] is Methylene) == true)
+                //    {
+                //        Vector2 distance = this.position - world.Actors[i].Position;
+                //        if (distance.Length() <= this.collisionRadius)
+                //        {
+                //            world.Actors[i].Velocity -= -distance * 0.02f;
+                //            return;
+                //        }
+                //    }
+                //}
 
-                // check if there is an Carbon
-                for (int i = 0; i < world.Actors.Count; ++i)
-                {
-                    if ((world.Actors[i] is Carbon) == true)
-                    {
-                        Vector2 distance = this.position - world.Actors[i].Position;
-                        if (distance.Length() <= this.collisionRadius)
-                        {
-                            world.Actors[i].Velocity += distance * 0.01f;
-                            return;
-                        }
-                    }
-                }
+                //// check if there is an Carbon
+                //for (int i = 0; i < world.Actors.Count; ++i)
+                //{
+                //    if ((world.Actors[i] is Carbon) == true)
+                //    {
+                //        Vector2 distance = this.position - world.Actors[i].Position;
+                //        if (distance.Length() <= this.collisionRadius)
+                //        {
+                //            world.Actors[i].Velocity -= -distance * 0.02f;
+                //            return;
+                //        }
+                //    }
+                //}
 
-                // check if there is an Deuterium
-                for (int i = 0; i < world.Actors.Count; ++i)
-                {
-                    if ((world.Actors[i] is Deuterium) == true)
-                    {
-                        Vector2 distance = this.position - world.Actors[i].Position;
-                        if (distance.Length() <= this.collisionRadius)
-                        {
-                            world.Actors[i].Velocity += distance * 0.01f;
-                            return;
-                        }
-                    }
-                }
+                //// check if there is an Deuterium
+                //for (int i = 0; i < world.Actors.Count; ++i)
+                //{
+                //    if ((world.Actors[i] is Deuterium) == true)
+                //    {
+                //        Vector2 distance = this.position - world.Actors[i].Position;
+                //        if (distance.Length() <= this.collisionRadius)
+                //        {
+                //            world.Actors[i].Velocity -= -distance * 0.02f;
+                //            return;
+                //        }
+                //    }
+                //}
 
-                // check if there is an Hydrogen
-                for (int i = 0; i < world.Actors.Count; ++i)
-                {
-                    if ((world.Actors[i] is Hydrogen) == true)
-                    {
-                        Vector2 distance = this.position - world.Actors[i].Position;
-                        if (distance.Length() <= this.collisionRadius)
-                        {
-                            world.Actors[i].Velocity += distance * 0.01f;
-                            return;
-                        }
-                    }
-                }
+                //// check if there is an Hydrogen
+                //for (int i = 0; i < world.Actors.Count; ++i)
+                //{
+                //    if ((world.Actors[i] is Hydrogen) == true)
+                //    {
+                //        Vector2 distance = this.position - world.Actors[i].Position;
+                //        if (distance.Length() <= this.collisionRadius)
+                //        {
+                //            world.Actors[i].Velocity -= -distance * 0.02f;
+                //            return;
+                //        }
+                //    }
+                //}
 
                 // check if there is an Oxygen
                 for (int i = 0; i < world.Actors.Count; ++i)
@@ -752,39 +811,39 @@ namespace FreeRadicals.Gameplay
                         Vector2 distance = this.position - world.Actors[i].Position;
                         if (distance.Length() <= this.collisionRadius)
                         {
-                            world.Actors[i].Velocity += distance * 0.01f;
+                            world.Actors[i].Velocity -= -distance * 0.02f;
                             return;
                         }
                     }
                 }
 
-                // check if there is an OxygenTwo
-                for (int i = 0; i < world.Actors.Count; ++i)
-                {
-                    if ((world.Actors[i] is OxygenTwo) == true)
-                    {
-                        Vector2 distance = this.position - world.Actors[i].Position;
-                        if (distance.Length() <= this.collisionRadius)
-                        {
-                            world.Actors[i].Velocity += distance * 0.01f;
-                            return;
-                        }
-                    }
-                }
+                //// check if there is an OxygenTwo
+                //for (int i = 0; i < world.Actors.Count; ++i)
+                //{
+                //    if ((world.Actors[i] is OxygenTwo) == true)
+                //    {
+                //        Vector2 distance = this.position - world.Actors[i].Position;
+                //        if (distance.Length() <= this.collisionRadius)
+                //        {
+                //            world.Actors[i].Velocity -= -distance * 0.02f;
+                //            return;
+                //        }
+                //    }
+                //}
 
-                // check if there is an NitrogenTwo
-                for (int i = 0; i < world.Actors.Count; ++i)
-                {
-                    if ((world.Actors[i] is NitrogenTwo) == true)
-                    {
-                        Vector2 distance = this.position - world.Actors[i].Position;
-                        if (distance.Length() <= this.collisionRadius)
-                        {
-                            world.Actors[i].Velocity += distance * 0.01f;
-                            return;
-                        }
-                    }
-                }
+                //// check if there is an NitrogenTwo
+                //for (int i = 0; i < world.Actors.Count; ++i)
+                //{
+                //    if ((world.Actors[i] is NitrogenTwo) == true)
+                //    {
+                //        Vector2 distance = this.position - world.Actors[i].Position;
+                //        if (distance.Length() <= this.collisionRadius)
+                //        {
+                //            world.Actors[i].Velocity -= -distance * 0.02f;
+                //            return;
+                //        }
+                //    }
+                //}
 
                 // check if there is an CarbonDioxide
                 for (int i = 0; i < world.Actors.Count; ++i)
@@ -794,7 +853,7 @@ namespace FreeRadicals.Gameplay
                         Vector2 distance = this.position - world.Actors[i].Position;
                         if (distance.Length() <= this.collisionRadius)
                         {
-                            world.Actors[i].Velocity += distance * 0.01f;
+                            world.Actors[i].Velocity -= -distance * 0.02f;
                             return;
                         }
                     }
@@ -808,7 +867,7 @@ namespace FreeRadicals.Gameplay
                         Vector2 distance = this.position - world.Actors[i].Position;
                         if (distance.Length() <= this.collisionRadius)
                         {
-                            world.Actors[i].Velocity += distance * 0.01f;
+                            world.Actors[i].Velocity -= -distance * 0.02f;
                             return;
                         }
                     }
@@ -822,7 +881,7 @@ namespace FreeRadicals.Gameplay
                         Vector2 distance = this.position - world.Actors[i].Position;
                         if (distance.Length() <= this.collisionRadius)
                         {
-                            world.Actors[i].Velocity += distance * 0.01f;
+                            world.Actors[i].Velocity -= -distance * 0.02f;
                             return;
                         }
                     }
@@ -836,7 +895,7 @@ namespace FreeRadicals.Gameplay
                         Vector2 distance = this.position - world.Actors[i].Position;
                         if (distance.Length() <= this.collisionRadius)
                         {
-                            world.Actors[i].Velocity += distance * 0.01f;
+                            world.Actors[i].Velocity -= -distance * 0.02f;
                             return;
                         }
                     }
@@ -850,7 +909,7 @@ namespace FreeRadicals.Gameplay
                         Vector2 distance = this.position - world.Actors[i].Position;
                         if (distance.Length() <= this.collisionRadius)
                         {
-                            world.Actors[i].Velocity += distance * 0.01f;
+                            world.Actors[i].Velocity -= -distance * 0.02f;
                             return;
                         }
                     }
@@ -935,6 +994,10 @@ namespace FreeRadicals.Gameplay
             {
                 return;
             }
+
+            // Save old color
+            Color oldColor = nanobotColorsByPlayerIndex[(int)this.playerIndex];
+
             if (negativeCharge)
             {
                 this.speed = 1000f;
@@ -1033,7 +1096,7 @@ namespace FreeRadicals.Gameplay
                 // update the shield rotation
                 shieldRotation += 0;// elapsedTime* shieldRotationPeriodPerSecond;
                 // calculate the current color
-                color = Color.Yellow;
+                this.color = oldColor;
                 //color = new Color(color.R, color.G, color.B, (byte)(255f * fadeInTimer /
                 //    fadeInTimerMaximum));
                 // transform the shield polygon
@@ -1126,6 +1189,21 @@ namespace FreeRadicals.Gameplay
         /// <returns>True if the objects meaningfully interacted.</returns>
         public override bool Touch(Actor target)
         {
+            // if the oxygen has touched a player, then damage it
+            NanoBot player = target as NanoBot;
+            if ((player != null && player != this) == true)
+            {
+                // calculate damage as a function of how much the two actor's
+                // velocities were going towards one another
+                Vector2 playerAsteroidVector =
+                    Vector2.Normalize(this.position - player.Position);
+                float rammingSpeed =
+                    Vector2.Dot(playerAsteroidVector, player.Velocity) -
+                    Vector2.Dot(playerAsteroidVector, this.velocity);
+                player.Damage(this, this.mass * rammingSpeed * damageScalar);
+
+            }
+
             if (negativeCharge)
             {
                 world.ParticleSystems.Add(new ParticleSystem(target.Position,
@@ -1139,8 +1217,148 @@ namespace FreeRadicals.Gameplay
             else
             {
                 world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                    target.Direction, 18, 32f, 64f, 1.5f, 0.05f, Color.Yellow));
+                    target.Direction, 18, 32f, 64f, 1.5f, 0.05f, this.color));
             }
+
+            if (positiveCharge)
+            {
+                // Touches Oxygen
+                if ((target is Oxygen) == true)
+                {
+                    this.oxygenAmmo += 1;
+                    target.Die(target);
+                    Vector2 newPosition = (target.Position + this.position) / 2;
+                    Vector2 newVelocity = (target.Velocity + this.velocity) / 2;
+                    Vector2 newDirection = (target.Direction + this.direction) / 2;
+                    //world.BondWater(newPosition, newVelocity, newDirection);
+                    world.ParticleSystems.Add(new ParticleSystem(newPosition,
+                        newDirection, 36, 64f, 128f, 2f, 0.05f, Color.Red));
+                    this.world.AudioManager.PlayCue("asteroidTouch");
+                }
+
+                // Touches Hydrogen
+                if ((target is Hydrogen) == true)
+                {
+                    this.hydrogenAmmo += 1;
+                    target.Die(target);
+                    Vector2 newPosition = (target.Position + this.position) / 2;
+                    Vector2 newVelocity = (target.Velocity + this.velocity) / 2;
+                    Vector2 newDirection = (target.Direction + this.direction) / 2;
+                    //world.BondWater(newPosition, newVelocity, newDirection);
+                    world.ParticleSystems.Add(new ParticleSystem(newPosition,
+                        newDirection, 36, 64f, 128f, 2f, 0.05f, Color.Yellow));
+                    this.world.AudioManager.PlayCue("asteroidTouch");
+                }
+
+                // Touches Carbon
+                if ((target is Carbon) == true)
+                {
+                    this.carbonAmmo += 1;
+                    target.Die(target);
+                    Vector2 newPosition = (target.Position + this.position) / 2;
+                    Vector2 newVelocity = (target.Velocity + this.velocity) / 2;
+                    Vector2 newDirection = (target.Direction + this.direction) / 2;
+                    //world.BondWater(newPosition, newVelocity, newDirection);
+                    world.ParticleSystems.Add(new ParticleSystem(newPosition,
+                        newDirection, 36, 64f, 128f, 2f, 0.05f, Color.Yellow));
+                    this.world.AudioManager.PlayCue("asteroidTouch");
+                }
+
+                //// Touches OxygenTwo
+                //if ((target is OxygenTwo) == true)
+                //{
+                //    this.oxygenAmmo += this.oxygenAmmo + 2;
+                //    target.Die(target);
+                //    Vector2 newPosition = (target.Position + this.position) / 2;
+                //    Vector2 newVelocity = (target.Velocity + this.velocity) / 2;
+                //    Vector2 newDirection = (target.Direction + this.direction) / 2;
+                //    //world.BondWater(newPosition, newVelocity, newDirection);
+                //    world.ParticleSystems.Add(new ParticleSystem(newPosition,
+                //        newDirection, 36, 64f, 128f, 2f, 0.05f, Color.Red));
+                //    this.world.AudioManager.PlayCue("asteroidTouch");
+                //}
+
+                // Touches CarbonDioxide
+                if ((target is CarbonDioxide) == true)
+                {
+                    this.oxygenAmmo += 2;
+                    this.carbonAmmo += 1;
+                    target.Die(target);
+                    Vector2 newPosition = (target.Position + this.position) / 2;
+                    Vector2 newVelocity = (target.Velocity + this.velocity) / 2;
+                    Vector2 newDirection = (target.Direction + this.direction) / 2;
+                    //world.BondWater(newPosition, newVelocity, newDirection);
+                    world.ParticleSystems.Add(new ParticleSystem(newPosition,
+                        newDirection, 36, 64f, 128f, 2f, 0.05f, CO2Color));
+                    this.world.AudioManager.PlayCue("asteroidTouch");
+                }
+
+                // Touches Water
+                if ((target is Water) == true)
+                {
+                    this.hydrogenAmmo += 2;
+                    this.oxygenAmmo += 1;
+                    target.Die(target);
+                    Vector2 newPosition = (target.Position + this.position) / 2;
+                    Vector2 newVelocity = (target.Velocity + this.velocity) / 2;
+                    Vector2 newDirection = (target.Direction + this.direction) / 2;
+                    //world.BondWater(newPosition, newVelocity, newDirection);
+                    world.ParticleSystems.Add(new ParticleSystem(newPosition,
+                        newDirection, 36, 64f, 128f, 2f, 0.05f, H2OColor));
+                    this.world.AudioManager.PlayCue("asteroidTouch");
+                }
+
+                //// Touches Ozone
+                //if ((target is Ozone) == true)
+                //{
+                //    this.oxygenAmmo += this.oxygenAmmo + 3;
+                //    target.Die(target);
+                //    Vector2 newPosition = (target.Position + this.position) / 2;
+                //    Vector2 newVelocity = (target.Velocity + this.velocity) / 2;
+                //    Vector2 newDirection = (target.Direction + this.direction) / 2;
+                //    //world.BondWater(newPosition, newVelocity, newDirection);
+                //    world.ParticleSystems.Add(new ParticleSystem(newPosition,
+                //        newDirection, 36, 64f, 128f, 2f, 0.05f, Color.Red));
+                //    this.world.AudioManager.PlayCue("asteroidTouch");
+                //}
+
+                // Touches NitrousOxide
+                if ((target is NitrousOxide) == true)
+                {
+                    this.oxygenAmmo += 1;
+                    target.Die(target);
+                    Vector2 newPosition = (target.Position + this.position) / 2;
+                    Vector2 newVelocity = (target.Velocity + this.velocity) / 2;
+                    Vector2 newDirection = (target.Direction + this.direction) / 2;
+                    world.ParticleSystems.Add(new ParticleSystem(newPosition,
+                        newDirection, 36, 64f, 128f, 2f, 0.05f, N2OColor));
+                    this.world.AudioManager.PlayCue("asteroidTouch");
+                    
+                    Gameplay.NitrogenTwo nitrogenTwo = new Gameplay.NitrogenTwo(world);
+                    nitrogenTwo.Spawn(true);
+                    nitrogenTwo.Position = target.Position;
+                    nitrogenTwo.Velocity = newVelocity;
+                    nitrogenTwo.Direction = newDirection;
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        newDirection, 18, 32f, 64f, 1.5f, 0.05f, Color.Blue));
+                }
+
+                // Touches Methane
+                if ((target is Methane) == true)
+                {
+                    this.carbonAmmo += 1;
+                    this.hydrogenAmmo += 4;
+                    target.Die(target);
+                    Vector2 newPosition = (target.Position + this.position) / 2;
+                    Vector2 newVelocity = (target.Velocity + this.velocity) / 2;
+                    Vector2 newDirection = (target.Direction + this.direction) / 2;
+                    //world.BondWater(newPosition, newVelocity, newDirection);
+                    world.ParticleSystems.Add(new ParticleSystem(newPosition,
+                        newDirection, 36, 64f, 128f, 2f, 0.05f, CH4Color));
+                    this.world.AudioManager.PlayCue("asteroidTouch");
+                } 
+            }
+
             return base.Touch(target);
         }
 
@@ -1281,12 +1499,12 @@ namespace FreeRadicals.Gameplay
                 safeTimer = safeTimerMaximum;
                 // create the default weapons
                 //weapon = new LaserWeapon(this);
-                //mineWeapon = new MineWeapon(this);
+                ambWeapon = new AtomicMoleBlastWeapon(this);
                 // play the ship-spawn cue
                 world.AudioManager.PlayCue("playerSpawn");
                 // add a particle effect at the ship's new location
                 world.ParticleSystems.Add(new ParticleSystem(this.position, 
-                    Vector2.Zero, 128, 128f, 64f, 3f, 0.1f, Color.Yellow)); // new Color[] { this.color }));
+                    Vector2.Zero, 128, 128f, 64f, 3f, 0.1f, this.color)); // new Color[] { this.color }));
                 // remind the player that we're spawning
                 FireGamepadMotors(0.25f, 0f);
             }
@@ -1307,130 +1525,10 @@ namespace FreeRadicals.Gameplay
         }
 
 
-        ///// <summary>
-        ///// Process the input for this ship, from the gamepad assigned to it.
-        ///// </summary>
-        ///// <param name="elapsedTime">The amount of elapsed time, in seconds.</param>
-        ///// <para
-        //public virtual void ProcessInput(float elapsedTime, bool overlayPresent)
-        //{
-        //    currentGamePadState = GamePad.GetState(playerIndex);
-        //    if (overlayPresent == false)
-        //    {
-        //        if (playing == false)
-        //        {
-        //            JoinGame();
-        //            // trying to join - update the a-button timer
-        //            if (currentGamePadState.Buttons.A == ButtonState.Pressed)
-        //            {
-        //                aButtonTimer += elapsedTime;
-        //            }
-        //            else
-        //            {
-        //                aButtonTimer = 0f;
-        //            }
-
-        //            // if the timer has exceeded the expected value, join the game
-        //            if (aButtonTimer > aButtonHeldToPlay)
-        //            {
-        //                JoinGame();
-        //            }
-        //        }
-        //        else
-        //        {
-        //            // check if we're trying to leave
-        //            if (currentGamePadState.Buttons.B == ButtonState.Pressed)
-        //            {
-        //                bButtonTimer += elapsedTime;
-        //            }
-        //            else
-        //            {
-        //                bButtonTimer = 0f;
-        //            }
-        //            // if the timer has exceeded the expected value, leave the game
-        //            if (bButtonTimer > bButtonHeldToLeave)
-        //            {
-        //                LeaveGame();
-        //            }
-        //            else if (dead == false)
-        //            {
-        //                //
-        //                // the ship is alive, so process movement and firing
-        //                //
-        //                // calculate the current forward vector
-        //                Vector2 forward = new Vector2((float)Math.Sin(Rotation),
-        //                    -(float)Math.Cos(Rotation));
-        //                Vector2 right = new Vector2(-forward.Y, forward.X);
-        //                // calculate the current left stick value
-        //                Vector2 leftStick = currentGamePadState.ThumbSticks.Left;
-        //                leftStick.Y *= -1f;
-        //                if (leftStick.LengthSquared() > 0f)
-        //                {
-        //                    Vector2 wantedForward = Vector2.Normalize(leftStick);
-        //                    float angleDiff = (float)Math.Acos(
-        //                        Vector2.Dot(wantedForward, forward));
-        //                    float facing = (Vector2.Dot(wantedForward, right) > 0f) ?
-        //                        1f : -1f;
-        //                    if (angleDiff > 0f)
-        //                    {
-        //                        Rotation += Math.Min(angleDiff, facing * elapsedTime *
-        //                            rotationRadiansPerSecond);
-        //                    }
-        //                    // add velocity
-        //                    Velocity += leftStick * (elapsedTime * speed);
-        //                    if (Velocity.Length() > velocityLengthMaximum)
-        //                    {
-        //                        Velocity = Vector2.Normalize(Velocity) *
-        //                            velocityLengthMaximum;
-        //                    }
-
-        //                }
-        //                // check for firing with the right stick
-        //                Vector2 rightStick = currentGamePadState.ThumbSticks.Right;
-        //                rightStick.Y *= -1f;
-        //                if (rightStick.LengthSquared() > fireThresholdSquared)
-        //                {
-        //                    //weapon.Fire(Vector2.Normalize(rightStick));
-        //                }
-        //                // check for laying mines
-        //                if ((currentGamePadState.Buttons.B == ButtonState.Pressed) &&
-        //                    (lastGamePadState.Buttons.B == ButtonState.Released))
-        //                {
-        //                    // fire behind the ship
-        //                    mineWeapon.Fire(forward);
-        //                }
-        //                // Apply positive or negative force to 
-        //                // the exterior of the nano bot
-        //                if (currentGamePadState.Triggers.Right != 0)
-        //                {
-        //                    negativeCharge = true;
-        //                }
-        //                else if (currentGamePadState.Triggers.Right == 0)
-        //                {
-        //                    negativeCharge = false;
-        //                }
-        //                if (currentGamePadState.Triggers.Left != 0)
-        //                {
-        //                    positiveCharge = true;
-        //                }
-        //                else if (currentGamePadState.Triggers.Left == 0)
-        //                {
-        //                    positiveCharge = false;
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //    // update the gamepad state
-        //    lastGamePadState = currentGamePadState;
-        //    return;
-
-
         /// <summary>        
         /// Process the input for this ship, from the gamepad assigned to it.        
         /// </summary>        
-        /// <param name="elapsedTime">The amount of elapsed time, in seconds.</param>        
-        /// <para        
+        /// <param name="elapsedTime">The amount of elapsed time, in seconds.</param>  
         public virtual void ProcessInput(float elapsedTime, bool overlayPresent)        
         {            
             currentGamePadState = GamePad.GetState(playerIndex);
@@ -1441,7 +1539,7 @@ namespace FreeRadicals.Gameplay
 	            {                  
                     // trying to join - update the a-button timer              
                     if ((currentGamePadState.Buttons.A == ButtonState.Pressed) || 
-                        ( currentKeyboardState.IsKeyDown(Keys.A) && playerIndex == PlayerIndex.Two ) )      
+                        ( currentKeyboardState.IsKeyDown(Keys.A) && playerIndex == PlayerIndex.One ) )      
                     {                   
                         aButtonTimer += elapsedTime;     
                     }
@@ -1459,7 +1557,7 @@ namespace FreeRadicals.Gameplay
 			     {                
 			        // check if we're trying to leave  
 			        if ((currentGamePadState.Buttons.B == ButtonState.Pressed) || 
-                        ( currentKeyboardState.IsKeyDown(Keys.B) && playerIndex == PlayerIndex.Two ) )     
+                        ( currentKeyboardState.IsKeyDown(Keys.B) && playerIndex == PlayerIndex.One ) )     
 				    {                     
 				        bButtonTimer += elapsedTime;       
 				    }              
@@ -1503,7 +1601,7 @@ namespace FreeRadicals.Gameplay
 								Velocity = Vector2.Normalize(Velocity) * velocityLengthMaximum;      
 							}                       
 						}                      
-						else if ( currentKeyboardState != null && playerIndex == PlayerIndex.Two )   
+						else if ( currentKeyboardState != null && playerIndex == PlayerIndex.One )   
 						{                   
 							// Rotate Left                        
 							if (currentKeyboardState.IsKeyDown(Keys.Left))       
@@ -1531,13 +1629,13 @@ namespace FreeRadicals.Gameplay
 				            if (currentKeyboardState.IsKeyDown(Keys.RightControl)) 
 					        {                                
 					            // fire ahead of us                              
-					            //weapon.Fire(Vector2.Normalize(forward));              
+					            weapon.Fire(Vector2.Normalize(forward));              
 					        }                           
 					        // Lets drop some Mines                  
 					        if (currentKeyboardState.IsKeyDown(Keys.Down))    
 					        {                            
 					            // fire behind the ship                        
-					            //mineWeapon.Fire(forward);                  
+                                ambWeapon.Fire(forward);                  
 					        }                      
 						}                      
 				        // check for firing with the right stick  
@@ -1552,23 +1650,27 @@ namespace FreeRadicals.Gameplay
 				           (lastGamePadState.Buttons.B == ButtonState.Released))         
 					    {                           
 				           // fire behind the ship          
-				           //mineWeapon.Fire(forward);                     
+                           ambWeapon.Fire(-forward);                     
                         }
                         // Apply positive or negative force to 
                         // the exterior of the nano bot
-                        if (currentGamePadState.Triggers.Right != 0 || currentKeyboardState.IsKeyDown(Keys.Space))
+                        if (currentGamePadState.Triggers.Right != 0 || 
+                            (currentKeyboardState.IsKeyDown(Keys.Space) && playerIndex == PlayerIndex.One ))
                         {
                             negativeCharge = true;
                         }
-                        else if (currentGamePadState.Triggers.Right == 0 || currentKeyboardState.IsKeyUp(Keys.Space))
+                        else if (currentGamePadState.Triggers.Right == 0 || 
+                            (currentKeyboardState.IsKeyUp(Keys.Space) && playerIndex == PlayerIndex.One))
                         {
                             negativeCharge = false;
                         }
-                        if (currentGamePadState.Triggers.Left != 0 || currentKeyboardState.IsKeyDown(Keys.LeftAlt))
+                        if (currentGamePadState.Triggers.Left != 0 || 
+                            (currentKeyboardState.IsKeyDown(Keys.LeftAlt) && playerIndex == PlayerIndex.One ) )
                         {
                             positiveCharge = true;
                         }
-                        else if (currentGamePadState.Triggers.Left == 0 || currentKeyboardState.IsKeyUp(Keys.LeftAlt))
+                        else if (currentGamePadState.Triggers.Left == 0 || 
+                            (currentKeyboardState.IsKeyUp(Keys.LeftAlt) && playerIndex == PlayerIndex.One))
                         {
                             positiveCharge = false;
                         }
@@ -1584,3 +1686,42 @@ namespace FreeRadicals.Gameplay
         #endregion
     }
 }
+
+
+//protected override void Draw(GameTime gameTime)
+//{
+//GraphicsDevice device = graphics.GraphicsDevice;
+
+//device.Clear(Color.CornflowerBlue);
+
+//spriteBatch.Begin();
+
+//// draw the tank, cat and mouse...
+//spriteBatch.Draw(tankTexture, tankPosition, null, Color.White,
+//tankOrientation, tankTextureCenter, 1.0f, SpriteEffects.None, 0.0f);
+//spriteBatch.Draw(catTexture, catPosition, null, Color.White,
+//0.0f, catTextureCenter, 1.0f, SpriteEffects.None, 0.0f);
+//spriteBatch.Draw(mouseTexture, mousePosition, null, Color.White,
+//mouseOrientation, mouseTextureCenter, 1.0f, SpriteEffects.None, 0.0f);
+
+//// and then draw some text showing the tank's and mouse's current state.
+//// to make the text stand out more, we'll draw the text twice, once black
+//// and once white, to create a drop shadow effect.
+//Vector2 shadowOffset = Vector2.One;
+
+//spriteBatch.DrawString(spriteFont, "Tank State: " + tankState.ToString(),
+//new Vector2(50, 50) + shadowOffset, Color.Black);
+//spriteBatch.DrawString(spriteFont, "Tank State: " + tankState.ToString(),
+//new Vector2(50, 50), Color.White);
+
+//spriteBatch.DrawString(spriteFont, "Mouse State: " + mouseState.ToString(),
+//new Vector2(50, 75) + shadowOffset, Color.Black);
+//spriteBatch.DrawString(spriteFont, "Mouse State: " + mouseState.ToString(),
+//new Vector2(50, 75), Color.White);
+
+//spriteBatch.End();
+
+//base.Draw(gameTime);
+//}
+//thats got the tex tthing in it there
+//spriteBatch.DrawString(spriteFont, "Tank State: " + tankState.ToString(),

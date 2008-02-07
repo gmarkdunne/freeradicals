@@ -1,6 +1,7 @@
 #region Using Statements
 using System;
 using System.Collections;
+using FreeRadicals.Simulation;
 #endregion
 
 namespace FreeRadicals
@@ -31,7 +32,8 @@ namespace FreeRadicals
         /// <summary>
         /// Constructs a new collection.
         /// </summary>
-        /// <param name="world">The world this particle system resides in.</param>
+        /// <param name="world"> The world this particle system resides in.</param>
+        /// 
         public CollectCollection(World world)
         {
             this.world = world;

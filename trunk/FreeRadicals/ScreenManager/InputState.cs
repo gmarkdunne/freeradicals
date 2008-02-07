@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 #endregion
 
-namespace FreeRadicals
+namespace FreeRadicals.ScreenManager
 {
     /// <summary>
     /// Helper for reading input from keyboard and gamepad. This class tracks both

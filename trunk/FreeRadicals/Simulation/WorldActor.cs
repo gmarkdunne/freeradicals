@@ -2,7 +2,7 @@
 using System;
 #endregion
 
-namespace FreeRadicals
+namespace FreeRadicals.Simulation
 {
     /// <summary>
     /// An actor that stands in for the world, in wall collisions, etc.

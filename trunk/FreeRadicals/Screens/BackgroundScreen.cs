@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using FreeRadicals.Rendering;
 #endregion
 
-namespace FreeRadicals
+namespace FreeRadicals.Screens
 {
     /// <summary>
     /// The background screen sits behind all the other menu screens.
@@ -17,18 +18,18 @@ namespace FreeRadicals
     /// This class is somewhat similar to one of the same name in the 
     /// GameStateManagement sample.
     /// </remarks>
-    class BackgroundScreen : GameScreen
+    class BackgroundScreen : ScreenManager.GameScreen
     {
         #region Fields
         Random random;
-        CollectCollection<ParticleSystem> particleSystems;
+        CollectCollection<Rendering.ParticleSystem> particleSystems;
         float addTimer;
         Color[] explosionColors = new Color[] 
             {
                 Color.Red, Color.Red, Color.Silver, Color.Gray, Color.Orange, 
                 Color.Yellow 
             };
-        LineBatch lineBatch;
+        Rendering.LineBatch lineBatch;
         Texture2D titleTexture;
 
         // Effect

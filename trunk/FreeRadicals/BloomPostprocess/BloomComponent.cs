@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 #endregion
 
-namespace FreeRadicals
+namespace FreeRadicals.BloomPostprocess
 {
     /// <summary>
     /// A DrawableGameComponent that will add bloom post-processing to what the previous

@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 #endregion
 
-namespace FreeRadicals
+namespace FreeRadicals.Simulation
 {
     /// <summary>
     /// A base class for all active objects in the game.
@@ -42,7 +42,7 @@ namespace FreeRadicals
         protected float collisionRadius = 16f;
 
         // visual data
-        protected VectorPolygon polygon = null;
+        protected Rendering.VectorPolygon polygon = null;
         protected Color color = Color.White;
         protected bool useMotionBlur = WorldRules.MotionBlur;
         protected Random random = new Random();
@@ -50,7 +50,7 @@ namespace FreeRadicals
 
         #region AI Related Stuff
         protected float HP = 100;
-        protected BasicModelAgent agent;
+        protected CustomAI.BasicModelAgent agent;
         public string State
         {
             get { return agent.State().Substring(23); }
@@ -58,9 +58,14 @@ namespace FreeRadicals
         #endregion
 
         #region Properties
-        public BasicModelAgent Agent
+        public CustomAI.BasicModelAgent Agent
         {
             get { return agent; }
+        }
+
+        public float Life
+        {
+            get { return life; }
         }
 
         public World World
@@ -228,7 +233,7 @@ namespace FreeRadicals
         /// </summary>
         /// <param name="elapsedTime">The amount of elapsed time, in seconds.</param>
         /// <param name="lineBatch">The LineBatch to render to.</param>
-        public virtual void Draw(float elapsedTime, LineBatch lineBatch)
+        public virtual void Draw(float elapsedTime, Rendering.LineBatch lineBatch)
         {
             if (polygon != null)
             {

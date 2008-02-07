@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
+using FreeRadicals.Screens;
+using FreeRadicals.Simulation;
 #endregion
 
 namespace FreeRadicals
@@ -18,7 +20,7 @@ namespace FreeRadicals
     {
         GraphicsDeviceManager graphics;
 
-        ScreenManager screenManager;
+        ScreenManager.ScreenManager screenManager;
         AudioManager audioManager;
 
         bool fullScreen = WorldRules.FullScreen;
@@ -52,7 +54,7 @@ namespace FreeRadicals
             }    
 
             // create the screen manager
-            screenManager = new ScreenManager(this);
+            screenManager = new ScreenManager.ScreenManager(this);
             Components.Add(screenManager);
 
             // create the audio manager
