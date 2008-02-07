@@ -132,125 +132,192 @@ namespace FreeRadicals.Simulation
         /// Cached list of collision results, for more optimal collision detection.
         /// </summary>
         List<CollisionResult> collisionResults = new List<CollisionResult>();
+        #endregion
+
+        #region Particle Colors
+        /// <summary>
+        /// Particle system colors effect for CFC1.
+        /// </summary>
+        static readonly Color[] aMBColor = 
+        { 
+            Color.White, Color.Gray,
+            Color.Gold, Color.Silver
+        };
+        public Color[] AMBColor
+        {
+            get { return aMBColor; }
+        }
 
         /// <summary>
         /// Particle system colors effect for CFC1.
         /// </summary>
-        static readonly Color[] CFC1Color = 
+        static readonly Color[] cFC1Color = 
         { 
             Color.White, Color.Gray, Color.Purple, 
             Color.Purple, Color.Green, Color.Green,
             Color.Gold, Color.Silver
         };
-
+        public Color[] CFC1Color
+        {
+            get { return cFC1Color; }
+        }
+        
         /// <summary>
         /// Particle system colors effect for CFC2.
         /// </summary>
-        static readonly Color[] CFC2Color = 
+        static readonly Color[] cFC2Color = 
         { 
             Color.White, Color.Gray, Color.Purple, 
             Color.Green, Color.Green, Color.Green,
             Color.Gold, Color.Silver
         };
+        public Color[] CFC2Color
+        {
+            get { return cFC2Color; }
+        }
 
         /// <summary>
         /// Particle system colors effect for NO.
         /// </summary>
-        static readonly Color[] NOColor = 
+        static readonly Color[] nOColor = 
         { 
             Color.White, Color.Red, Color.Blue, 
             Color.Gold, Color.Silver
         };
+        public Color[] NOColor
+        {
+            get { return nOColor; }
+        }
 
         /// <summary>
         /// Particle system colors effect for OH.
         /// </summary>
-        static readonly Color[] OHColor = 
+        static readonly Color[] oHColor = 
         { 
             Color.White, Color.Red, Color.Yellow, 
             Color.Gold, Color.Silver
         };
+        public Color[] OHColor
+        {
+            get { return oHColor; }
+        }
 
         /// <summary>
         /// Particle system colors effect for O2.
         /// </summary>
-        static readonly Color[] O2Color = 
+        static readonly Color[] o2Color = 
         { 
             Color.White, Color.Red, Color.Red, 
             Color.Gold, Color.Silver
         };
+        public Color[] O2Color
+        {
+            get { return o2Color; }
+        }
 
         /// <summary>
         /// Particle system colors effect for N2.
         /// </summary>
-        static readonly Color[] N2Color = 
+        static readonly Color[] n2Color = 
         { 
             Color.White, Color.Blue, Color.Blue, 
             Color.Gold, Color.Silver
         };
+        public Color[] N2Color
+        {
+            get { return n2Color; }
+        }
 
         /// <summary>
         /// Particle system colors effect for CH2.
         /// </summary>
-        static readonly Color[] CH2Color = 
+        static readonly Color[] cH2Color = 
         { 
             Color.White, Color.Gray, Color.Yellow, Color.Yellow, 
             Color.Gold, Color.Silver
         };
+        public Color[] CH2Color
+        {
+            get { return cH2Color; }
+        }
 
         /// <summary>
         /// Particle system colors effect for CH4.
         /// </summary>
-        static readonly Color[] CH4Color = 
+        static readonly Color[] cH4Color = 
         { 
             Color.White, Color.Gray, Color.Yellow, Color.Yellow, 
             Color.Yellow, Color.Yellow, Color.Gold, Color.Silver
         };
+        public Color[] CH4Color
+        {
+            get { return cH4Color; }
+        }
 
         /// <summary>
         /// Particle system colors effect for HH.
         /// </summary>
-        static readonly Color[] HHColor = 
+        static readonly Color[] hHColor = 
         { 
             Color.White, Color.Yellow, Color.Yellow, 
             Color.Gold, Color.Silver
         };
+        public Color[] HHColor
+        {
+            get { return hHColor; }
+        }
 
         /// <summary>
         /// Particle system colors effect for H2.
         /// </summary>
-        static readonly Color[] H2OColor = 
+        static readonly Color[] h2OColor = 
         { 
             Color.White, Color.Red, Color.Red, 
             Color.Yellow, Color.Gold, Color.Silver
         };
+        public Color[] H2OColor
+        {
+            get { return h2OColor; }
+        }
 
         /// <summary>
         /// Particle system colors effect for O3.
         /// </summary>
-        static readonly Color[] O3Color = 
+        static readonly Color[] o3Color = 
         { 
             Color.White, Color.Red, Color.Red, 
             Color.Red, Color.Gold, Color.Silver
         };
+        public Color[] O3Color
+        {
+            get { return o3Color; }
+        }
 
         /// <summary>
         /// Particle system colors effect for CO2.
         /// </summary>
-        static readonly Color[] CO2Color = 
+        static readonly Color[] cO2Color = 
         { 
             Color.White, Color.Red, Color.Gray, 
             Color.Gray, Color.Gold, Color.Silver
         };
+        public Color[] CO2Color
+        {
+            get { return cO2Color; }
+        }
 
         /// <summary>
         /// Particle system colors effect for N2O.
         /// </summary>
-        static readonly Color[] N2OColor = 
+        static readonly Color[] n2OColor = 
         { 
             Color.White, Color.Red, Color.Blue, 
             Color.Blue, Color.Gold, Color.Silver
         };
+        public Color[] N2OColor
+        {
+            get { return n2OColor; }
+        }
         #endregion
 
         #region Properties
@@ -429,15 +496,20 @@ namespace FreeRadicals.Simulation
             // spawn the repel points
             SpawnRepelPointsOne();
             SpawnRepelPointsTwo();
+            SpawnRepelPointsThree();
+            SpawnRepelPointsFour();
+            SpawnRepelPointsFive();
+            SpawnRepelPointsSix();
 
             // spawn atoms density
-            SpawnGreenHouseGases(25, 5, 5, 5, 5);
+            SpawnGreenHouseGases(25, 0, 0, 0, 0);
 
             // set up the atmosphere
             atmosphere.SetTargetPosition(dimensions);
         }
+        #endregion
 
-
+        #region Spawn Molecules Groups
         /// <summary>
         /// Create many asteroids and add them to the game world.
         /// </summary>
@@ -603,8 +675,9 @@ namespace FreeRadicals.Simulation
                 methylene.Spawn(true);
             }
         }
+        #endregion
 
-
+        #region Spawning
         /// <summary>
         /// Create a new power-up in the world, if possible
         /// </summary>
@@ -612,7 +685,7 @@ namespace FreeRadicals.Simulation
         {
             for (int i = 0; i < actors.Count; ++i)
             {
-                if (freeRadicalCount >= 5)
+                if (freeRadicalCount >= 3)
                 {
                     return;
                 }
@@ -622,22 +695,22 @@ namespace FreeRadicals.Simulation
                 case 0:
                     NitricOxide p = new NitricOxide(this);
                     p.Spawn(false);
-                    p.Position = new Vector2(900f, 1470f);
+                    p.Position = new Vector2(960f, 1500f);
                     break;
                 case 1:
                     CFC1 q = new CFC1(this);
                     q.Spawn(false);
-                    q.Position = new Vector2(1100f, 1470f);
+                    q.Position = new Vector2(960f, 1550f);
                     break;
                 case 2:
-                    CFC1 w = new CFC1(this);
+                    CFC2 w = new CFC2(this);
                     w.Spawn(false);
-                    w.Position = new Vector2(1300f, 1470f);
+                    w.Position = new Vector2(960f, 1600f);
                     break;
                 case 3:
                     Hydroxyl e = new Hydroxyl(this);
                     e.Spawn(false);
-                    e.Position = new Vector2(1500f, 1470f);
+                    e.Position = new Vector2(960f, 1650f);
                     break;
             }
         }
@@ -650,44 +723,41 @@ namespace FreeRadicals.Simulation
         {
             for (int i = 0; i < actors.Count; ++i)
             {
-                if (greenhouseGasesCount >= 25)
+                if (greenhouseGasesCount >= 15)
                 {
                     return;
                 }
             }
-            switch (random.Next(5))
+            switch (random.Next(4))
             {
                 case 0:
                     Water p = new Water(this);
                     p.Spawn(false);
-                    p.Position = new Vector2(500f, 1550f);
+                    p.Position = new Vector2(960f, 1450f);
                     break;
                 case 1:
                     CarbonDioxide q = new CarbonDioxide(this);
                     q.Spawn(false);
-                    q.Position = new Vector2(750f, 1550f);
+                    q.Position = new Vector2(960f, 1500f);
                     break;
                 case 2:
                     NitrousOxide w = new NitrousOxide(this);
                     w.Spawn(false);
-                    w.Position = new Vector2(1000f, 1550f);
+                    w.Position = new Vector2(960f, 1550f);
                     break;
                 case 3:
                     Methane e = new Methane(this);
                     e.Spawn(false);
-                    e.Position = new Vector2(1250f, 1550f);
-                    break;
-                case 4:
-                    Ozone v = new Ozone(this);
-                    v.Spawn(false);
-                    v.Position = new Vector2(1500f, 1550f);
+                    e.Position = new Vector2(960f, 1600f);
                     break;
             }
         }
+        
+        #endregion
 
-
+        #region Poles & Points
         /// <summary>
-        /// Create a repel points one
+        /// Create a repel one points
         /// </summary>
         public void SpawnRepelPointsOne()
         {
@@ -723,31 +793,31 @@ namespace FreeRadicals.Simulation
             // Bottom Side
             One bs0 = new One(this);
             bs0.Spawn(false);
-            bs0.Position = new Vector2(0, 1400f);
+            bs0.Position = new Vector2(0, 2000f);
             One bs1 = new One(this);
             bs1.Spawn(false);
-            bs1.Position = new Vector2(250f, 1400f);
+            bs1.Position = new Vector2(250f, 2000f);
             One bs2 = new One(this);
             bs2.Spawn(false);
-            bs2.Position = new Vector2(500f, 1400f);
+            bs2.Position = new Vector2(500f, 2000f);
             One bs3 = new One(this);
             bs3.Spawn(false);
-            bs3.Position = new Vector2(750f, 1400f);
+            bs3.Position = new Vector2(750f, 2000f);
             One bs4 = new One(this);
             bs4.Spawn(false);
-            bs4.Position = new Vector2(1000f, 1400f);
+            bs4.Position = new Vector2(1000f, 2000f);
             One bs5 = new One(this);
             bs5.Spawn(false);
-            bs5.Position = new Vector2(1250f, 1400f);
+            bs5.Position = new Vector2(1250f, 2000f);
             One bs6 = new One(this);
             bs6.Spawn(false);
-            bs6.Position = new Vector2(1500f, 1400f);
+            bs6.Position = new Vector2(1500f, 2000f);
             One bs7 = new One(this);
             bs7.Spawn(false);
-            bs7.Position = new Vector2(1750f, 1400f);
+            bs7.Position = new Vector2(1750f, 2000f);
             One bs8 = new One(this);
             bs8.Spawn(false);
-            bs8.Position = new Vector2(2000f, 1400f);
+            bs8.Position = new Vector2(2000f, 2000f);
 
             // Left Side
             One ls0 = new One(this);
@@ -792,7 +862,7 @@ namespace FreeRadicals.Simulation
 
 
         /// <summary>
-        /// Create a repel points one
+        /// Create a repel two points
         /// </summary>
         public void SpawnRepelPointsTwo()
         {
@@ -824,6 +894,35 @@ namespace FreeRadicals.Simulation
             Two ts8 = new Two(this);
             ts8.Spawn(false);
             ts8.Position = new Vector2(2000f, -200f);
+
+            // Bottom Side
+            Two bs0 = new Two(this);
+            bs0.Spawn(false);
+            bs0.Position = new Vector2(0, 2200f);
+            Two bs1 = new Two(this);
+            bs1.Spawn(false);
+            bs1.Position = new Vector2(250f, 2200f);
+            Two bs2 = new Two(this);
+            bs2.Spawn(false);
+            bs2.Position = new Vector2(500f, 2200f);
+            Two bs3 = new Two(this);
+            bs3.Spawn(false);
+            bs3.Position = new Vector2(750f, 2200f);
+            Two bs4 = new Two(this);
+            bs4.Spawn(false);
+            bs4.Position = new Vector2(1000f, 2200f);
+            Two bs5 = new Two(this);
+            bs5.Spawn(false);
+            bs5.Position = new Vector2(1250f, 2200f);
+            Two bs6 = new Two(this);
+            bs6.Spawn(false);
+            bs6.Position = new Vector2(1500f, 2200f);
+            Two bs7 = new Two(this);
+            bs7.Spawn(false);
+            bs7.Position = new Vector2(1750f, 2200f);
+            Two bs8 = new Two(this);
+            bs8.Spawn(false);
+            bs8.Position = new Vector2(2000f, 2200f);
 
             // Left Side
             Two ls0 = new Two(this);
@@ -886,6 +985,216 @@ namespace FreeRadicals.Simulation
 
 
         /// <summary>
+        /// Create a repel three points
+        /// </summary>
+        public void SpawnRepelPointsThree()
+        {
+            // Top Side
+            Three ts0 = new Three(this);
+            ts0.Spawn(false);
+            ts0.Position = new Vector2(0, -200f);
+            Three ts1 = new Three(this);
+            ts1.Spawn(false);
+            ts1.Position = new Vector2(250f, -200f);
+            Three ts2 = new Three(this);
+            ts2.Spawn(false);
+            ts2.Position = new Vector2(500f, -200f);
+            Three ts3 = new Three(this);
+            ts3.Spawn(false);
+            ts3.Position = new Vector2(750f, -200f);
+            Three ts4 = new Three(this);
+            ts4.Spawn(false);
+            ts4.Position = new Vector2(1000f, -200f);
+            Three ts5 = new Three(this);
+            ts5.Spawn(false);
+            ts5.Position = new Vector2(1250f, -200f);
+            Three ts6 = new Three(this);
+            ts6.Spawn(false);
+            ts6.Position = new Vector2(1500f, -200f);
+            Three ts7 = new Three(this);
+            ts7.Spawn(false);
+            ts7.Position = new Vector2(1750f, -200f);
+            Three ts8 = new Three(this);
+            ts8.Spawn(false);
+            ts8.Position = new Vector2(2000f, -200f);
+
+            // Bottom Side
+            Three bs0 = new Three(this);
+            bs0.Spawn(false);
+            bs0.Position = new Vector2(0, 2200f);
+            Three bs1 = new Three(this);
+            bs1.Spawn(false);
+            bs1.Position = new Vector2(250f, 2200f);
+            Three bs2 = new Three(this);
+            bs2.Spawn(false);
+            bs2.Position = new Vector2(500f, 2200f);
+            Three bs3 = new Three(this);
+            bs3.Spawn(false);
+            bs3.Position = new Vector2(750f, 2200f);
+            Three bs4 = new Three(this);
+            bs4.Spawn(false);
+            bs4.Position = new Vector2(1000f, 2200f);
+            Three bs5 = new Three(this);
+            bs5.Spawn(false);
+            bs5.Position = new Vector2(1250f, 2200f);
+            Three bs6 = new Three(this);
+            bs6.Spawn(false);
+            bs6.Position = new Vector2(1500f, 2200f);
+            Three bs7 = new Three(this);
+            bs7.Spawn(false);
+            bs7.Position = new Vector2(1750f, 2200f);
+            Three bs8 = new Three(this);
+            bs8.Spawn(false);
+            bs8.Position = new Vector2(2000f, 2200f);
+
+            // Left Side
+            Three ls0 = new Three(this);
+            ls0.Spawn(false);
+            ls0.Position = new Vector2(-200f, 0);
+            Three ls1 = new Three(this);
+            ls1.Spawn(false);
+            ls1.Position = new Vector2(-200f, 250f);
+            //Three ls2 = new Three(this);
+            //ls2.Spawn(false);
+            //ls2.Position = new Vector2(-200f, 500f);
+            //Three ls3 = new Three(this);
+            //ls3.Spawn(false);
+            //ls3.Position = new Vector2(-200f, 750f);
+            Three ls4 = new Three(this);
+            ls4.Spawn(false);
+            ls4.Position = new Vector2(-200f, 1000f);
+            Three ls5 = new Three(this);
+            ls5.Spawn(false);
+            ls5.Position = new Vector2(-200f, 1250f);
+            Three ls6 = new Three(this);
+            ls6.Spawn(false);
+            ls6.Position = new Vector2(-200f, 1500f);
+            Three ls7 = new Three(this);
+            ls7.Spawn(false);
+            ls7.Position = new Vector2(-200f, 1750f);
+            Three ls8 = new Three(this);
+            ls8.Spawn(false);
+            ls8.Position = new Vector2(-200f, 2000f);
+
+            // Right Side
+            Three rs0 = new Three(this);
+            rs0.Spawn(false);
+            rs0.Position = new Vector2(2120f, 0f);
+            Three rs1 = new Three(this);
+            rs1.Spawn(false);
+            rs1.Position = new Vector2(2120f, 250f);
+            //Three rs2 = new Three(this);
+            //rs2.Spawn(false);
+            //rs2.Position = new Vector2(2120f, 500f);
+            //Three rs3 = new Three(this);
+            //rs3.Spawn(false);
+            //rs3.Position = new Vector2(2120f, 750f);
+            Three rs4 = new Three(this);
+            rs4.Spawn(false);
+            rs4.Position = new Vector2(2120f, 1000f);
+            Three rs5 = new Three(this);
+            rs5.Spawn(false);
+            rs5.Position = new Vector2(2120f, 1250f);
+            Three rs6 = new Three(this);
+            rs6.Spawn(false);
+            rs6.Position = new Vector2(2120f, 1500f);
+            Three rs7 = new Three(this);
+            rs7.Spawn(false);
+            rs7.Position = new Vector2(2120f, 1750f);
+            Three rs8 = new Three(this);
+            rs8.Spawn(false);
+            rs8.Position = new Vector2(2120f, 2000f);
+        }
+
+
+        /// <summary>
+        /// Create a repel four points
+        /// </summary>
+        public void SpawnRepelPointsFour()
+        {
+            // Left Side
+            Four ls1 = new Four(this);
+            ls1.Spawn(false);
+            ls1.Position = new Vector2(-300f, 250f);
+            Four ls2 = new Four(this);
+            ls2.Spawn(false);
+            ls2.Position = new Vector2(-300f, 500f);
+            Four ls3 = new Four(this);
+            ls3.Spawn(false);
+            ls3.Position = new Vector2(-300f, 750f);
+
+            // Right Side
+            Four rs1 = new Four(this);
+            rs1.Spawn(false);
+            rs1.Position = new Vector2(2220f, 250f);
+            Four rs2 = new Four(this);
+            rs2.Spawn(false);
+            rs2.Position = new Vector2(2220f, 500f);
+            Four rs3 = new Four(this);
+            rs3.Spawn(false);
+            rs3.Position = new Vector2(2220f, 750f);
+        }
+
+
+        /// <summary>
+        /// Create a repel five points
+        /// </summary>
+        public void SpawnRepelPointsFive()
+        {
+
+            // Bottom Side
+            Five bs1 = new Five(this);
+            bs1.Spawn(false);
+            bs1.Position = new Vector2(250f, 1750f);
+            Five bs2 = new Five(this);
+            bs2.Spawn(false);
+            bs2.Position = new Vector2(750f, 1750f);
+            Five bs3 = new Five(this);
+            bs3.Spawn(false);
+            bs3.Position = new Vector2(1250f, 1750f);
+            Five bs4 = new Five(this);
+            bs4.Spawn(false);
+            bs4.Position = new Vector2(1750f, 1750f);
+        }
+
+
+        /// <summary>
+        /// Create a repel six points
+        /// </summary>
+        public void SpawnRepelPointsSix()
+        {
+            // Top Side
+            //Six ts0 = new Six(this);
+            //ts0.Spawn(false);
+            //ts0.Position = new Vector2(0, -200f);
+            Six ts1 = new Six(this);
+            ts1.Spawn(false);
+            ts1.Position = new Vector2(250f, -200f);
+            //Six ts2 = new Six(this);
+            //ts2.Spawn(false);
+            //ts2.Position = new Vector2(500f, -200f);
+            Six ts3 = new Six(this);
+            ts3.Spawn(false);
+            ts3.Position = new Vector2(750f, -200f);
+            //Six ts4 = new Six(this);
+            //ts4.Spawn(false);
+            //ts4.Position = new Vector2(1000f, -200f);
+            Six ts5 = new Six(this);
+            ts5.Spawn(false);
+            ts5.Position = new Vector2(1250f, -200f);
+            //Six ts6 = new Six(this);
+            //ts6.Spawn(false);
+            //ts6.Position = new Vector2(1500f, -200f);
+            Six ts7 = new Six(this);
+            ts7.Spawn(false);
+            ts7.Position = new Vector2(1750f, -200f);
+            //Six ts8 = new Six(this);
+            //ts8.Spawn(false);
+            //ts8.Position = new Vector2(2000f, -200f);
+        }
+
+
+        /// <summary>
         /// Create a new power-up in the world, if possible
         /// </summary>
         public void SpawnPoles()
@@ -923,6 +1232,16 @@ namespace FreeRadicals.Simulation
             South south = new South(this);
             south.Spawn(true);
             south.Position = new Vector2(1000f, 2000f);
+
+            // West Pole
+            West west = new West(this);
+            west.Spawn(true);
+            west.Position = new Vector2(-500f, 500f);
+
+            // East Pole
+            East east = new East(this);
+            east.Spawn(true);
+            east.Position = new Vector2(2420f, 500f);
         }        
         #endregion
 
@@ -1327,7 +1646,7 @@ namespace FreeRadicals.Simulation
                 deuterium.Velocity = vel;
                 deuterium.Direction = dir;
                 ParticleSystems.Add(new ParticleSystem(pos,
-                    dir, 16, 32f, 64f, 2f, 0.05f, Color.Yellow));
+                    dir, 16, 32f, 64f, 2f, 0.05f, hHColor));
                 deadH = 0;
             }
         }
@@ -1345,7 +1664,7 @@ namespace FreeRadicals.Simulation
             H2.Velocity = vel * 2f;
             H2.Direction = dir * 2f;
             ParticleSystems.Add(new ParticleSystem(pos,
-                dir, 16, 32f, 64f, 2f, 0.05f, Color.Yellow));
+                dir, 16, 32f, 64f, 2f, 0.05f, hHColor));
         }
         public void BondNitrogenTwo(Actor nitrogen1, Actor nitrogen2, int N)
         {
@@ -1363,7 +1682,7 @@ namespace FreeRadicals.Simulation
                 nitrogenTwo.Velocity = vel;
                 nitrogenTwo.Direction = dir;
                 ParticleSystems.Add(new ParticleSystem(pos,
-                    dir, 36, 64f, 128f, 2f, 0.05f, Color.Blue));
+                    dir, 36, 64f, 128f, 2f, 0.05f, n2Color));
                 deadN = 0;
             }
         }
@@ -1381,12 +1700,12 @@ namespace FreeRadicals.Simulation
             N2.Velocity = vel * 2f;
             N2.Direction = dir * 2f;
             ParticleSystems.Add(new ParticleSystem(pos,
-                dir, 36, 64f, 128f, 2f, 0.05f, Color.Blue));
+                dir, 36, 64f, 128f, 2f, 0.05f, n2Color));
         }
         public void BondOzone(Vector2 pos, Vector2 vel, Vector2 dir)
         {
             ParticleSystems.Add(new ParticleSystem(pos,
-                dir, 36, 64f, 128f, 2f, 0.05f, Color.Red));
+                dir, 36, 64f, 128f, 2f, 0.05f, o3Color));
             Ozone ozone = new Ozone(this);
             ozone.Spawn(false);
             ozone.Position = pos;
@@ -1396,7 +1715,7 @@ namespace FreeRadicals.Simulation
         public void UnbondOzone(Vector2 pos, Vector2 vel, Vector2 dir)
         {
             ParticleSystems.Add(new ParticleSystem(pos,
-                dir, 36, 64f, 128f, 2f, 0.05f, Color.Red));
+                dir, 36, 64f, 128f, 2f, 0.05f, o3Color));
             OxygenTwo oxygenTwo = new OxygenTwo(this);
             oxygenTwo.Spawn(false);
             oxygenTwo.Position = pos;
@@ -1406,8 +1725,8 @@ namespace FreeRadicals.Simulation
             oxygen.Spawn(false);
             Vector2 newPos = new Vector2(70f, 0);
             oxygen.Position = pos + newPos;
-            oxygen.Velocity = vel * 2f;
-            oxygen.Direction = dir * 2f;
+            oxygen.Velocity = vel * 0.5f;
+            oxygen.Direction = dir * 0.5f;
         }
         public void BondCarbonDioxide(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1417,7 +1736,7 @@ namespace FreeRadicals.Simulation
             CO2.Velocity = vel;
             CO2.Direction = dir;
             ParticleSystems.Add(new ParticleSystem(pos,
-                dir, 36, 64f, 128f, 2f, 0.05f, CO2Color));
+                dir, 36, 64f, 128f, 2f, 0.05f, cO2Color));
         }
         public void UnbondCarbonDioxide(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1433,7 +1752,7 @@ namespace FreeRadicals.Simulation
             C.Velocity = vel * 2f;
             C.Direction = dir * 2f;
             ParticleSystems.Add(new ParticleSystem(pos,
-                dir, 36, 64f, 128f, 2f, 0.05f, CO2Color));
+                dir, 36, 64f, 128f, 2f, 0.05f, cO2Color));
         }
         public void BondHydroxyl(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1443,7 +1762,7 @@ namespace FreeRadicals.Simulation
             OH.Velocity = vel;
             OH.Direction = dir;
             ParticleSystems.Add(new ParticleSystem(pos,
-                dir, 36, 64f, 128f, 2f, 0.05f, OHColor));
+                dir, 36, 64f, 128f, 2f, 0.05f, oHColor));
         }
         public void UnbondHydroxyl(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1459,7 +1778,7 @@ namespace FreeRadicals.Simulation
             H.Velocity = vel * 2f;
             H.Direction = dir * 2f;
             ParticleSystems.Add(new ParticleSystem(pos,
-                dir, 36, 64f, 128f, 2f, 0.05f, OHColor));
+                dir, 36, 64f, 128f, 2f, 0.05f, oHColor));
         }
         public void BondNitricOxide(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1469,7 +1788,7 @@ namespace FreeRadicals.Simulation
             NO.Velocity = vel;
             NO.Direction = dir;
             ParticleSystems.Add(new ParticleSystem(pos,
-                dir, 36, 64f, 128f, 2f, 0.05f, NOColor));
+                dir, 36, 64f, 128f, 2f, 0.05f, nOColor));
         }
         public void UnbondNitricOxide(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1485,7 +1804,7 @@ namespace FreeRadicals.Simulation
             N.Velocity = vel * 2f;
             N.Direction = dir * 2f;
             ParticleSystems.Add(new ParticleSystem(pos,
-                dir, 36, 64f, 128f, 2f, 0.05f, NOColor));
+                dir, 36, 64f, 128f, 2f, 0.05f, nOColor));
         }
         public void BondWater(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1495,7 +1814,7 @@ namespace FreeRadicals.Simulation
             H2O.Velocity = vel;
             H2O.Direction = dir;
             ParticleSystems.Add(new ParticleSystem(pos,
-                dir, 36, 64f, 128f, 2f, 0.05f, H2OColor));
+                dir, 36, 64f, 128f, 2f, 0.05f, h2OColor));
         }
         public void UnbondWater(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1511,7 +1830,7 @@ namespace FreeRadicals.Simulation
             D.Velocity = vel * 2f;
             D.Direction = dir * 2f;
             ParticleSystems.Add(new ParticleSystem(pos,
-                dir, 36, 64f, 128f, 2f, 0.05f, H2OColor));
+                dir, 36, 64f, 128f, 2f, 0.05f, h2OColor));
         }
         public void BondMethylene(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1521,7 +1840,7 @@ namespace FreeRadicals.Simulation
             CH2.Velocity = vel;
             CH2.Direction = dir;
             ParticleSystems.Add(new ParticleSystem(pos,
-                dir, 36, 64f, 128f, 2f, 0.05f, CH2Color));
+                dir, 36, 64f, 128f, 2f, 0.05f, cH2Color));
         }
         public void UnbondMethylene(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1537,7 +1856,7 @@ namespace FreeRadicals.Simulation
             D.Velocity = vel * 2f;
             D.Direction = dir * 2f;
             ParticleSystems.Add(new ParticleSystem(pos,
-                dir, 36, 64f, 128f, 2f, 0.05f, CH2Color));
+                dir, 36, 64f, 128f, 2f, 0.05f, cH2Color));
         }
         public void BondMethane(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1547,7 +1866,7 @@ namespace FreeRadicals.Simulation
             CH4.Velocity = vel;
             CH4.Direction = dir;
             ParticleSystems.Add(new ParticleSystem(pos,
-                dir, 36, 64f, 128f, 2f, 0.05f, CH4Color));
+                dir, 36, 64f, 128f, 2f, 0.05f, cH4Color));
         }
         public void UnbondMethane(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1569,7 +1888,7 @@ namespace FreeRadicals.Simulation
             D2.Velocity = vel * 2f;
             D2.Direction = dir * 2f;
             ParticleSystems.Add(new ParticleSystem(pos,
-                dir, 36, 64f, 128f, 2f, 0.05f, CH4Color));
+                dir, 36, 64f, 128f, 2f, 0.05f, cH4Color));
         }
         public void BondNitrousOxide(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1579,7 +1898,7 @@ namespace FreeRadicals.Simulation
             N2O.Velocity = vel;
             N2O.Direction = dir;
             ParticleSystems.Add(new ParticleSystem(pos,
-                dir, 36, 64f, 128f, 2f, 0.05f, N2OColor));
+                dir, 36, 64f, 128f, 2f, 0.05f, n2OColor));
         }
         public void UnbondNitrousOxide(Vector2 pos, Vector2 vel, Vector2 dir)
         {
@@ -1595,9 +1914,8 @@ namespace FreeRadicals.Simulation
             N2.Velocity = vel * 2f;
             N2.Direction = dir * 2f;
             ParticleSystems.Add(new ParticleSystem(pos,
-                dir, 36, 64f, 128f, 2f, 0.05f, N2OColor));
+                dir, 36, 64f, 128f, 2f, 0.05f, n2OColor));
         }
         #endregion
-
     }
 }
