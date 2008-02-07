@@ -18,21 +18,15 @@ namespace FreeRadicals.Screens
     {
         #region Fields
 
-
-        static string[] atomDensity = { "None", "Low", "Medium", "High" };
-        static int currentAtomDensity = 2;
-
-        static string[] wallStyle = { "None", "One", "Two", "Three" };
-        static int currentWallStyle = 0;
+        static string[] screenRes = { "a1920x1200", "b1680x1050", "c1440x900", "d1280x800" };
+        static int currentScreenRes = 0;
 
         static int scoreLimit = 10;
         static bool motionBlur = true;
         static bool neonEffect = true;
         static bool fullScreen = false;
 
-        MenuEntry scoreLimitMenuEntry = new MenuEntry(String.Empty);
-        MenuEntry atomDensityMenuEntry = new MenuEntry(String.Empty);
-        MenuEntry wallStyleMenuEntry = new MenuEntry(String.Empty);
+        MenuEntry screenResMenuEntry = new MenuEntry(String.Empty);
         MenuEntry motionBlurMenuEntry = new MenuEntry(String.Empty);
         MenuEntry neonEffectMenuEntry = new MenuEntry(String.Empty);
         MenuEntry fullScreenMenuEntry = new MenuEntry(String.Empty);
@@ -49,25 +43,20 @@ namespace FreeRadicals.Screens
         /// </summary>
         public OptionsMenuScreen()
         {
-            currentAtomDensity = (int)WorldRules.AtomDensity;
+            currentScreenRes = (int)WorldRules.ScreenRes;
             motionBlur = WorldRules.MotionBlur;
             neonEffect = WorldRules.NeonEffect;
             fullScreen = WorldRules.FullScreen;
-            scoreLimit = WorldRules.ScoreLimit;
 
-            atomDensityMenuEntry.Selected += AtomDensityMenuEntrySelected;
+            screenResMenuEntry.Selected += ScreenResMenuEntrySelected;
             motionBlurMenuEntry.Selected += MotionBlurMenuEntrySelected;
             neonEffectMenuEntry.Selected += NeonEffectMenuEntrySelected;
             fullScreenMenuEntry.Selected += FullScreenMenuEntrySelected;
-            scoreLimitMenuEntry.Selected += ScoreLimitMenuEntrySelected;
-            wallStyleMenuEntry.Selected += WallStyleMenuEntrySelected;
 
-            MenuEntries.Add(atomDensityMenuEntry);
+            MenuEntries.Add(screenResMenuEntry);
             MenuEntries.Add(motionBlurMenuEntry);
             MenuEntries.Add(neonEffectMenuEntry);
             MenuEntries.Add(fullScreenMenuEntry);
-            MenuEntries.Add(scoreLimitMenuEntry);
-            MenuEntries.Add(wallStyleMenuEntry);
         }
 
 
@@ -84,13 +73,11 @@ namespace FreeRadicals.Screens
         {
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
 
-            atomDensityMenuEntry.Text = "Atoms Density : " +
-                atomDensity[currentAtomDensity];
+            screenResMenuEntry.Text = "Screen Resolution : " +
+                screenRes[currentScreenRes];
             motionBlurMenuEntry.Text = "Motion Blur : " + motionBlur.ToString();
             neonEffectMenuEntry.Text = "Neon Effect : " + neonEffect.ToString();
             fullScreenMenuEntry.Text = "Full Screen : " + fullScreen.ToString();
-            //scoreLimitMenuEntry.Text = "Score Limit : " + scoreLimit.ToString();
-            //wallStyleMenuEntry.Text = "Wall Style : " + wallStyle[currentWallStyle];
         }
 
 
@@ -106,21 +93,12 @@ namespace FreeRadicals.Screens
 
 
         /// <summary>
-        /// Event handler for when the Atom Density menu entry is selected.
+        /// Event handler for when the Screen Resolution menu entry is selected.
         /// </summary>
-        void AtomDensityMenuEntrySelected(object sender, EventArgs e)
+        void ScreenResMenuEntrySelected(object sender, EventArgs e)
         {
-            currentAtomDensity = (currentAtomDensity + 1) %
-                atomDensity.Length;
-        }
-
-
-        /// <summary>
-        /// Event handler for when the Wall Style menu entry is selected.
-        /// </summary>
-        void WallStyleMenuEntrySelected(object sender, EventArgs e)
-        {
-            currentWallStyle = (currentWallStyle + 1) % wallStyle.Length;
+            currentScreenRes = (currentScreenRes + 1) %
+                screenRes.Length;
         }
 
 
@@ -155,9 +133,8 @@ namespace FreeRadicals.Screens
         /// </summary>
         protected override void OnCancel()
         {
-            WorldRules.AtomDensity = 
-                (AtomDensity)Enum.Parse(typeof(AtomDensity), 
-                                         atomDensity[currentAtomDensity], true);
+            WorldRules.ScreenRes = (ScreenRes)Enum.Parse(typeof(ScreenRes),
+                screenRes[currentScreenRes], true);
             WorldRules.ScoreLimit = scoreLimit;
             WorldRules.MotionBlur = motionBlur;
             WorldRules.NeonEffect = neonEffect;

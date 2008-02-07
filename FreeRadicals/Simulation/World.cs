@@ -46,6 +46,9 @@ namespace FreeRadicals.Simulation
         #endregion
 
         #region Fields
+        // Resolution Variable
+        float resVar = 1.0f;
+
         // Oxeygen Variables
         int deadO = 0;
         int deadH = 0;
@@ -334,6 +337,13 @@ namespace FreeRadicals.Simulation
         #endregion
 
         #region Properties
+        // Resolution Variable
+        public float ResVar
+        {
+            get { return resVar; }
+            set { resVar = value; }
+        }
+
         public int DeadO
         {
             get { return deadO; }
@@ -461,14 +471,15 @@ namespace FreeRadicals.Simulation
         {
             this.dimensions = dimensions;
             safeDimensions = new Rectangle(
-                (int)(dimensions.X * 0.05f), (int)(dimensions.Y * 0.05f), 
+                (int)(dimensions.X * 0.05f), (int)(dimensions.Y * 0.05f),
                 (int)(dimensions.X * 0.90f), (int)(dimensions.Y * 0.90f));
+
             // create the players
-            nanoBots = new NanoBot[4];
-            nanoBots[0] = new NanoBot(this, PlayerIndex.One);
-            nanoBots[1] = new NanoBot(this, PlayerIndex.Two);
-            nanoBots[2] = new NanoBot(this, PlayerIndex.Three);
-            nanoBots[3] = new NanoBot(this, PlayerIndex.Four);
+            //nanoBots = new NanoBot[4];
+            //nanoBots[0] = new NanoBot(this, PlayerIndex.One);
+            //nanoBots[1] = new NanoBot(this, PlayerIndex.Two);
+            //nanoBots[2] = new NanoBot(this, PlayerIndex.Three);
+            //nanoBots[3] = new NanoBot(this, PlayerIndex.Four);
 
             // create the Atmosphere
             atmosphere = new Atmosphere(atomCount, new Rectangle(
@@ -496,6 +507,31 @@ namespace FreeRadicals.Simulation
             // add the world actor
             WorldActor worldActor = new WorldActor(this);
             actors.Add(worldActor);
+
+            // Spawn Screen Resolution
+            // "a1920x1200", "b1680x1050", "c1440x900", "d1280x800"
+            switch (WorldRules.ScreenRes)
+            {
+                case ScreenRes.a1920x1200:
+                    resVar = 1.0f;
+                    break;
+                case ScreenRes.b1680x1050:
+                    resVar = 0.875f;
+                    break;
+                case ScreenRes.c1440x900:
+                    resVar = 0.75f;
+                    break;
+                case ScreenRes.d1280x800:
+                    resVar = 0.66666f;
+                    break;
+            }
+
+            // create the players
+            nanoBots = new NanoBot[4];
+            nanoBots[0] = new NanoBot(this, PlayerIndex.One);
+            nanoBots[1] = new NanoBot(this, PlayerIndex.Two);
+            nanoBots[2] = new NanoBot(this, PlayerIndex.Three);
+            nanoBots[3] = new NanoBot(this, PlayerIndex.Four);
 
             // add the players to the actor list - they won't be removed
             for (int i = 0; i < nanoBots.Length; i++)
@@ -709,52 +745,52 @@ namespace FreeRadicals.Simulation
                 case 0:
                     NitricOxide p = new NitricOxide(this);
                     p.Spawn(false);
-                    p.Position = new Vector2(950f, 1500f);
+                    p.Position = new Vector2(950f * resVar, 1500f * resVar);
                     break;
                 case 1:
                     CFC1 q = new CFC1(this);
                     q.Spawn(false);
-                    q.Position = new Vector2(950f, 1550f);
+                    q.Position = new Vector2(950f * resVar, 1550f * resVar);
                     break;
                 case 2:
                     CFC2 w = new CFC2(this);
                     w.Spawn(false);
-                    w.Position = new Vector2(950f, 1600f);
+                    w.Position = new Vector2(950f * resVar, 1600f * resVar);
                     break;
                 case 3:
                     Hydroxyl e = new Hydroxyl(this);
                     e.Spawn(false);
-                    e.Position = new Vector2(950f, 1650f);
+                    e.Position = new Vector2(950f * resVar, 1650f * resVar);
                     break;
                 case 4:
                     Ozone f = new Ozone(this);
                     f.Spawn(false);
-                    f.Position = new Vector2(950f, 1650f);
+                    f.Position = new Vector2(950f * resVar, 1650f * resVar);
                     break;
                 case 5:
                     NitricOxide m = new NitricOxide(this);
                     m.Spawn(false);
-                    m.Position = new Vector2(1250f, 1500f);
+                    m.Position = new Vector2(1250f * resVar, 1500f * resVar);
                     break;
                 case 6:
                     CFC1 n = new CFC1(this);
                     n.Spawn(false);
-                    n.Position = new Vector2(1250f, 1550f);
+                    n.Position = new Vector2(1250f * resVar, 1550f * resVar);
                     break;
                 case 7:
                     CFC2 b = new CFC2(this);
                     b.Spawn(false);
-                    b.Position = new Vector2(1250f, 1600f);
+                    b.Position = new Vector2(1250f * resVar, 1600f * resVar);
                     break;
                 case 8:
                     Hydroxyl v = new Hydroxyl(this);
                     v.Spawn(false);
-                    v.Position = new Vector2(1250f, 1650f);
+                    v.Position = new Vector2(1250f * resVar, 1650f * resVar);
                     break;
                 case 9:
                     Ozone c = new Ozone(this);
                     c.Spawn(false);
-                    c.Position = new Vector2(1250f, 1650f);
+                    c.Position = new Vector2(1250f * resVar, 1650f * resVar);
                     break;
             }
         }
@@ -777,52 +813,52 @@ namespace FreeRadicals.Simulation
                 case 0:
                     Water p = new Water(this);
                     p.Spawn(false);
-                    p.Position = new Vector2(950f, 1450f);
+                    p.Position = new Vector2(950f * resVar, 1450f * resVar);
                     break;
                 case 1:
                     CarbonDioxide q = new CarbonDioxide(this);
                     q.Spawn(false);
-                    q.Position = new Vector2(950f, 1500f);
+                    q.Position = new Vector2(950f * resVar, 1500f * resVar);
                     break;
                 case 2:
                     NitrousOxide w = new NitrousOxide(this);
                     w.Spawn(false);
-                    w.Position = new Vector2(950f, 1550f);
+                    w.Position = new Vector2(950f * resVar, 1550f * resVar);
                     break;
                 case 3:
                     Methane e = new Methane(this);
                     e.Spawn(false);
-                    e.Position = new Vector2(950f, 1600f);
+                    e.Position = new Vector2(950f * resVar, 1600f * resVar);
                     break;
                 case 4:
                     Ozone f = new Ozone(this);
                     f.Spawn(false);
-                    f.Position = new Vector2(950f, 1650f);
+                    f.Position = new Vector2(950f * resVar, 1650f * resVar);
                     break;
                 case 5:
                     Water m = new Water(this);
                     m.Spawn(false);
-                    m.Position = new Vector2(1250f, 1450f);
+                    m.Position = new Vector2(1250f * resVar, 1450f * resVar);
                     break;
                 case 6:
                     CarbonDioxide n = new CarbonDioxide(this);
                     n.Spawn(false);
-                    n.Position = new Vector2(1250f, 1500f);
+                    n.Position = new Vector2(1250f * resVar, 1500f * resVar);
                     break;
                 case 7:
                     NitrousOxide b = new NitrousOxide(this);
                     b.Spawn(false);
-                    b.Position = new Vector2(1250f, 1550f);
+                    b.Position = new Vector2(1250f * resVar, 1550f * resVar);
                     break;
                 case 8:
                     Methane v = new Methane(this);
                     v.Spawn(false);
-                    v.Position = new Vector2(1250f, 1600f);
+                    v.Position = new Vector2(1250f * resVar, 1600f * resVar);
                     break;
                 case 9:
                     Ozone c = new Ozone(this);
                     c.Spawn(false);
-                    c.Position = new Vector2(1250f, 1650f);
+                    c.Position = new Vector2(1250f * resVar, 1650f * resVar);
                     break;
             }
         }
@@ -838,100 +874,100 @@ namespace FreeRadicals.Simulation
             // Top Side
             One ts0 = new One(this);
             ts0.Spawn(false);
-            ts0.Position = new Vector2(0, -200f);
+            ts0.Position = new Vector2(0, -200f * resVar);
             One ts1 = new One(this);
             ts1.Spawn(false);
-            ts1.Position = new Vector2(250f, -200f);
+            ts1.Position = new Vector2(250f * resVar, -200f * resVar);
             One ts2 = new One(this);
             ts2.Spawn(false);
-            ts2.Position = new Vector2(500f, -200f);
+            ts2.Position = new Vector2(500f * resVar, -200f * resVar);
             One ts3 = new One(this);
             ts3.Spawn(false);
-            ts3.Position = new Vector2(750f, -200f);
+            ts3.Position = new Vector2(750f * resVar, -200f * resVar);
             One ts4 = new One(this);
             ts4.Spawn(false);
-            ts4.Position = new Vector2(1000f, -200f);
+            ts4.Position = new Vector2(1000f * resVar, -200f * resVar);
             One ts5 = new One(this);
             ts5.Spawn(false);
-            ts5.Position = new Vector2(1250f, -200f);
+            ts5.Position = new Vector2(1250f * resVar, -200f * resVar);
             One ts6 = new One(this);
             ts6.Spawn(false);
-            ts6.Position = new Vector2(1500f, -200f);
+            ts6.Position = new Vector2(1500f * resVar, -200f * resVar);
             One ts7 = new One(this);
             ts7.Spawn(false);
-            ts7.Position = new Vector2(1750f, -200f);
+            ts7.Position = new Vector2(1750f * resVar, -200f * resVar);
             One ts8 = new One(this);
             ts8.Spawn(false);
-            ts8.Position = new Vector2(2000f, -200f);
+            ts8.Position = new Vector2(2000f * resVar, -200f * resVar);
 
             // Bottom Side
             One bs0 = new One(this);
             bs0.Spawn(false);
-            bs0.Position = new Vector2(0, 2000f);
+            bs0.Position = new Vector2(0, 2000f * resVar);
             One bs1 = new One(this);
             bs1.Spawn(false);
-            bs1.Position = new Vector2(250f, 2000f);
+            bs1.Position = new Vector2(250f * resVar, 2000f * resVar);
             One bs2 = new One(this);
             bs2.Spawn(false);
-            bs2.Position = new Vector2(500f, 2000f);
+            bs2.Position = new Vector2(500f * resVar, 2000f * resVar);
             One bs3 = new One(this);
             bs3.Spawn(false);
-            bs3.Position = new Vector2(750f, 2000f);
+            bs3.Position = new Vector2(750f * resVar, 2000f * resVar);
             One bs4 = new One(this);
             bs4.Spawn(false);
-            bs4.Position = new Vector2(1000f, 2000f);
+            bs4.Position = new Vector2(1000f * resVar, 2000f * resVar);
             One bs5 = new One(this);
             bs5.Spawn(false);
-            bs5.Position = new Vector2(1250f, 2000f);
+            bs5.Position = new Vector2(1250f * resVar, 2000f * resVar);
             One bs6 = new One(this);
             bs6.Spawn(false);
-            bs6.Position = new Vector2(1500f, 2000f);
+            bs6.Position = new Vector2(1500f * resVar, 2000f * resVar);
             One bs7 = new One(this);
             bs7.Spawn(false);
-            bs7.Position = new Vector2(1750f, 2000f);
+            bs7.Position = new Vector2(1750f * resVar, 2000f * resVar);
             One bs8 = new One(this);
             bs8.Spawn(false);
-            bs8.Position = new Vector2(2000f, 2000f);
+            bs8.Position = new Vector2(2000f * resVar, 2000f * resVar);
 
             // Left Side
             One ls0 = new One(this);
             ls0.Spawn(false);
-            ls0.Position = new Vector2(-200f, 0);
+            ls0.Position = new Vector2(-200f * resVar, 0);
             One ls1 = new One(this);
             ls1.Spawn(false);
-            ls1.Position = new Vector2(-200f, 250f);
+            ls1.Position = new Vector2(-200f * resVar, 250f * resVar);
             One ls2 = new One(this);
             ls2.Spawn(false);
-            ls2.Position = new Vector2(-200f, 500f);
+            ls2.Position = new Vector2(-200f * resVar, 500f * resVar);
             One ls3 = new One(this);
             ls3.Spawn(false);
-            ls3.Position = new Vector2(-200f, 750f);
+            ls3.Position = new Vector2(-200f * resVar, 750f * resVar);
             One ls4 = new One(this);
             ls4.Spawn(false);
-            ls4.Position = new Vector2(-200f, 1000f);
+            ls4.Position = new Vector2(-200f * resVar, 1000f * resVar);
             One ls5 = new One(this);
             ls5.Spawn(false);
-            ls5.Position = new Vector2(-200f, 1250f);
+            ls5.Position = new Vector2(-200f * resVar, 1250f * resVar);
 
             // Right Side
             One rs0 = new One(this);
             rs0.Spawn(false);
-            rs0.Position = new Vector2(2120f, 0f);
+            rs0.Position = new Vector2(2120f * resVar, 0f);
             One rs1 = new One(this);
             rs1.Spawn(false);
-            rs1.Position = new Vector2(2120f, 250f);
+            rs1.Position = new Vector2(2120f * resVar, 250f * resVar);
             One rs2 = new One(this);
             rs2.Spawn(false);
-            rs2.Position = new Vector2(2120f, 500f);
+            rs2.Position = new Vector2(2120f * resVar, 500f * resVar);
             One rs3 = new One(this);
             rs3.Spawn(false);
-            rs3.Position = new Vector2(2120f, 750f);
+            rs3.Position = new Vector2(2120f * resVar, 750f * resVar);
             One rs4 = new One(this);
             rs4.Spawn(false);
-            rs4.Position = new Vector2(2120f, 1000f);
+            rs4.Position = new Vector2(2120f * resVar, 1000f * resVar);
             One rs5 = new One(this);
             rs5.Spawn(false);
-            rs5.Position = new Vector2(2120f, 1250f);
+            rs5.Position = new Vector2(2120f * resVar, 1250f * resVar);
         }
 
 
@@ -943,118 +979,118 @@ namespace FreeRadicals.Simulation
             // Top Side
             Two ts0 = new Two(this);
             ts0.Spawn(false);
-            ts0.Position = new Vector2(0, -200f);
+            ts0.Position = new Vector2(0, -200f * resVar);
             Two ts1 = new Two(this);
             ts1.Spawn(false);
-            ts1.Position = new Vector2(250f, -200f);
+            ts1.Position = new Vector2(250f * resVar, -200f * resVar);
             Two ts2 = new Two(this);
             ts2.Spawn(false);
-            ts2.Position = new Vector2(500f, -200f);
+            ts2.Position = new Vector2(500f * resVar, -200f * resVar);
             Two ts3 = new Two(this);
             ts3.Spawn(false);
-            ts3.Position = new Vector2(750f, -200f);
+            ts3.Position = new Vector2(750f * resVar, -200f * resVar);
             Two ts4 = new Two(this);
             ts4.Spawn(false);
-            ts4.Position = new Vector2(1000f, -200f);
+            ts4.Position = new Vector2(1000f * resVar, -200f * resVar);
             Two ts5 = new Two(this);
             ts5.Spawn(false);
-            ts5.Position = new Vector2(1250f, -200f);
+            ts5.Position = new Vector2(1250f * resVar, -200f * resVar);
             Two ts6 = new Two(this);
             ts6.Spawn(false);
-            ts6.Position = new Vector2(1500f, -200f);
+            ts6.Position = new Vector2(1500f * resVar, -200f * resVar);
             Two ts7 = new Two(this);
             ts7.Spawn(false);
-            ts7.Position = new Vector2(1750f, -200f);
+            ts7.Position = new Vector2(1750f * resVar, -200f * resVar);
             Two ts8 = new Two(this);
             ts8.Spawn(false);
-            ts8.Position = new Vector2(2000f, -200f);
+            ts8.Position = new Vector2(2000f * resVar, -200f * resVar);
 
             // Bottom Side
             Two bs0 = new Two(this);
             bs0.Spawn(false);
-            bs0.Position = new Vector2(0, 2200f);
+            bs0.Position = new Vector2(0, 2200f * resVar);
             Two bs1 = new Two(this);
             bs1.Spawn(false);
-            bs1.Position = new Vector2(250f, 2200f);
+            bs1.Position = new Vector2(250f * resVar, 2200f * resVar);
             Two bs2 = new Two(this);
             bs2.Spawn(false);
-            bs2.Position = new Vector2(500f, 2200f);
+            bs2.Position = new Vector2(500f * resVar, 2200f * resVar);
             Two bs3 = new Two(this);
             bs3.Spawn(false);
-            bs3.Position = new Vector2(750f, 2200f);
+            bs3.Position = new Vector2(750f * resVar, 2200f * resVar);
             Two bs4 = new Two(this);
             bs4.Spawn(false);
-            bs4.Position = new Vector2(1000f, 2200f);
+            bs4.Position = new Vector2(1000f * resVar, 2200f * resVar);
             Two bs5 = new Two(this);
             bs5.Spawn(false);
-            bs5.Position = new Vector2(1250f, 2200f);
+            bs5.Position = new Vector2(1250f * resVar, 2200f * resVar);
             Two bs6 = new Two(this);
             bs6.Spawn(false);
-            bs6.Position = new Vector2(1500f, 2200f);
+            bs6.Position = new Vector2(1500f * resVar, 2200f * resVar);
             Two bs7 = new Two(this);
             bs7.Spawn(false);
-            bs7.Position = new Vector2(1750f, 2200f);
+            bs7.Position = new Vector2(1750f * resVar, 2200f * resVar);
             Two bs8 = new Two(this);
             bs8.Spawn(false);
-            bs8.Position = new Vector2(2000f, 2200f);
+            bs8.Position = new Vector2(2000f * resVar, 2200f * resVar);
 
             // Left Side
             Two ls0 = new Two(this);
             ls0.Spawn(false);
-            ls0.Position = new Vector2(-200f, 0);
+            ls0.Position = new Vector2(-200f * resVar, 0);
             Two ls1 = new Two(this);
             ls1.Spawn(false);
-            ls1.Position = new Vector2(-200f, 250f);
+            ls1.Position = new Vector2(-200f * resVar, 250f * resVar);
             Two ls2 = new Two(this);
             ls2.Spawn(false);
-            ls2.Position = new Vector2(-200f, 500f);
+            ls2.Position = new Vector2(-200f * resVar, 500f * resVar);
             Two ls3 = new Two(this);
             ls3.Spawn(false);
-            ls3.Position = new Vector2(-200f, 750f);
+            ls3.Position = new Vector2(-200f * resVar, 750f * resVar);
             Two ls4 = new Two(this);
             ls4.Spawn(false);
-            ls4.Position = new Vector2(-200f, 1000f);
+            ls4.Position = new Vector2(-200f * resVar, 1000f * resVar);
             Two ls5 = new Two(this);
             ls5.Spawn(false);
-            ls5.Position = new Vector2(-200f, 1250f);
+            ls5.Position = new Vector2(-200f * resVar, 1250f * resVar);
             Two ls6 = new Two(this);
             ls6.Spawn(false);
-            ls6.Position = new Vector2(-200f, 1500f);
+            ls6.Position = new Vector2(-200f * resVar, 1500f * resVar);
             Two ls7 = new Two(this);
             ls7.Spawn(false);
-            ls7.Position = new Vector2(-200f, 1750f);
+            ls7.Position = new Vector2(-200f * resVar, 1750f * resVar);
             Two ls8 = new Two(this);
             ls8.Spawn(false);
-            ls8.Position = new Vector2(-200f, 2000f);
+            ls8.Position = new Vector2(-200f * resVar, 2000f * resVar);
 
             // Right Side
             Two rs0 = new Two(this);
             rs0.Spawn(false);
-            rs0.Position = new Vector2(2120f, 0f);
+            rs0.Position = new Vector2(2120f * resVar, 0f);
             Two rs1 = new Two(this);
             rs1.Spawn(false);
-            rs1.Position = new Vector2(2120f, 250f);
+            rs1.Position = new Vector2(2120f * resVar, 250f * resVar);
             Two rs2 = new Two(this);
             rs2.Spawn(false);
-            rs2.Position = new Vector2(2120f, 500f);
+            rs2.Position = new Vector2(2120f * resVar, 500f * resVar);
             Two rs3 = new Two(this);
             rs3.Spawn(false);
-            rs3.Position = new Vector2(2120f, 750f);
+            rs3.Position = new Vector2(2120f * resVar, 750f * resVar);
             Two rs4 = new Two(this);
             rs4.Spawn(false);
-            rs4.Position = new Vector2(2120f, 1000f);
+            rs4.Position = new Vector2(2120f * resVar, 1000f * resVar);
             Two rs5 = new Two(this);
             rs5.Spawn(false);
-            rs5.Position = new Vector2(2120f, 1250f);
+            rs5.Position = new Vector2(2120f * resVar, 1250f * resVar);
             Two rs6 = new Two(this);
             rs6.Spawn(false);
-            rs6.Position = new Vector2(2120f, 1500f);
+            rs6.Position = new Vector2(2120f * resVar, 1500f * resVar);
             Two rs7 = new Two(this);
             rs7.Spawn(false);
-            rs7.Position = new Vector2(2120f, 1750f);
+            rs7.Position = new Vector2(2120f * resVar, 1750f * resVar);
             Two rs8 = new Two(this);
             rs8.Spawn(false);
-            rs8.Position = new Vector2(2120f, 2000f);
+            rs8.Position = new Vector2(2120f * resVar, 2000f * resVar);
         }
 
 
@@ -1066,147 +1102,148 @@ namespace FreeRadicals.Simulation
             // Top Side
             Three ts0 = new Three(this);
             ts0.Spawn(false);
-            ts0.Position = new Vector2(0, -200f);
+            ts0.Position = new Vector2(0, -200f * resVar);
             Three ts1 = new Three(this);
             ts1.Spawn(false);
-            ts1.Position = new Vector2(250f, -200f);
+            ts1.Position = new Vector2(250f * resVar, -200f * resVar);
             Three ts2 = new Three(this);
             ts2.Spawn(false);
-            ts2.Position = new Vector2(500f, -200f);
+            ts2.Position = new Vector2(500f * resVar, -200f * resVar);
             Three ts3 = new Three(this);
             ts3.Spawn(false);
-            ts3.Position = new Vector2(750f, -200f);
+            ts3.Position = new Vector2(750f * resVar, -200f * resVar);
             Three ts4 = new Three(this);
             ts4.Spawn(false);
-            ts4.Position = new Vector2(1000f, -200f);
+            ts4.Position = new Vector2(1000f * resVar, -200f * resVar);
             Three ts5 = new Three(this);
             ts5.Spawn(false);
-            ts5.Position = new Vector2(1250f, -200f);
+            ts5.Position = new Vector2(1250f * resVar, -200f * resVar);
             Three ts6 = new Three(this);
             ts6.Spawn(false);
-            ts6.Position = new Vector2(1500f, -200f);
+            ts6.Position = new Vector2(1500f * resVar, -200f * resVar);
             Three ts7 = new Three(this);
             ts7.Spawn(false);
-            ts7.Position = new Vector2(1750f, -200f);
+            ts7.Position = new Vector2(1750f * resVar, -200f * resVar);
             Three ts8 = new Three(this);
             ts8.Spawn(false);
-            ts8.Position = new Vector2(2000f, -200f);
+            ts8.Position = new Vector2(2000f * resVar, -200f * resVar);
 
             // Bottom Side
             Three bs0 = new Three(this);
             bs0.Spawn(false);
-            bs0.Position = new Vector2(0, 2200f);
+            bs0.Position = new Vector2(0, 2200f * resVar);
             Three bs1 = new Three(this);
             bs1.Spawn(false);
-            bs1.Position = new Vector2(250f, 2200f);
+            bs1.Position = new Vector2(250f * resVar, 2200f * resVar);
             Three bs2 = new Three(this);
             bs2.Spawn(false);
-            bs2.Position = new Vector2(500f, 2200f);
+            bs2.Position = new Vector2(500f * resVar, 2200f * resVar);
             Three bs3 = new Three(this);
             bs3.Spawn(false);
-            bs3.Position = new Vector2(750f, 2200f);
+            bs3.Position = new Vector2(750f * resVar, 2200f * resVar);
             Three bs4 = new Three(this);
             bs4.Spawn(false);
-            bs4.Position = new Vector2(1000f, 2200f);
+            bs4.Position = new Vector2(1000f * resVar, 2200f * resVar);
             Three bs5 = new Three(this);
             bs5.Spawn(false);
-            bs5.Position = new Vector2(1250f, 2200f);
+            bs5.Position = new Vector2(1250f * resVar, 2200f * resVar);
             Three bs6 = new Three(this);
             bs6.Spawn(false);
-            bs6.Position = new Vector2(1500f, 2200f);
+            bs6.Position = new Vector2(1500f * resVar, 2200f * resVar);
             Three bs7 = new Three(this);
             bs7.Spawn(false);
-            bs7.Position = new Vector2(1750f, 2200f);
+            bs7.Position = new Vector2(1750f * resVar, 2200f * resVar);
             Three bs8 = new Three(this);
             bs8.Spawn(false);
-            bs8.Position = new Vector2(2000f, 2200f);
+            bs8.Position = new Vector2(2000f * resVar, 2200f * resVar);
 
             // Left Side
             Three ls0 = new Three(this);
             ls0.Spawn(false);
-            ls0.Position = new Vector2(-200f, 0);
+            ls0.Position = new Vector2(-200f * resVar, 0);
             Three ls1 = new Three(this);
             ls1.Spawn(false);
-            ls1.Position = new Vector2(-200f, 250f);
+            ls1.Position = new Vector2(-200f * resVar, 250f * resVar);
             //Three ls2 = new Three(this);
             //ls2.Spawn(false);
-            //ls2.Position = new Vector2(-200f, 500f);
+            //ls2.Position = new Vector2(-200f * resVar, 500f * resVar);
             //Three ls3 = new Three(this);
             //ls3.Spawn(false);
-            //ls3.Position = new Vector2(-200f, 750f);
+            //ls3.Position = new Vector2(-200f * resVar, 750f * resVar);
             Three ls4 = new Three(this);
             ls4.Spawn(false);
-            ls4.Position = new Vector2(-200f, 1000f);
+            ls4.Position = new Vector2(-200f * resVar, 1000f * resVar);
             Three ls5 = new Three(this);
             ls5.Spawn(false);
-            ls5.Position = new Vector2(-200f, 1250f);
+            ls5.Position = new Vector2(-200f * resVar, 1250f * resVar);
             Three ls6 = new Three(this);
             ls6.Spawn(false);
-            ls6.Position = new Vector2(-200f, 1500f);
+            ls6.Position = new Vector2(-200f * resVar, 1500f * resVar);
             Three ls7 = new Three(this);
             ls7.Spawn(false);
-            ls7.Position = new Vector2(-200f, 1750f);
+            ls7.Position = new Vector2(-200f * resVar, 1750f * resVar);
             Three ls8 = new Three(this);
             ls8.Spawn(false);
-            ls8.Position = new Vector2(-200f, 2000f);
+            ls8.Position = new Vector2(-200f * resVar, 2000f * resVar);
 
             // Right Side
             Three rs0 = new Three(this);
             rs0.Spawn(false);
-            rs0.Position = new Vector2(2120f, 0f);
+            rs0.Position = new Vector2(2120f * resVar, 0f);
             Three rs1 = new Three(this);
             rs1.Spawn(false);
-            rs1.Position = new Vector2(2120f, 250f);
+            rs1.Position = new Vector2(2120f * resVar, 250f * resVar);
             //Three rs2 = new Three(this);
             //rs2.Spawn(false);
-            //rs2.Position = new Vector2(2120f, 500f);
+            //rs2.Position = new Vector2(2120f * resVar, 500f * resVar);
             //Three rs3 = new Three(this);
             //rs3.Spawn(false);
-            //rs3.Position = new Vector2(2120f, 750f);
+            //rs3.Position = new Vector2(2120f * resVar, 750f * resVar);
             Three rs4 = new Three(this);
             rs4.Spawn(false);
-            rs4.Position = new Vector2(2120f, 1000f);
+            rs4.Position = new Vector2(2120f * resVar, 1000f * resVar);
             Three rs5 = new Three(this);
             rs5.Spawn(false);
-            rs5.Position = new Vector2(2120f, 1250f);
+            rs5.Position = new Vector2(2120f * resVar, 1250f * resVar);
             Three rs6 = new Three(this);
             rs6.Spawn(false);
-            rs6.Position = new Vector2(2120f, 1500f);
+            rs6.Position = new Vector2(2120f * resVar, 1500f * resVar);
             Three rs7 = new Three(this);
             rs7.Spawn(false);
-            rs7.Position = new Vector2(2120f, 1750f);
+            rs7.Position = new Vector2(2120f * resVar, 1750f * resVar);
             Three rs8 = new Three(this);
             rs8.Spawn(false);
-            rs8.Position = new Vector2(2120f, 2000f);
+            rs8.Position = new Vector2(2120f * resVar, 2000f * resVar);
         }
 
 
         /// <summary>
         /// Create a repel four points
-        /// </summary>
+        /// </summary>		WorldRules.ScreenRes	d1280x800	FreeRadicals.Simulation.ScreenRes
+        ///
         public void SpawnRepelPointsFour()
         {
             // Left Side
             Four ls1 = new Four(this);
             ls1.Spawn(false);
-            ls1.Position = new Vector2(-300f, 250f);
+            ls1.Position = new Vector2(-300f * resVar, 250f * resVar);
             Four ls2 = new Four(this);
             ls2.Spawn(false);
-            ls2.Position = new Vector2(-300f, 500f);
+            ls2.Position = new Vector2(-300f * resVar, 500f * resVar);
             Four ls3 = new Four(this);
             ls3.Spawn(false);
-            ls3.Position = new Vector2(-300f, 750f);
+            ls3.Position = new Vector2(-300f * resVar, 750f * resVar);
 
             // Right Side
             Four rs1 = new Four(this);
             rs1.Spawn(false);
-            rs1.Position = new Vector2(2220f, 250f);
+            rs1.Position = new Vector2(2220f * resVar, 250f * resVar);
             Four rs2 = new Four(this);
             rs2.Spawn(false);
-            rs2.Position = new Vector2(2220f, 500f);
+            rs2.Position = new Vector2(2220f * resVar, 500f * resVar);
             Four rs3 = new Four(this);
             rs3.Spawn(false);
-            rs3.Position = new Vector2(2220f, 750f);
+            rs3.Position = new Vector2(2220f * resVar, 750f * resVar);
         }
 
 
@@ -1219,16 +1256,16 @@ namespace FreeRadicals.Simulation
             // Bottom Side
             Five bs1 = new Five(this);
             bs1.Spawn(false);
-            bs1.Position = new Vector2(250f, 1750f);
+            bs1.Position = new Vector2(250f * resVar, 1750f * resVar);
             Five bs2 = new Five(this);
             bs2.Spawn(false);
-            bs2.Position = new Vector2(750f, 1750f);
+            bs2.Position = new Vector2(750f * resVar, 1750f * resVar);
             Five bs3 = new Five(this);
             bs3.Spawn(false);
-            bs3.Position = new Vector2(1250f, 1750f);
+            bs3.Position = new Vector2(1250f * resVar, 1750f * resVar);
             Five bs4 = new Five(this);
             bs4.Spawn(false);
-            bs4.Position = new Vector2(1750f, 1750f);
+            bs4.Position = new Vector2(1750f * resVar, 1750f * resVar);
         }
 
 
@@ -1240,31 +1277,31 @@ namespace FreeRadicals.Simulation
             // Top Side
             Six ts0 = new Six(this);
             ts0.Spawn(false);
-            ts0.Position = new Vector2(0, -200f);
+            ts0.Position = new Vector2(0, -200f * resVar);
             Six ts1 = new Six(this);
             ts1.Spawn(false);
-            ts1.Position = new Vector2(250f, -200f);
+            ts1.Position = new Vector2(250f * resVar, -200f * resVar);
             //Six ts2 = new Six(this);
             //ts2.Spawn(false);
-            //ts2.Position = new Vector2(500f, -200f);
+            //ts2.Position = new Vector2(500f * resVar, -200f * resVar);
             Six ts3 = new Six(this);
             ts3.Spawn(false);
-            ts3.Position = new Vector2(750f, -200f);
+            ts3.Position = new Vector2(750f * resVar, -200f * resVar);
             Six ts4 = new Six(this);
             ts4.Spawn(false);
-            ts4.Position = new Vector2(1000f, -200f);
+            ts4.Position = new Vector2(1000f * resVar, -200f * resVar);
             Six ts5 = new Six(this);
             ts5.Spawn(false);
-            ts5.Position = new Vector2(1250f, -200f);
+            ts5.Position = new Vector2(1250f * resVar, -200f * resVar);
             //Six ts6 = new Six(this);
             //ts6.Spawn(false);
-            //ts6.Position = new Vector2(1500f, -200f);
+            //ts6.Position = new Vector2(1500f * resVar, -200f * resVar);
             Six ts7 = new Six(this);
             ts7.Spawn(false);
-            ts7.Position = new Vector2(1750f, -200f);
+            ts7.Position = new Vector2(1750f * resVar, -200f * resVar);
             Six ts8 = new Six(this);
             ts8.Spawn(false);
-            ts8.Position = new Vector2(2000f, -200f);
+            ts8.Position = new Vector2(2000f * resVar, -200f * resVar);
         }
 
         public void SpawnRepelPointsSeven()
@@ -1272,31 +1309,31 @@ namespace FreeRadicals.Simulation
             // Bottom Side
             Seven bs0 = new Seven(this);
             bs0.Spawn(false);
-            bs0.Position = new Vector2(0, 1400f);
+            bs0.Position = new Vector2(0, 1400f * resVar);
             Seven bs1 = new Seven(this);
             bs1.Spawn(false);
-            bs1.Position = new Vector2(250f, 1400f);
+            bs1.Position = new Vector2(250f * resVar, 1400f * resVar);
             Seven bs2 = new Seven(this);
             bs2.Spawn(false);
-            bs2.Position = new Vector2(500f, 1400f);
+            bs2.Position = new Vector2(500f * resVar, 1400f * resVar);
             Seven bs3 = new Seven(this);
             bs3.Spawn(false);
-            bs3.Position = new Vector2(750f, 1400f);
+            bs3.Position = new Vector2(750f * resVar, 1400f * resVar);
             Seven bs4 = new Seven(this);
             bs4.Spawn(false);
-            bs4.Position = new Vector2(1000f, 1400f);
+            bs4.Position = new Vector2(1000f * resVar, 1400f * resVar);
             Seven bs5 = new Seven(this);
             bs5.Spawn(false);
-            bs5.Position = new Vector2(1250f, 1400f);
+            bs5.Position = new Vector2(1250f * resVar, 1400f * resVar);
             Seven bs6 = new Seven(this);
             bs6.Spawn(false);
-            bs6.Position = new Vector2(1500f, 1400f);
+            bs6.Position = new Vector2(1500f * resVar, 1400f * resVar);
             Seven bs7 = new Seven(this);
             bs7.Spawn(false);
-            bs7.Position = new Vector2(1750f, 1400f);
+            bs7.Position = new Vector2(1750f * resVar, 1400f * resVar);
             Seven bs8 = new Seven(this);
             bs8.Spawn(false);
-            bs8.Position = new Vector2(2000f, 1400f);
+            bs8.Position = new Vector2(2000f * resVar, 1400f * resVar);
         }
 
 
@@ -1308,52 +1345,52 @@ namespace FreeRadicals.Simulation
             // North Poles
             North north0 = new North(this);
             north0.Spawn(false);
-            north0.Position = new Vector2(0, -7000f);
+            north0.Position = new Vector2(0, -7000f * resVar);
             North north1 = new North(this);
             north1.Spawn(false);
-            north1.Position = new Vector2(250f, -7000f);
+            north1.Position = new Vector2(250f * resVar, -7000f * resVar);
             North north2 = new North(this);
             north2.Spawn(false);
-            north2.Position = new Vector2(500f, -7000f);
+            north2.Position = new Vector2(500f * resVar, -7000f * resVar);
             North north3 = new North(this);
             north3.Spawn(false);
-            north3.Position = new Vector2(750f, -7000f);
+            north3.Position = new Vector2(750f * resVar, -7000f * resVar);
             North north4 = new North(this);
             north4.Spawn(false);
-            north4.Position = new Vector2(1000f, -7000f);
+            north4.Position = new Vector2(1000f * resVar, -7000f * resVar);
             North north5 = new North(this);
             north5.Spawn(false);
-            north5.Position = new Vector2(1250f, -7000f);
+            north5.Position = new Vector2(1250f * resVar, -7000f * resVar);
             North north6 = new North(this);
             north6.Spawn(false);
-            north6.Position = new Vector2(1500f, -7000f);
+            north6.Position = new Vector2(1500f * resVar, -7000f * resVar);
             North north7 = new North(this);
             north7.Spawn(false);
-            north7.Position = new Vector2(1750f, -7000f);
+            north7.Position = new Vector2(1750f * resVar, -7000f * resVar);
             North north8 = new North(this);
             north8.Spawn(false);
-            north8.Position = new Vector2(2000f, -1000f);
+            north8.Position = new Vector2(2000f * resVar, -1000f * resVar);
 
             // South Poles
             South south1 = new South(this);
             south1.Spawn(true);
-            south1.Position = new Vector2(500f, 1900f);
+            south1.Position = new Vector2(500f * resVar, 1900f * resVar);
             South south2 = new South(this);
             south2.Spawn(true);
-            south2.Position = new Vector2(1000f, 2000f);
+            south2.Position = new Vector2(1000f * resVar, 2000f * resVar);
             South south3 = new South(this);
             south3.Spawn(true);
-            south3.Position = new Vector2(1500f, 1900f);
+            south3.Position = new Vector2(1500f * resVar, 1900f * resVar);
 
             // West Pole
             West west = new West(this);
             west.Spawn(true);
-            west.Position = new Vector2(-500f, 500f);
+            west.Position = new Vector2(-500f * resVar, 500f * resVar);
 
             // East Pole
             East east = new East(this);
             east.Spawn(true);
-            east.Position = new Vector2(2420f, 500f);
+            east.Position = new Vector2(2420f * resVar, 500f * resVar);
         }        
         #endregion
 
@@ -1815,7 +1852,7 @@ namespace FreeRadicals.Simulation
             oxygen1.Direction = dir * 0.5f;
             Oxygen oxygen2 = new Oxygen(this);
             oxygen2.Spawn(false);
-            Vector2 newPos = new Vector2(45f, 0);
+            Vector2 newPos = new Vector2(45f * resVar, 0);
             oxygen2.Position = pos + newPos;
             oxygen2.Velocity = vel * 2f;
             oxygen2.Direction = dir * 2f;
@@ -1851,7 +1888,7 @@ namespace FreeRadicals.Simulation
             H1.Direction = dir * 0.5f;
             Hydrogen H2 = new Hydrogen(this);
             H2.Spawn(false);
-            Vector2 newPos = new Vector2(10f, 0);
+            Vector2 newPos = new Vector2(10f * resVar, 0);
             H2.Position = pos + newPos;
             H2.Velocity = vel * 2f;
             H2.Direction = dir * 2f;
@@ -1887,7 +1924,7 @@ namespace FreeRadicals.Simulation
             N1.Direction = dir * 0.5f;
             Nitrogen N2 = new Nitrogen(this);
             N2.Spawn(false);
-            Vector2 newPos = new Vector2(30f, 0);
+            Vector2 newPos = new Vector2(30f * resVar, 0);
             N2.Position = pos + newPos;
             N2.Velocity = vel * 2f;
             N2.Direction = dir * 2f;
@@ -1915,7 +1952,7 @@ namespace FreeRadicals.Simulation
             oxygenTwo.Direction = dir * 0.5f;
             Oxygen oxygen = new Oxygen(this);
             oxygen.Spawn(false);
-            Vector2 newPos = new Vector2(70f, 0);
+            Vector2 newPos = new Vector2(70f * resVar, 0);
             oxygen.Position = pos + newPos;
             oxygen.Velocity = vel * 0.5f;
             oxygen.Direction = dir * 0.5f;
@@ -1939,7 +1976,7 @@ namespace FreeRadicals.Simulation
             O2.Direction = dir * 0.5f;
             Carbon C = new Carbon(this);
             C.Spawn(false);
-            Vector2 newPos = new Vector2(70f, 0);
+            Vector2 newPos = new Vector2(70f * resVar, 0);
             C.Position = pos + newPos;
             C.Velocity = vel * 2f;
             C.Direction = dir * 2f;
@@ -1965,7 +2002,7 @@ namespace FreeRadicals.Simulation
             O.Direction = dir * 0.5f;
             Hydrogen H = new Hydrogen(this);
             H.Spawn(false);
-            Vector2 newPos = new Vector2(50f, 0);
+            Vector2 newPos = new Vector2(50f * resVar, 0);
             H.Position = pos + newPos;
             H.Velocity = vel * 2f;
             H.Direction = dir * 2f;
@@ -1991,7 +2028,7 @@ namespace FreeRadicals.Simulation
             O.Direction = dir * 0.5f;
             Nitrogen N = new Nitrogen(this);
             N.Spawn(false);
-            Vector2 newPos = new Vector2(55f, 0);
+            Vector2 newPos = new Vector2(55f * resVar, 0);
             N.Position = pos + newPos;
             N.Velocity = vel * 2f;
             N.Direction = dir * 2f;
@@ -2017,7 +2054,7 @@ namespace FreeRadicals.Simulation
             O.Direction = dir * 0.5f;
             Deuterium D = new Deuterium(this);
             D.Spawn(false);
-            Vector2 newPos = new Vector2(30f, 0);
+            Vector2 newPos = new Vector2(30f * resVar, 0);
             D.Position = pos + newPos;
             D.Velocity = vel * 2f;
             D.Direction = dir * 2f;
@@ -2043,7 +2080,7 @@ namespace FreeRadicals.Simulation
             C.Direction = dir * 0.5f;
             Deuterium D = new Deuterium(this);
             D.Spawn(false);
-            Vector2 newPos = new Vector2(25f, 0);
+            Vector2 newPos = new Vector2(25f * resVar, 0);
             D.Position = pos + newPos;
             D.Velocity = vel * 2f;
             D.Direction = dir * 2f;
@@ -2069,13 +2106,13 @@ namespace FreeRadicals.Simulation
             C.Direction = dir * 0.5f;
             Deuterium D1 = new Deuterium(this);
             D1.Spawn(false);
-            Vector2 newPos1 = new Vector2(25f, 0);
+            Vector2 newPos1 = new Vector2(25f * resVar, 0);
             D1.Position = pos + newPos1;
             D1.Velocity = vel;
             D1.Direction = dir;
             Deuterium D2 = new Deuterium(this);
             D2.Spawn(false);
-            Vector2 newPos2 = new Vector2(40f, 0);
+            Vector2 newPos2 = new Vector2(40f * resVar, 0);
             D2.Position = pos + newPos2;
             D2.Velocity = vel * 2f;
             D2.Direction = dir * 2f;
@@ -2101,7 +2138,7 @@ namespace FreeRadicals.Simulation
             O.Direction = dir * 0.5f;
             NitrogenTwo N2 = new NitrogenTwo(this);
             N2.Spawn(false);
-            Vector2 newPos = new Vector2(45f, 0);
+            Vector2 newPos = new Vector2(45f * resVar, 0);
             N2.Position = pos + newPos;
             N2.Velocity = vel * 2f;
             N2.Direction = dir * 2f;

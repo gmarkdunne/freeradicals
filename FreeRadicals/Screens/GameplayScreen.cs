@@ -42,6 +42,7 @@ namespace FreeRadicals.Screens
         World world;
         AudioManager audio;
         bool gameOver;
+        int resolution;
         #endregion
 
         #region Initialization
@@ -142,6 +143,24 @@ namespace FreeRadicals.Screens
         {
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
 
+
+            if (Simulation.WorldRules.ScreenRes == ScreenRes.a1920x1200)
+            {
+                resolution = 1920;
+            }
+            else if (Simulation.WorldRules.ScreenRes == ScreenRes.b1680x1050)
+            {
+                resolution = 1680;
+            }
+            else if (Simulation.WorldRules.ScreenRes == ScreenRes.c1440x900)
+            {
+                resolution = 1440;
+            }
+            else if (Simulation.WorldRules.ScreenRes == ScreenRes.d1280x800)
+            {
+                resolution = 1280;
+            }
+
             // if this screen is leaving, then stop the music
             if (IsExiting)
             {
@@ -158,7 +177,7 @@ namespace FreeRadicals.Screens
                 {
                     for (int i = 0; i < world.NanoBots.Length; i++)
                     {
-                        world.NanoBots[i].ProcessInput(gameTime.TotalGameTime.Seconds, 
+                        world.NanoBots[i].ProcessInput(gameTime.TotalGameTime.Seconds,
                             true);
                     }
                 }
@@ -274,7 +293,8 @@ namespace FreeRadicals.Screens
             spriteBatch.Begin();
 
             Vector2 position = new Vector2(128, 64);
-            int offset = (1280) / 5;
+
+            int offset = (resolution) / 5;
 
             for (int i = 0; i < world.NanoBots.Length; ++i)
             {
@@ -294,7 +314,7 @@ namespace FreeRadicals.Screens
                     message = "";//Hold A to Join";
                 }
 
-                float scale = 1.2f;
+                float scale = 1.2f * world.ResVar;
 
                 Vector2 size = spriteFont.MeasureString(message) * scale;
                 position.X = (i + 1) * offset - size.Y / 2;
