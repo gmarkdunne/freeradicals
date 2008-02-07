@@ -39,7 +39,7 @@ namespace FreeRadicals.Gameplay
         /// The amount of drag applied to velocity per second, 
         /// as a percentage of velocity.
         /// </summary>
-        const float dragPerSecond = 0.9f;
+        const float dragPerSecond = 1f;
 
         /// <summary>
         /// Scalar for calculated damage values that 
@@ -1625,7 +1625,7 @@ namespace FreeRadicals.Gameplay
                                     this.direction = Vector2.Normalize(forward);
                                     this.carbonAmmo -= 1;
                                     world.ParticleSystems.Add(new ParticleSystem(this.position,
-                                        -this.direction * 5f, 32, 128f, 256f, 0.85f, 0.1f, explosionColors));
+                                        -this.direction * 5f, 32, 64f, 128f, 0.75f, 0.05f, explosionColors));
                                     weapon.Fire(Vector2.Normalize(this.direction));
                                     world.AudioManager.PlayCue("explosionMedium");
                                 }           
@@ -1640,7 +1640,7 @@ namespace FreeRadicals.Gameplay
                                     this.direction = Vector2.Normalize(forward);// forward; 
                                     this.hydrogenAmmo -= 1;
                                     world.ParticleSystems.Add(new ParticleSystem(this.position,
-                                        -this.direction * 5f, 32, 128f, 256f, 0.85f, 0.1f, explosionColors));
+                                        -this.direction * 5f, 32, 64f, 128f, 0.75f, 0.05f, explosionColors));
                                     hydrogenBoostWeapon.Fire(this.direction);
                                     world.AudioManager.PlayCue("explosionMedium");
                                     if (Velocity.Length() > 500f)
@@ -1672,7 +1672,7 @@ namespace FreeRadicals.Gameplay
                                 world.AudioManager.PlayCue("playerSpawn");
                                 this.hydrogenAmmo -= 1;
                                 world.ParticleSystems.Add(new ParticleSystem(this.position,
-                                    -Vector2.Normalize(new Vector2(0, -130f)) * 5f, 32, 128f, 256f, 0.85f, 0.1f, explosionColors));
+                                    -Vector2.Normalize(new Vector2(0, -130f)) * 5f, 32, 64f, 128f, 0.75f, 0.05f, explosionColors));
                                 hydrogenBoostWeapon.Fire(Vector2.Normalize(new Vector2(0, -130f)));
                             }
                         }
@@ -1686,7 +1686,7 @@ namespace FreeRadicals.Gameplay
                                 this.direction = Vector2.Normalize(forward); 
                                 this.carbonAmmo -= 1;
                                 world.ParticleSystems.Add(new ParticleSystem(this.position,
-                                    -this.direction * 5f, 32, 128f, 256f, 0.85f, 0.1f, explosionColors));
+                                    -this.direction * 5f, 32, 64f, 128f, 0.75f, 0.05f, explosionColors));
                                 weapon.Fire(this.direction);
                                 world.AudioManager.PlayCue("explosionMedium");
                             }
@@ -1703,7 +1703,7 @@ namespace FreeRadicals.Gameplay
                                 this.direction = Vector2.Normalize(leftStick); 
                                 this.hydrogenAmmo -= 1;
                                 world.ParticleSystems.Add(new ParticleSystem(this.position,
-                                    -this.direction * 5f, 32, 128f, 256f, 0.85f, 0.1f, explosionColors));
+                                    -this.direction * 5f, 32, 64f, 128f, 0.75f, 0.05f, explosionColors));
                                 hydrogenBoostWeapon.Fire(this.direction);
                                 world.AudioManager.PlayCue("explosionMedium");
                                 if (Velocity.Length() > 500f)

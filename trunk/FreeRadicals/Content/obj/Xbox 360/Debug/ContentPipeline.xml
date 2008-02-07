@@ -7,7 +7,7 @@
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Mark\Desktop\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\Effects\BloomCombine.xnb</Output>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\Effects\BloomCombine.xnb</Output>
       <Time>2008-01-15T09:22:06+00:00</Time>
     </Item>
     <Item>
@@ -16,7 +16,7 @@
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Mark\Desktop\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\Effects\BloomExtract.xnb</Output>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\Effects\BloomExtract.xnb</Output>
       <Time>2008-01-15T09:22:06+00:00</Time>
     </Item>
     <Item>
@@ -25,7 +25,7 @@
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Mark\Desktop\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\Effects\GaussianBlur.xnb</Output>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\Effects\GaussianBlur.xnb</Output>
       <Time>2008-01-15T09:22:06+00:00</Time>
     </Item>
     <Item>
@@ -34,8 +34,8 @@
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Mark\Desktop\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\Effects\refraction.xnb</Output>
-      <Time>2008-01-24T11:26:30.9133759+00:00</Time>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\Effects\refraction.xnb</Output>
+      <Time>2008-01-24T11:26:32+00:00</Time>
     </Item>
     <Item>
       <Source>Fonts\Arial.spritefont</Source>
@@ -43,8 +43,8 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Mark\Desktop\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\Fonts\Arial.xnb</Output>
-      <Time>2007-12-06T03:08:15.740662+00:00</Time>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\Fonts\Arial.xnb</Output>
+      <Time>2007-12-06T03:08:16+00:00</Time>
     </Item>
     <Item>
       <Source>Fonts\DefaultFont.spritefont</Source>
@@ -52,7 +52,7 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Mark\Desktop\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\Fonts\DefaultFont.xnb</Output>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\Fonts\DefaultFont.xnb</Output>
       <Time>2007-09-19T00:24:28+01:00</Time>
     </Item>
     <Item>
@@ -61,7 +61,7 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Mark\Desktop\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\Fonts\retroMedium.xnb</Output>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\Fonts\retroMedium.xnb</Output>
       <Time>2008-01-15T09:22:06+00:00</Time>
     </Item>
     <Item>
@@ -70,7 +70,7 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Mark\Desktop\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\Fonts\retroSmall.xnb</Output>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\Fonts\retroSmall.xnb</Output>
       <Time>2008-01-15T09:22:06+00:00</Time>
     </Item>
     <Item>
@@ -79,8 +79,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Mark\Desktop\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\Textures\blank.xnb</Output>
-      <Time>2008-01-15T09:22:06+00:00</Time>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\Textures\blank.xnb</Output>
+      <Time>2008-01-26T19:08:51.0950937+00:00</Time>
     </Item>
     <Item>
       <Source>Textures\spotlight.png</Source>
@@ -88,8 +88,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Mark\Desktop\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\Textures\spotlight.xnb</Output>
-      <Time>2008-01-24T11:26:19.0073759+00:00</Time>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\Textures\spotlight.xnb</Output>
+      <Time>2008-01-24T11:26:20+00:00</Time>
     </Item>
     <Item>
       <Source>Textures\title.png</Source>
@@ -97,8 +97,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Mark\Desktop\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\Textures\title.xnb</Output>
-      <Time>2008-01-24T23:30:55.462213+00:00</Time>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\Textures\title.xnb</Output>
+      <Time>2008-01-28T03:37:31.515625+00:00</Time>
     </Item>
     <Item>
       <Source>Textures\waterfall.jpg</Source>
@@ -106,38 +106,47 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Mark\Desktop\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\Textures\waterfall.xnb</Output>
-      <Time>2008-01-24T11:26:08.8133759+00:00</Time>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\Textures\waterfall.xnb</Output>
+      <Time>2008-01-25T03:29:00+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Textures\Legend.PNG</Source>
+      <Name>Textures\Legend</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\Textures\Legend.xnb</Output>
+      <Time>2008-01-28T03:39:34.375+00:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Xbox360</TargetPlatform>
       <BuildConfiguration>Debug</BuildConfiguration>
-      <RootDirectory>C:\Users\Mark\Desktop\FreeRadicals\FreeRadicals\Content\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\Mark\Desktop\FreeRadicals\FreeRadicals\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\Mark\Desktop\FreeRadicals\FreeRadicals\Content\obj\Xbox 360\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\Mark\Desktop\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\Content\</RootDirectory>
+      <LoggerRootDirectory>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\Content\obj\Xbox 360\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Documents and Settings\Bryan\Desktop\Interim Report\FreeRadicals\FreeRadicals\bin\Xbox 360\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
-        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v2.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Key>c:\Program Files\Microsoft XNA\XNA Game Studio\v2.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
         <Value>2007-11-28T13:08:00+00:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v2.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Key>c:\Program Files\Microsoft XNA\XNA Game Studio\v2.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
         <Value>2007-11-28T13:08:42+00:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v2.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Key>c:\Program Files\Microsoft XNA\XNA Game Studio\v2.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
         <Value>2007-11-28T13:08:30+00:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v2.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Key>c:\Program Files\Microsoft XNA\XNA Game Studio\v2.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
         <Value>2007-11-28T13:07:44+00:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Windows\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\2.0.0.0__6d5c3888ef60e27d\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2007-12-13T19:01:22.6265913+00:00</Value>
+        <Key>C:\WINDOWS\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\2.0.0.0__6d5c3888ef60e27d\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2007-12-16T18:25:47.0625+00:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>
