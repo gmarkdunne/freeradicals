@@ -30,12 +30,39 @@ namespace FreeRadicals.Screens
         LineBatch lineBatch;
         SpriteBatch spriteBatch;
         SpriteFont spriteFont;
-        Texture2D atomTexture;
-        Texture2D uvc1LightTexture;
-        Texture2D uvc2LightTexture;
-        Texture2D uvc3LightTexture;
-        Texture2D uvc4LightTexture;
-        Texture2D uvc5LightTexture;
+
+        // When Resolution is 1920 x 1200
+        Texture2D aatomTexture;
+        Texture2D auvc1LightTexture;
+        Texture2D auvc2LightTexture;
+        Texture2D auvc3LightTexture;
+        Texture2D auvc4LightTexture;
+        Texture2D auvc5LightTexture;
+
+        // When Resolution is 1680 x 1050
+        Texture2D batomTexture;
+        Texture2D buvc1LightTexture;
+        Texture2D buvc2LightTexture;
+        Texture2D buvc3LightTexture;
+        Texture2D buvc4LightTexture;
+        Texture2D buvc5LightTexture;
+
+        // When Resolution is 1440 x 900
+        Texture2D catomTexture;
+        Texture2D cuvc1LightTexture;
+        Texture2D cuvc2LightTexture;
+        Texture2D cuvc3LightTexture;
+        Texture2D cuvc4LightTexture;
+        Texture2D cuvc5LightTexture;
+
+        // When Resolution is 1280 x 800
+        Texture2D datomTexture;
+        Texture2D duvc1LightTexture;
+        Texture2D duvc2LightTexture;
+        Texture2D duvc3LightTexture;
+        Texture2D duvc4LightTexture;
+        Texture2D duvc5LightTexture;
+
         Texture2D waterfallTexture;
         Texture2D titleTexture;
         Effect refractionEffect;
@@ -96,15 +123,41 @@ namespace FreeRadicals.Screens
             spriteBatch = new SpriteBatch(ScreenManager.GraphicsDevice);
             lineBatch = new LineBatch(ScreenManager.GraphicsDevice);
             spriteFont = content.Load<SpriteFont>("Fonts/Arial");
-            atomTexture = content.Load<Texture2D>("Textures/blank");
             titleTexture = content.Load<Texture2D>("Textures/title");
             refractionEffect = content.Load<Effect>("Effects/refraction");
             waterfallTexture = content.Load<Texture2D>("Textures/waterfall");
-            uvc1LightTexture = content.Load<Texture2D>("Textures/UVC1");
-            uvc2LightTexture = content.Load<Texture2D>("Textures/UVC2");
-            uvc3LightTexture = content.Load<Texture2D>("Textures/UVC3");
-            uvc4LightTexture = content.Load<Texture2D>("Textures/UVC4");
-            uvc5LightTexture = content.Load<Texture2D>("Textures/UVC5");
+
+            // When Resolution is 1920 x 1200
+            aatomTexture = content.Load<Texture2D>("Textures/ablank");
+            auvc1LightTexture = content.Load<Texture2D>("Textures/aUVC1");
+            auvc2LightTexture = content.Load<Texture2D>("Textures/aUVC2");
+            auvc3LightTexture = content.Load<Texture2D>("Textures/aUVC3");
+            auvc4LightTexture = content.Load<Texture2D>("Textures/aUVC4");
+            auvc5LightTexture = content.Load<Texture2D>("Textures/aUVC5");
+
+            // When Resolution is 1680 x 1050
+            batomTexture = content.Load<Texture2D>("Textures/bblank");
+            buvc1LightTexture = content.Load<Texture2D>("Textures/bUVC1");
+            buvc2LightTexture = content.Load<Texture2D>("Textures/bUVC2");
+            buvc3LightTexture = content.Load<Texture2D>("Textures/bUVC3");
+            buvc4LightTexture = content.Load<Texture2D>("Textures/bUVC4");
+            buvc5LightTexture = content.Load<Texture2D>("Textures/bUVC5");
+
+            // When Resolution is 1440 x 900
+            catomTexture = content.Load<Texture2D>("Textures/cblank");
+            cuvc1LightTexture = content.Load<Texture2D>("Textures/cUVC1");
+            cuvc2LightTexture = content.Load<Texture2D>("Textures/cUVC2");
+            cuvc3LightTexture = content.Load<Texture2D>("Textures/cUVC3");
+            cuvc4LightTexture = content.Load<Texture2D>("Textures/cUVC4");
+            cuvc5LightTexture = content.Load<Texture2D>("Textures/cUVC5");
+
+            // When Resolution is 1280 x 800
+            datomTexture = content.Load<Texture2D>("Textures/dblank");
+            duvc1LightTexture = content.Load<Texture2D>("Textures/dUVC1");
+            duvc2LightTexture = content.Load<Texture2D>("Textures/dUVC2");
+            duvc3LightTexture = content.Load<Texture2D>("Textures/dUVC3");
+            duvc4LightTexture = content.Load<Texture2D>("Textures/dUVC4");
+            duvc5LightTexture = content.Load<Texture2D>("Textures/dUVC5");
 
             // update the projection in the line-batch
             lineBatch.SetProjection(Matrix.CreateOrthographicOffCenter(0.0f,
@@ -267,7 +320,22 @@ namespace FreeRadicals.Screens
 
             // draw the stars
             spriteBatch.Begin();
-            world.Atmosphere.Draw(spriteBatch, atomTexture);
+            if (Simulation.WorldRules.ScreenRes == ScreenRes.a1920x1200)
+            {
+                world.Atmosphere.Draw(spriteBatch, aatomTexture);
+            }
+            if (Simulation.WorldRules.ScreenRes == ScreenRes.b1680x1050)
+            {
+                world.Atmosphere.Draw(spriteBatch, batomTexture);
+            }
+            if (Simulation.WorldRules.ScreenRes == ScreenRes.c1440x900)
+            {
+                world.Atmosphere.Draw(spriteBatch, catomTexture);
+            }
+            if (Simulation.WorldRules.ScreenRes == ScreenRes.d1280x800)
+            {
+                world.Atmosphere.Draw(spriteBatch, datomTexture);
+            }
             spriteBatch.End();
 
             if (WorldRules.NeonEffect)
@@ -393,31 +461,118 @@ namespace FreeRadicals.Screens
             // Begin the custom effect.
             refractionEffect.Begin();
             refractionEffect.CurrentTechnique.Passes[0].Begin();
-
-            if (world.OzoneCount >= 26)
+            
+            if (Simulation.WorldRules.ScreenRes == ScreenRes.a1920x1200)
             {
-                ScreenManager.SpriteBatch.Draw(uvc1LightTexture, titlePosition,
-                        new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+                if (world.OzoneCount >= 26)
+                {
+                    ScreenManager.SpriteBatch.Draw(auvc1LightTexture, titlePosition,
+                            new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+                }
+                else if (world.OzoneCount >= 19 && world.OzoneCount <= 25)
+                {
+                    ScreenManager.SpriteBatch.Draw(auvc2LightTexture, titlePosition,
+                            new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+                }
+                else if (world.OzoneCount >= 12 && world.OzoneCount <= 18)
+                {
+                    ScreenManager.SpriteBatch.Draw(auvc3LightTexture, titlePosition,
+                            new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+                }
+                else if (world.OzoneCount >= 6 && world.OzoneCount <= 11)
+                {
+                    ScreenManager.SpriteBatch.Draw(auvc4LightTexture, titlePosition,
+                            new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+                }
+                else if (world.OzoneCount >= 0 && world.OzoneCount <= 5)
+                {
+                    ScreenManager.SpriteBatch.Draw(auvc5LightTexture, titlePosition,
+                            new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+                } 
             }
-            else if (world.OzoneCount >= 19 && world.OzoneCount <= 25)
+            if (Simulation.WorldRules.ScreenRes == ScreenRes.b1680x1050)
             {
-                ScreenManager.SpriteBatch.Draw(uvc2LightTexture, titlePosition,
-                        new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+                if (world.OzoneCount >= 26)
+                {
+                    ScreenManager.SpriteBatch.Draw(buvc1LightTexture, titlePosition,
+                            new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+                }
+                else if (world.OzoneCount >= 19 && world.OzoneCount <= 25)
+                {
+                    ScreenManager.SpriteBatch.Draw(buvc2LightTexture, titlePosition,
+                            new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+                }
+                else if (world.OzoneCount >= 12 && world.OzoneCount <= 18)
+                {
+                    ScreenManager.SpriteBatch.Draw(buvc3LightTexture, titlePosition,
+                            new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+                }
+                else if (world.OzoneCount >= 6 && world.OzoneCount <= 11)
+                {
+                    ScreenManager.SpriteBatch.Draw(buvc4LightTexture, titlePosition,
+                            new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+                }
+                else if (world.OzoneCount >= 0 && world.OzoneCount <= 5)
+                {
+                    ScreenManager.SpriteBatch.Draw(buvc5LightTexture, titlePosition,
+                            new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+                } 
             }
-            else if (world.OzoneCount >= 12 && world.OzoneCount <= 18)
+            if (Simulation.WorldRules.ScreenRes == ScreenRes.c1440x900)
             {
-                ScreenManager.SpriteBatch.Draw(uvc3LightTexture, titlePosition,
-                        new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+                if (world.OzoneCount >= 26)
+                {
+                    ScreenManager.SpriteBatch.Draw(cuvc1LightTexture, titlePosition,
+                            new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+                }
+                else if (world.OzoneCount >= 19 && world.OzoneCount <= 25)
+                {
+                    ScreenManager.SpriteBatch.Draw(cuvc2LightTexture, titlePosition,
+                            new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+                }
+                else if (world.OzoneCount >= 12 && world.OzoneCount <= 18)
+                {
+                    ScreenManager.SpriteBatch.Draw(cuvc3LightTexture, titlePosition,
+                            new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+                }
+                else if (world.OzoneCount >= 6 && world.OzoneCount <= 11)
+                {
+                    ScreenManager.SpriteBatch.Draw(cuvc4LightTexture, titlePosition,
+                            new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+                }
+                else if (world.OzoneCount >= 0 && world.OzoneCount <= 5)
+                {
+                    ScreenManager.SpriteBatch.Draw(cuvc5LightTexture, titlePosition,
+                            new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+                } 
             }
-            else if (world.OzoneCount >= 6 && world.OzoneCount <= 11)
+            if (Simulation.WorldRules.ScreenRes == ScreenRes.d1280x800)
             {
-                ScreenManager.SpriteBatch.Draw(uvc3LightTexture, titlePosition,
-                        new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
-            }
-            else if (world.OzoneCount >= 0 && world.OzoneCount <= 5)
-            {
-                ScreenManager.SpriteBatch.Draw(uvc4LightTexture, titlePosition,
-                        new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+                if (world.OzoneCount >= 26)
+                {
+                    ScreenManager.SpriteBatch.Draw(duvc1LightTexture, titlePosition,
+                            new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+                }
+                else if (world.OzoneCount >= 19 && world.OzoneCount <= 25)
+                {
+                    ScreenManager.SpriteBatch.Draw(duvc2LightTexture, titlePosition,
+                            new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+                }
+                else if (world.OzoneCount >= 12 && world.OzoneCount <= 18)
+                {
+                    ScreenManager.SpriteBatch.Draw(duvc3LightTexture, titlePosition,
+                            new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+                }
+                else if (world.OzoneCount >= 6 && world.OzoneCount <= 11)
+                {
+                    ScreenManager.SpriteBatch.Draw(duvc4LightTexture, titlePosition,
+                            new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+                }
+                else if (world.OzoneCount >= 0 && world.OzoneCount <= 5)
+                {
+                    ScreenManager.SpriteBatch.Draw(duvc5LightTexture, titlePosition,
+                            new Color(titleColor.R, titleColor.G, titleColor.B, TransitionAlpha));
+                } 
             }
 
             // End the sprite batch, then end our custom effect.

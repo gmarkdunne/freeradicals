@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using FreeRadicals.Simulation;
 #endregion
 
 namespace FreeRadicals.ScreenManager
@@ -27,7 +28,10 @@ namespace FreeRadicals.ScreenManager
 
         SpriteBatch spriteBatch;
         SpriteFont font;
-        Texture2D blankTexture;
+        Texture2D ablankTexture;
+        Texture2D bblankTexture;
+        Texture2D cblankTexture;
+        Texture2D dblankTexture;
 
         bool isInitialized;
 
@@ -105,7 +109,10 @@ namespace FreeRadicals.ScreenManager
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = content.Load<SpriteFont>("Fonts/retroMedium");
-            blankTexture = content.Load<Texture2D>("Textures/blank");
+            ablankTexture = content.Load<Texture2D>("Textures/ablank");
+            bblankTexture = content.Load<Texture2D>("Textures/bblank");
+            cblankTexture = content.Load<Texture2D>("Textures/cblank");
+            dblankTexture = content.Load<Texture2D>("Textures/dblank");
 
             // Tell each of the screens to load their content.
             foreach (GameScreen screen in screens)
@@ -224,7 +231,22 @@ namespace FreeRadicals.ScreenManager
         public void DrawRectangle(Rectangle rectangle, Color color)
         {
             SpriteBatch.Begin();
-            SpriteBatch.Draw(blankTexture, rectangle, color);
+            if (Simulation.WorldRules.ScreenRes == ScreenRes.a1920x1200)
+            { 
+                SpriteBatch.Draw(ablankTexture, rectangle, color);
+            }
+            if (Simulation.WorldRules.ScreenRes == ScreenRes.b1680x1050)
+            {
+                SpriteBatch.Draw(bblankTexture, rectangle, color);
+            }
+            if (Simulation.WorldRules.ScreenRes == ScreenRes.c1440x900)
+            {
+                SpriteBatch.Draw(cblankTexture, rectangle, color);
+            }
+            if (Simulation.WorldRules.ScreenRes == ScreenRes.d1280x800)
+            {
+                SpriteBatch.Draw(dblankTexture, rectangle, color);
+            }
             SpriteBatch.End();
         }
 
@@ -292,9 +314,30 @@ namespace FreeRadicals.ScreenManager
 
             spriteBatch.Begin();
 
-            spriteBatch.Draw(blankTexture,
-                             new Rectangle(0, 0, viewport.Width, viewport.Height),
-                             new Color(0, 0, 0, (byte)alpha));
+            if (Simulation.WorldRules.ScreenRes == ScreenRes.a1920x1200)
+            {
+                spriteBatch.Draw(ablankTexture,
+                                 new Rectangle(0, 0, viewport.Width, viewport.Height),
+                                 new Color(0, 0, 0, (byte)alpha));
+            }
+            if (Simulation.WorldRules.ScreenRes == ScreenRes.b1680x1050)
+            {
+                spriteBatch.Draw(bblankTexture,
+                                 new Rectangle(0, 0, viewport.Width, viewport.Height),
+                                 new Color(0, 0, 0, (byte)alpha));
+            }
+            if (Simulation.WorldRules.ScreenRes == ScreenRes.c1440x900)
+            {
+                spriteBatch.Draw(cblankTexture,
+                                 new Rectangle(0, 0, viewport.Width, viewport.Height),
+                                 new Color(0, 0, 0, (byte)alpha));
+            }
+            if (Simulation.WorldRules.ScreenRes == ScreenRes.d1280x800)
+            {
+                spriteBatch.Draw(dblankTexture,
+                                 new Rectangle(0, 0, viewport.Width, viewport.Height),
+                                 new Color(0, 0, 0, (byte)alpha));
+            }
 
             spriteBatch.End();
         }

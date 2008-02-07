@@ -258,9 +258,19 @@ namespace FreeRadicals.Gameplay
         /// </summary>
         public bool positiveCharge = false;
 
+        /// <summary>
+        /// Ammo Variables
+        /// </summary>
         private int oxygenAmmo = 0;
         private int hydrogenAmmo = 20;
-        private int carbonAmmo = 0;
+        private int carbonAmmo = 5;
+
+        /// <summary>
+        /// Max Ammo Variables
+        /// </summary>
+        private int maxOxygenAmmo = 60;
+        private int maxHydrogenAmmo = 60;
+        private int maxCarbonAmmo = 10;
 
         #endregion
 
@@ -268,16 +278,36 @@ namespace FreeRadicals.Gameplay
         public int OxygenAmmo
         {
             get { return oxygenAmmo; }
+            set { oxygenAmmo = value; }
         }
 
         public int HydrogenAmmo
         {
             get { return hydrogenAmmo; }
+            set { hydrogenAmmo = value; }
         }
 
         public int CarbonAmmo
         {
             get { return carbonAmmo; }
+            set { carbonAmmo = value; }
+        }
+        public int MaxOxygenAmmo
+        {
+            get { return maxOxygenAmmo; }
+            set { maxOxygenAmmo = value; }
+        }
+
+        public int MaxHydrogenAmmo
+        {
+            get { return maxHydrogenAmmo; }
+            set { maxHydrogenAmmo = value; }
+        }
+
+        public int MaxCarbonAmmo
+        {
+            get { return maxCarbonAmmo; }
+            set { maxCarbonAmmo = value; }
         }
 
         public bool Playing
@@ -728,8 +758,11 @@ namespace FreeRadicals.Gameplay
                 // Touches Oxygen
                 if ((target is Oxygen) == true)
                 {
-                    this.oxygenAmmo += 1;
-                    target.Die(target);
+                    if (oxygenAmmo < maxOxygenAmmo)
+                    {
+                        this.oxygenAmmo += 1;
+                        target.Die(target); 
+                    }
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
                         target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
                         2f * world.ResVar, 0.05f * world.ResVar, Color.Red));
@@ -739,8 +772,19 @@ namespace FreeRadicals.Gameplay
                 // Touches Oxygen Two
                 if ((target is OxygenTwo) == true)
                 {
-                    this.oxygenAmmo += 2;
-                    target.Die(target);
+                    if (oxygenAmmo < maxOxygenAmmo - 1)
+                    {
+                        this.oxygenAmmo += 2;
+                        target.Die(target);
+                    }
+                    if (oxygenAmmo < maxOxygenAmmo)
+                    {
+                        this.oxygenAmmo += 1;
+                        target.Die(target);
+                        Oxygen oxygen = new Oxygen(world);
+                        oxygen.Spawn(false);
+                        oxygen.Position = target.Position;
+                    }
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
                         target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
                         2f * world.ResVar, 0.05f * world.ResVar, Color.Red));
@@ -750,8 +794,11 @@ namespace FreeRadicals.Gameplay
                 // Touches Hydrogen
                 if ((target is Hydrogen) == true)
                 {
-                    this.hydrogenAmmo += 1;
-                    target.Die(target);
+                    if (hydrogenAmmo < maxHydrogenAmmo)
+                    {
+                        this.hydrogenAmmo += 1;
+                        target.Die(target); 
+                    }
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
                         target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
                         2f * world.ResVar, 0.05f * world.ResVar, Color.Yellow));
@@ -761,8 +808,19 @@ namespace FreeRadicals.Gameplay
                 // Touches Deuterium
                 if ((target is Deuterium) == true)
                 {
-                    this.hydrogenAmmo += 2;
-                    target.Die(target);
+                    if (hydrogenAmmo < maxHydrogenAmmo - 1)
+                    {
+                        this.hydrogenAmmo += 2;
+                        target.Die(target);
+                    }
+                    if (hydrogenAmmo < maxHydrogenAmmo)
+                    {
+                        this.hydrogenAmmo += 1;
+                        target.Die(target);
+                        Hydrogen hydrogen = new Hydrogen(world);
+                        hydrogen.Spawn(false);
+                        hydrogen.Position = target.Position;
+                    }
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
                         target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
                         2f * world.ResVar, 0.05f * world.ResVar, Color.Yellow));
@@ -772,8 +830,11 @@ namespace FreeRadicals.Gameplay
                 // Touches Carbon
                 if ((target is Carbon) == true)
                 {
-                    this.carbonAmmo += 1;
-                    target.Die(target);
+                    if (carbonAmmo < maxCarbonAmmo)
+                    {
+                        this.carbonAmmo += 1;
+                        target.Die(target);
+                    }
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
                         target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
                         2f * world.ResVar, 0.05f * world.ResVar, Color.Gray));
@@ -783,9 +844,12 @@ namespace FreeRadicals.Gameplay
                 // Touches CarbonDioxide
                 if ((target is CarbonDioxide) == true)
                 {
-                    this.oxygenAmmo += 2;
-                    this.carbonAmmo += 1;
-                    target.Die(target);
+                    if (carbonAmmo < maxCarbonAmmo ||
+                        oxygenAmmo < maxOxygenAmmo)
+                    {
+                        target.Die(target);
+                        world.UnbondCarbonDioxide(target.Position, target.Velocity, target.Direction);
+                    }
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
                         target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
                         2f * world.ResVar, 0.05f * world.ResVar, world.CO2Color));
@@ -795,9 +859,12 @@ namespace FreeRadicals.Gameplay
                 // Touches Water
                 if ((target is Water) == true)
                 {
-                    this.hydrogenAmmo += 2;
-                    this.oxygenAmmo += 1;
-                    target.Die(target);
+                    if (hydrogenAmmo < maxHydrogenAmmo ||
+                        oxygenAmmo < maxOxygenAmmo)
+                    {
+                        target.Die(target);
+                        world.UnbondWater(target.Position, target.Velocity, target.Direction);
+                    }
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
                         target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
                         2f * world.ResVar, 0.05f * world.ResVar, world.H2OColor));
@@ -807,32 +874,41 @@ namespace FreeRadicals.Gameplay
                 // Touches NitrousOxide
                 if ((target is NitrousOxide) == true)
                 {
-                    this.oxygenAmmo += 1;
-                    target.Die(target);
-                    Vector2 newPosition = (target.Position + this.position) / 2;
-                    Vector2 newVelocity = (target.Velocity + this.velocity) / 2;
-                    Vector2 newDirection = (target.Direction + this.direction) / 2;
+                    if (oxygenAmmo < maxOxygenAmmo)
+                    {
+                        target.Die(target);
+                        world.UnbondNitrousOxide(target.Position, target.Velocity, target.Direction);
+                    }
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
                         target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
                         2f * world.ResVar, 0.05f * world.ResVar, world.N2OColor));
                     this.FireGamepadMotors(0.0f, 0.30f);
-                    
-                    NitrogenTwo nitrogenTwo = new NitrogenTwo(world);
-                    nitrogenTwo.Spawn(false);
-                    nitrogenTwo.Position = target.Position;
-                    nitrogenTwo.Velocity = newVelocity;
-                    nitrogenTwo.Direction = newDirection;
-                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
-                        target.Direction, 18, 32f * world.ResVar, 64f * world.ResVar, 
-                        1.5f * world.ResVar, 0.05f * world.ResVar, Color.Blue));
                 }
+
+                // Touches Methylene
+                if ((target is Methylene) == true)
+                {
+                    if (carbonAmmo < maxCarbonAmmo ||
+                        hydrogenAmmo < maxHydrogenAmmo)
+                    {
+                        target.Die(target);
+                        world.UnbondMethylene(target.Position, target.Velocity, target.Direction);
+                    }
+                    world.ParticleSystems.Add(new ParticleSystem(target.Position,
+                        target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar,
+                        2f * world.ResVar, 0.05f * world.ResVar, world.CH2Color));
+                    this.FireGamepadMotors(0.0f, 0.28f);
+                } 
 
                 // Touches Methane
                 if ((target is Methane) == true)
                 {
-                    this.carbonAmmo += 1;
-                    this.hydrogenAmmo += 4;
-                    target.Die(target);
+                    if (carbonAmmo < maxCarbonAmmo || 
+                        hydrogenAmmo < maxHydrogenAmmo)
+                    {
+                        target.Die(target);
+                        world.UnbondMethane(target.Position, target.Velocity, target.Direction);
+                    }
                     world.ParticleSystems.Add(new ParticleSystem(target.Position,
                         target.Direction, 36, 64f * world.ResVar, 128f * world.ResVar, 
                         2f * world.ResVar, 0.05f * world.ResVar, world.CH4Color));
@@ -1275,13 +1351,13 @@ namespace FreeRadicals.Gameplay
 						{                   
 							// Rotate Left                        
 							if (currentKeyboardState.IsKeyDown(Keys.Left))       
-							{                       
-                                Rotation -= elapsedTime * rotationRadiansPerSecond;                      
+							{
+                                Rotation -= elapsedTime * rotationRadiansPerSecond * 0.4f;                      
 	                        }                           
 	                        // Rotate Right                          
 	                        if (currentKeyboardState.IsKeyDown(Keys.Right))  
 		                    {                               
-			                    Rotation += elapsedTime * rotationRadiansPerSecond;           
+			                    Rotation += elapsedTime * rotationRadiansPerSecond * 0.4f;           
 			                }                         
 			                //create some velocity if the right trigger is down             
 			                Vector2 shipVelocityAdd = Vector2.Zero;                        
@@ -1296,29 +1372,30 @@ namespace FreeRadicals.Gameplay
 				            //finally, add this vector to our velocity.           
 				            Velocity += shipVelocityAdd;
                             // Carbon Blast               
-                            if (currentKeyboardState.IsKeyDown(Keys.A))// &&
-                               //currentKeyboardState.IsKeyUp(Keys.A))
+                            if (currentKeyboardState.IsKeyDown(Keys.S))
                             {
                                 if ((this.carbonAmmo >= 1) == true)
                                 {
                                     this.direction = Vector2.Normalize(forward);
                                     this.carbonAmmo -= 1;
                                     world.ParticleSystems.Add(new ParticleSystem(this.position,
-                                        -this.direction * 5f, 32, 64f, 128f, 0.75f, 0.05f, world.AMBColor));
+                                        -this.direction * 5f, 32, 64f * world.ResVar, 128f * world.ResVar, 
+                                        0.75f * world.ResVar, 0.05f * world.ResVar, world.AMBColor));
                                     weapon.Fire(Vector2.Normalize(this.direction));
                                     world.AudioManager.PlayCue("explosionMedium");
                                 }           
 					        }
                             // Hydrogen Boost                    
-                            if (currentKeyboardState.IsKeyDown(Keys.B))// &&
-                               //currentKeyboardState.IsKeyUp(Keys.B))   
-					        {
+                            if (currentKeyboardState.IsKeyDown(Keys.Space))
+                            {
                                 if ((this.hydrogenAmmo >= 1) == true)
                                 {
-                                    this.direction = Vector2.Normalize(forward); 
+
+                                    this.direction = Vector2.Normalize(leftStick);
                                     this.hydrogenAmmo -= 1;
                                     world.ParticleSystems.Add(new ParticleSystem(this.position,
-                                        -this.direction * 5f, 32, 64f, 128f, 0.75f, 0.05f, world.NanoBotColor));
+                                        -this.direction * 5f, 32, 64f * world.ResVar, 128f * world.ResVar,
+                                        0.75f * world.ResVar, 0.05f * world.ResVar, world.NanoBotColor));
                                     hydrogenBoostWeapon.Fire(this.direction);
                                     world.AudioManager.PlayCue("explosionMedium");
                                     if (Velocity.Length() > 500f)
@@ -1329,27 +1406,28 @@ namespace FreeRadicals.Gameplay
                                     {
                                         Velocity += Velocity * 2f;
                                     }
-                                }                    
+                                }             
 					        }
                             // Fire the Ozone molecule upwards       
-                            if (currentKeyboardState.IsKeyDown(Keys.X))// &&
-                               //currentKeyboardState.IsKeyUp(Keys.X))
+                            if (currentKeyboardState.IsKeyDown(Keys.W))
                             {
                                 if (((this.oxygenAmmo >= 3) && (this.hydrogenAmmo >= 1)) == true)
                                 {
                                     Ozone ozone = new Ozone(world);
                                     ozone.Spawn(false);
-                                    ozone.Position = this.position + new Vector2(0, -130f);
+                                    ozone.Position = this.position + new Vector2(0, -130f * world.ResVar);
                                     ozone.Velocity = this.velocity;
                                     ozone.Direction = Vector2.Normalize(leftStick);// forward;
                                     this.oxygenAmmo -= 3;
-                                    world.ParticleSystems.Add(new ParticleSystem(ozone.Position + new Vector2(15f, 0),
-                                        ozone.Velocity * 1.5f, 128, 64f, 128f, 0.85f, 0.1f, ozone.Color));
+                                    world.ParticleSystems.Add(new ParticleSystem(ozone.Position + new Vector2(15f * world.ResVar, 0),
+                                        ozone.Velocity * 1.5f, 128, 64f * world.ResVar, 128f * world.ResVar, 
+                                        0.85f * world.ResVar, 0.1f * world.ResVar, ozone.Color));
                                     world.AudioManager.PlayCue("playerSpawn");
                                     this.hydrogenAmmo -= 1;
                                     world.ParticleSystems.Add(new ParticleSystem(this.position,
-                                        -Vector2.Normalize(new Vector2(0, -130f)) * 5f, 32, 64f, 128f, 0.75f, 0.05f, world.NanoBotColor));
-                                    hydrogenBoostWeapon.Fire(Vector2.Normalize(new Vector2(0, -130f)));
+                                        -Vector2.Normalize(new Vector2(0, -130f)) * 5f, 32, 64f * world.ResVar, 128f * world.ResVar, 
+                                        0.75f * world.ResVar, 0.05f * world.ResVar, world.NanoBotColor));
+                                    hydrogenBoostWeapon.Fire(Vector2.Normalize(new Vector2(0, -130f * world.ResVar)));
                                 }
                             }
 						}      
@@ -1362,17 +1440,19 @@ namespace FreeRadicals.Gameplay
                             {
                                 Ozone ozone = new Ozone(world);
                                 ozone.Spawn(false);
-                                ozone.Position = this.position + new Vector2(0, -130f);
+                                ozone.Position = this.position + new Vector2(0, -130f * world.ResVar);
                                 ozone.Velocity = this.velocity;
                                 ozone.Direction = Vector2.Normalize(leftStick);// forward;
                                 this.oxygenAmmo -= 3;
-                                world.ParticleSystems.Add(new ParticleSystem(ozone.Position + new Vector2(15f, 0),
-                                    ozone.Velocity * 1.5f, 128, 64f, 128f, 0.85f, 0.1f, ozone.Color));
+                                world.ParticleSystems.Add(new ParticleSystem(ozone.Position + new Vector2(15f * world.ResVar, 0),
+                                    ozone.Velocity * 1.5f, 128, 64f * world.ResVar, 128f * world.ResVar,
+                                    0.85f * world.ResVar, 0.1f * world.ResVar, ozone.Color));
                                 world.AudioManager.PlayCue("playerSpawn");
                                 this.hydrogenAmmo -= 1;
                                 world.ParticleSystems.Add(new ParticleSystem(this.position,
-                                    -Vector2.Normalize(new Vector2(0, -130f)) * 5f, 32, 64f, 128f, 0.75f, 0.05f, world.NanoBotColor));
-                                hydrogenBoostWeapon.Fire(Vector2.Normalize(new Vector2(0, -130f)));
+                                    -Vector2.Normalize(new Vector2(0, -130f)) * 5f, 32, 64f * world.ResVar, 128f * world.ResVar,
+                                    0.75f * world.ResVar, 0.05f * world.ResVar, world.NanoBotColor));
+                                hydrogenBoostWeapon.Fire(Vector2.Normalize(new Vector2(0, -130f * world.ResVar)));
                             }
                         }
 
@@ -1382,13 +1462,14 @@ namespace FreeRadicals.Gameplay
                         {
                             if ((this.carbonAmmo >= 1) == true)
                             {
-                                this.direction = Vector2.Normalize(forward); 
+                                this.direction = Vector2.Normalize(forward);
                                 this.carbonAmmo -= 1;
                                 world.ParticleSystems.Add(new ParticleSystem(this.position,
-                                    -this.direction * 5f, 32, 64f, 128f, 0.75f, 0.05f, world.NanoBotColor));
-                                weapon.Fire(this.direction);
+                                    -this.direction * 5f, 32, 64f * world.ResVar, 128f * world.ResVar,
+                                    0.75f * world.ResVar, 0.05f * world.ResVar, world.AMBColor));
+                                weapon.Fire(Vector2.Normalize(this.direction));
                                 world.AudioManager.PlayCue("explosionMedium");
-                            }
+                            }  
                         }
 
                         // Fire the Hydrogen Boost 
@@ -1402,7 +1483,8 @@ namespace FreeRadicals.Gameplay
                                 this.direction = Vector2.Normalize(leftStick); 
                                 this.hydrogenAmmo -= 1;
                                 world.ParticleSystems.Add(new ParticleSystem(this.position,
-                                    -this.direction * 5f, 32, 64f, 128f, 0.75f, 0.05f, world.NanoBotColor));
+                                    -this.direction * 5f, 32, 64f * world.ResVar, 128f * world.ResVar, 
+                                    0.75f * world.ResVar, 0.05f * world.ResVar, world.NanoBotColor));
                                 hydrogenBoostWeapon.Fire(this.direction);
                                 world.AudioManager.PlayCue("explosionMedium");
                                 if (Velocity.Length() > 500f)
@@ -1424,22 +1506,22 @@ namespace FreeRadicals.Gameplay
                         // Apply positive or negative force to 
                         // the exterior of the nano bot
                         if (currentGamePadState.Triggers.Right != 0 || 
-                            (currentKeyboardState.IsKeyDown(Keys.Space) && playerIndex == PlayerIndex.One ))
+                            (currentKeyboardState.IsKeyDown(Keys.D) && playerIndex == PlayerIndex.One ))
                         {
                             negativeCharge = true;
                         }
                         else if (currentGamePadState.Triggers.Right == 0 || 
-                            (currentKeyboardState.IsKeyUp(Keys.Space) && playerIndex == PlayerIndex.One))
+                            (currentKeyboardState.IsKeyUp(Keys.D) && playerIndex == PlayerIndex.One))
                         {
                             negativeCharge = false;
                         }
                         if (currentGamePadState.Triggers.Left != 0 || 
-                            (currentKeyboardState.IsKeyDown(Keys.LeftAlt) && playerIndex == PlayerIndex.One ) )
+                            (currentKeyboardState.IsKeyDown(Keys.A) && playerIndex == PlayerIndex.One ) )
                         {
                             positiveCharge = true;
                         }
                         else if (currentGamePadState.Triggers.Left == 0 || 
-                            (currentKeyboardState.IsKeyUp(Keys.LeftAlt) && playerIndex == PlayerIndex.One))
+                            (currentKeyboardState.IsKeyUp(Keys.A) && playerIndex == PlayerIndex.One))
                         {
                             positiveCharge = false;
                         }

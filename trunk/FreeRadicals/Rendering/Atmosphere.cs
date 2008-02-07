@@ -15,7 +15,7 @@ namespace FreeRadicals.Rendering
         /// <summary>
         /// The distance that the atoms move per second.
         /// </summary>
-        const float atomVelocity = 1500f;
+        const float atomVelocity = 15f;
         #endregion
 
         #region Fields
