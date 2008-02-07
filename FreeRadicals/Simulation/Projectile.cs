@@ -15,7 +15,7 @@ namespace FreeRadicals
         /// <summary>
         /// The player who fired this projectile.
         /// </summary>
-        protected NanoBot owner;
+        protected Gameplay.NanoBot owner;
 
         /// <summary>
         /// The speed that the projectile will move at.
@@ -49,7 +49,7 @@ namespace FreeRadicals
         #endregion
 
         #region Properties
-        public NanoBot Owner
+        public Gameplay.NanoBot Owner
         {
             get { return owner; }
         }
@@ -62,7 +62,7 @@ namespace FreeRadicals
         /// <param name="world">The world that this projectile belongs to.</param>
         /// <param name="owner">The ship that fired this projectile, if any.</param>
         /// <param name="direction">The initial direction for this projectile.</param>
-        public Projectile(World world, NanoBot owner, Vector2 direction)
+        public Projectile(World world, Gameplay.NanoBot owner, Vector2 direction)
             : base(world) 
         {
             this.owner = owner;

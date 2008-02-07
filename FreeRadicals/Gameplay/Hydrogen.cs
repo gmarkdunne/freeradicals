@@ -31,7 +31,7 @@ namespace FreeRadicals.Gameplay
         /// <summary>
         /// Scalar to convert the velocity / mass ratio into a "nice" rotational value.
         /// </summary>
-        const float velocityMassRatioToRotationScalar = -0.02f;
+        const float velocityMassRatioToRotationScalar = -0.005f;
         #endregion
 
         #region Initialization
@@ -45,6 +45,8 @@ namespace FreeRadicals.Gameplay
         {
             // Hydrogen Radius
             this.radius = 4.0f;//(1.00794)
+            // Collision Radius (Radius * 40)
+            this.collisionRadius = this.radius * 40;
             // all atoms are coloured according to which type they are
             this.color = Color.Yellow;
             // create the polygon
@@ -77,6 +79,34 @@ namespace FreeRadicals.Gameplay
 
             // apply some drag so the asteroids settle down
             velocity -= velocity * (elapsedTime * dragPerSecond);
+
+            // check if there is an Hydrogen
+            for (int i = 0; i < world.Actors.Count; ++i)
+            {
+                if ((world.Actors[i] is Hydrogen) == true)
+                {
+                    Vector2 distance = this.position - world.Actors[i].Position;
+                    if (distance.Length() <= this.collisionRadius)
+                    {
+                        world.Actors[i].Velocity -= -distance * 0.01f;
+                        return;
+                    }
+                }
+            }
+
+            // check if there is an Hydroxyl
+            for (int i = 0; i < world.Actors.Count; ++i)
+            {
+                if ((world.Actors[i] is Hydroxyl) == true)
+                {
+                    Vector2 distance = this.position - world.Actors[i].Position;
+                    if (distance.Length() <= this.collisionRadius)
+                    {
+                        world.Actors[i].Velocity -= -distance * 0.01f;
+                        return;
+                    }
+                }
+            }
 
             base.Update(elapsedTime);
         }

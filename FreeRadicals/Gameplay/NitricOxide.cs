@@ -35,7 +35,7 @@ namespace FreeRadicals.Gameplay
         /// Scalar to convert the velocity / mass 
         /// ratio into a "nice" rotational value.
         /// </summary>
-        const float velocityMassRatioToRotationScalar = -0.02f;
+        const float velocityMassRatioToRotationScalar = -0.005f;
 
         /// <summary>
         /// Particle system colors for the ship-explosion effect.
@@ -67,6 +67,8 @@ namespace FreeRadicals.Gameplay
         {
             // Oxygen Radius
             this.radius = 16f; //2*(15.9994);
+            // Collision Radius (Radius * 10)
+            this.collisionRadius = this.radius * 10;
             // all atoms are coloured according to which type they are
             this.color = Color.Red;
             // create the polygon
@@ -202,6 +204,34 @@ namespace FreeRadicals.Gameplay
             // This is the AI bit, Execute the agents current state.
             agent.ExecuteState();
 
+            // check if there is an Nitrogen
+            for (int i = 0; i < world.Actors.Count; ++i)
+            {
+                if ((world.Actors[i] is Nitrogen) == true)
+                {
+                    Vector2 distance = this.position - world.Actors[i].Position;
+                    if (distance.Length() <= this.collisionRadius)
+                    {
+                        world.Actors[i].Velocity -= -distance * 0.01f;
+                        return;
+                    }
+                }
+            }
+
+            // check if there is an Ozone
+            for (int i = 0; i < world.Actors.Count; ++i)
+            {
+                if ((world.Actors[i] is Ozone) == true)
+                {
+                    Vector2 distance = this.position - world.Actors[i].Position;
+                    if (distance.Length() <= this.collisionRadius)
+                    {
+                        world.Actors[i].Velocity -= -distance * 0.02f;
+                        return;
+                    }
+                }
+            }
+
             base.Update(elapsedTime);
         }
 
@@ -227,12 +257,28 @@ namespace FreeRadicals.Gameplay
                 float rammingSpeed =
                     Vector2.Dot(playerAsteroidVector, player.Velocity) -
                     Vector2.Dot(playerAsteroidVector, this.velocity);
-                //player.Damage(this, this.mass * rammingSpeed * damageScalar);
+
+                if (player.negativeCharge == false)
+                {
+                    player.Damage(this, this.mass * rammingSpeed * damageScalar);
+                }
 
             }
             // if the oxygen didn't hit a projectile, play the oxygen-touch cue
             if ((target is Projectile) == false)
             {
+                this.world.AudioManager.PlayCue("asteroidTouch");
+            }
+            // if the Ozone hit an Hydroxyl, Bond them to H2O
+            if ((target is Ozone) == true)
+            {
+                target.Die(target);
+                Vector2 newPosition = (target.Position + this.position) / 2;
+                Vector2 newVelocity = (target.Velocity + this.velocity) / 2;
+                Vector2 newDirection = (target.Direction + this.direction) / 2;
+                world.UnbondOzone(newPosition, newVelocity, newDirection);
+                world.ParticleSystems.Add(new ParticleSystem(newPosition,
+                    newDirection, 36, 64f, 128f, 2f, 0.05f, Color.Red));
                 this.world.AudioManager.PlayCue("asteroidTouch");
             }
             return base.Touch(target);

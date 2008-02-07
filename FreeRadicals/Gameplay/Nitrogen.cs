@@ -31,7 +31,7 @@ namespace FreeRadicals.Gameplay
         /// <summary>
         /// Scalar to convert the velocity / mass ratio into a "nice" rotational value.
         /// </summary>
-        const float velocityMassRatioToRotationScalar = 0.02f;
+        const float velocityMassRatioToRotationScalar = 0.005f;
 
         /// <summary>
         /// Particle system colors for the ship-explosion effect.
@@ -85,6 +85,46 @@ namespace FreeRadicals.Gameplay
 
             // apply some drag so the asteroids settle down
             velocity -= velocity * (elapsedTime * dragPerSecond);
+
+            // check if there is an Oxygen
+            for (int i = 0; i < world.Actors.Count; ++i)
+            {
+                if ((world.Actors[i] is Oxygen) == true)
+                {
+                    Vector2 distance = this.position - world.Actors[i].Position;
+                    if (distance.Length() <= this.collisionRadius)
+                    {
+                        world.Actors[i].Velocity -= -distance * 0.005f;
+                        return;
+                    }
+                }
+            }
+            // check if there is an Nitrogen
+            for (int i = 0; i < world.Actors.Count; ++i)
+            {
+                if ((world.Actors[i] is Nitrogen) == true)
+                {
+                    Vector2 distance = this.position - world.Actors[i].Position;
+                    if (distance.Length() <= this.collisionRadius)
+                    {
+                        world.Actors[i].Velocity -= -distance * 0.005f;
+                        return;
+                    }
+                }
+            }
+            // check if there is an NitrogenTwo
+            for (int i = 0; i < world.Actors.Count; ++i)
+            {
+                if ((world.Actors[i] is NitrogenTwo) == true)
+                {
+                    Vector2 distance = this.position - world.Actors[i].Position;
+                    if (distance.Length() <= this.collisionRadius)
+                    {
+                        world.Actors[i].Velocity -= -distance * 0.005f;
+                        return;
+                    }
+                }
+            }
 
             base.Update(elapsedTime);
         }

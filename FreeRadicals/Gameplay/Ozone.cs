@@ -35,7 +35,7 @@ namespace FreeRadicals.Gameplay
         /// Scalar to convert the velocity / mass 
         /// ratio into a "nice" rotational value.
         /// </summary>
-        const float velocityMassRatioToRotationScalar = -0.02f;
+        const float velocityMassRatioToRotationScalar = -0.005f;
 
         #endregion
 
@@ -60,6 +60,8 @@ namespace FreeRadicals.Gameplay
         {
             // Oxygen Radius
             this.radius = 16f; //(15.9994);
+            // Collision Radius (Radius * 10)
+            this.collisionRadius = this.radius * 10;
             // all atoms are coloured according to which type they are
             this.color = Color.Red;
             // create the polygon
@@ -230,6 +232,47 @@ namespace FreeRadicals.Gameplay
             // apply some drag so the asteroids settle down
             velocity -= velocity * (elapsedTime * dragPerSecond);
 
+            // check if there is an Oxygen
+            for (int i = 0; i < world.Actors.Count; ++i)
+            {
+                // check if there is an Oxygen
+                if ((world.Actors[i] is Oxygen) == true)
+                {
+                    Vector2 distance = this.position - world.Actors[i].Position;
+                    if (distance.Length() <= this.collisionRadius)
+                    {
+                        world.Actors[i].Velocity += distance * 0.01f;
+                        return;
+                    }
+                }
+            }
+            // check if there is an OxygenTwo
+            for (int i = 0; i < world.Actors.Count; ++i)
+            {
+                if ((world.Actors[i] is OxygenTwo) == true)
+                {
+                    Vector2 distance = this.position - world.Actors[i].Position;
+                    if (distance.Length() <= this.collisionRadius)
+                    {
+                        world.Actors[i].Velocity += distance * 0.01f;
+                        return;
+                    }
+                }
+            }
+            //// check if there is an Ozone
+            //for (int i = 0; i < world.Actors.Count; ++i)
+            //{
+            //    if ((world.Actors[i] is Ozone) == true)
+            //    {
+            //        Vector2 distance = this.position - world.Actors[i].Position;
+            //        if (distance.Length() <= this.collisionRadius)
+            //        {
+            //            world.Actors[i].Velocity += distance * 0.5f;
+            //            return;
+            //        }
+            //    }
+            //}
+
             base.Update(elapsedTime);
         }
         #endregion
@@ -262,17 +305,17 @@ namespace FreeRadicals.Gameplay
             {
                 this.world.AudioManager.PlayCue("asteroidTouch");
             }
-            //if ((target is NanoBot) == true)
-            //{
-            //    this.Die(this);
-            //    Vector2 newPosition = this.position;
-            //    Vector2 newVelocity = this.velocity;
-            //    Vector2 newDirection = this.direction;
-            //    world.UnbondOzone(newPosition, newVelocity, newDirection);
-            //    world.ParticleSystems.Add(new ParticleSystem(newPosition,
-            //        newDirection, 36, 64f, 128f, 2f, 0.05f, Color.Red));
-            //    this.world.AudioManager.PlayCue("asteroidTouch");
-            //}
+            if ((target is NanoBot) == true)
+            {
+                this.Die(this);
+                Vector2 newPosition = this.position;
+                Vector2 newVelocity = this.velocity;
+                Vector2 newDirection = this.direction;
+                world.UnbondOzone(newPosition, newVelocity, newDirection);
+                world.ParticleSystems.Add(new ParticleSystem(newPosition,
+                    newDirection, 36, 64f, 128f, 2f, 0.05f, Color.Red));
+                this.world.AudioManager.PlayCue("asteroidTouch");
+            }
             return base.Touch(target); 
         }
 

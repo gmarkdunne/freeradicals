@@ -31,7 +31,7 @@ namespace FreeRadicals.Gameplay
         /// <summary>
         /// Scalar to convert the velocity / mass ratio into a "nice" rotational value.
         /// </summary>
-        const float velocityMassRatioToRotationScalar = 0.01f;
+        const float velocityMassRatioToRotationScalar = 0.001f;
         #endregion
 
         #region Initialization
@@ -45,6 +45,8 @@ namespace FreeRadicals.Gameplay
         {
             // Bromine Radius
             this.radius = 50.0f; //(79.90);
+            // Collision Radius (Radius * 10)
+            this.collisionRadius = this.radius * 10;
             // all atoms are coloured according to which type they are
             this.color = Color.Indigo;
             // create the polygon
@@ -102,7 +104,11 @@ namespace FreeRadicals.Gameplay
                 float rammingSpeed =
                     Vector2.Dot(playerAsteroidVector, player.Velocity) -
                     Vector2.Dot(playerAsteroidVector, this.velocity);
-                player.Damage(this, this.mass * rammingSpeed * damageScalar);
+
+                if (player.negativeCharge == false)
+                {
+                    player.Damage(this, this.mass * rammingSpeed * damageScalar);
+                }
 
             }
             // if the oxygen didn't hit a projectile, play the oxygen-touch cue

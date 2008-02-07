@@ -35,7 +35,7 @@ namespace FreeRadicals.Gameplay
         /// Scalar to convert the velocity / mass 
         /// ratio into a "nice" rotational value.
         /// </summary>
-        const float velocityMassRatioToRotationScalar = 0.02f;
+        const float velocityMassRatioToRotationScalar = 0.005f;
 
         /// <summary>
         /// Particle system colors for the ship-explosion effect.
@@ -68,6 +68,8 @@ namespace FreeRadicals.Gameplay
         {
             // Carbon Radius
             this.radius = 16.0f;
+            // Collision Radius (Radius * 10)
+            this.collisionRadius = this.radius * 10;
             // Carbon Color
             this.color = Color.Red;
             // create the polygon

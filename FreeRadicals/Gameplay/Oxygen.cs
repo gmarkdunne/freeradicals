@@ -35,7 +35,7 @@ namespace FreeRadicals.Gameplay
         /// Scalar to convert the velocity / mass 
         /// ratio into a "nice" rotational value.
         /// </summary>
-        const float velocityMassRatioToRotationScalar = -0.02f;
+        const float velocityMassRatioToRotationScalar = -0.005f;
 
         /// <summary>
         /// Particle system colors for the ship-explosion effect.
@@ -84,31 +84,6 @@ namespace FreeRadicals.Gameplay
 
             // Set the AI agent up with an initial state.
             agent = new BasicModelAgent(this, new State_Patrol());
-
-            // check if there is an Oxygen to bond this with in the world
-            for (int i = 0; i < world.Actors.Count; ++i)
-            {
-                // check if there is an Oxygen to bond this with in the world
-                if ((world.Actors[i] is Oxygen) == true)
-                {
-                    Vector2 distance = world.Actors[i].Position - this.position;
-                    if (distance.Length() <= this.collisionRadius)
-                    {
-                        world.Actors[i].Velocity += distance * 10;
-                        return;
-                    }
-                }
-                // check if there is an OxygenTwo to bond this with in the world
-                if ((world.Actors[i] is OxygenTwo) == true)
-                {
-                    Vector2 distance = world.Actors[i].Position - this.position;
-                    if (distance.Length() <= this.collisionRadius)
-                    {
-                        world.Actors[i].Velocity += distance * 10;
-                        return;
-                    }
-                }
-            }
         }
         #endregion
 
@@ -133,6 +108,73 @@ namespace FreeRadicals.Gameplay
             // This is the AI bit, Execute the agents current state.
             agent.ExecuteState();
 
+            // check if there is an Oxygen
+            for (int i = 0; i < world.Actors.Count; ++i)
+            {
+                // check if there is an Oxygen to bond this with in the world
+                if ((world.Actors[i] is Oxygen) == true)
+                {
+                    Vector2 distance = this.position - world.Actors[i].Position;
+                    if (distance.Length() <= this.collisionRadius)
+                    {
+                        world.Actors[i].Velocity -= -distance * 0.005f;
+                        return;
+                    }
+                }
+            }
+            // check if there is an OxygenTwo
+            for (int i = 0; i < world.Actors.Count; ++i)
+            {
+                if ((world.Actors[i] is OxygenTwo) == true)
+                {
+                    Vector2 distance = this.position - world.Actors[i].Position;
+                    if (distance.Length() <= this.collisionRadius)
+                    {
+                        world.Actors[i].Velocity -= -distance * 0.005f;
+                        return;
+                    }
+                }
+            }
+            // check if there is an Hydrogen
+            for (int i = 0; i < world.Actors.Count; ++i)
+            {
+                if ((world.Actors[i] is Hydrogen) == true)
+                {
+                    Vector2 distance = this.position - world.Actors[i].Position;
+                    if (distance.Length() <= this.collisionRadius)
+                    {
+                        world.Actors[i].Velocity -= -distance * 0.005f;
+                        return;
+                    }
+                }
+            }
+            // check if there is an Nitrogen
+            for (int i = 0; i < world.Actors.Count; ++i)
+            {
+                if ((world.Actors[i] is Nitrogen) == true)
+                {
+                    Vector2 distance = this.position - world.Actors[i].Position;
+                    if (distance.Length() <= this.collisionRadius)
+                    {
+                        world.Actors[i].Velocity -= -distance * 0.005f;
+                        return;
+                    }
+                }
+            }
+            // check if there is an NitrogenTwo
+            for (int i = 0; i < world.Actors.Count; ++i)
+            {
+                if ((world.Actors[i] is NitrogenTwo) == true)
+                {
+                    Vector2 distance = this.position - world.Actors[i].Position;
+                    if (distance.Length() <= this.collisionRadius)
+                    {
+                        world.Actors[i].Velocity -= -distance * 0.005f;
+                        return;
+                    }
+                }
+            }
+            
             base.Update(elapsedTime);
         }
 
