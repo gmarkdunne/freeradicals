@@ -57,14 +57,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AudioManager.cs" />
-    <Compile Include="BaseAI\BasicAgent.cs" />
-    <Compile Include="BaseAI\BasicAgentInterfaces.cs" />
-    <Compile Include="BaseAI\BasicState.cs" />
     <Compile Include="BloomPostprocess\BloomComponent.cs" />
     <Compile Include="BloomPostprocess\BloomSettings.cs" />
     <Compile Include="CollectCollection.cs" />
-    <Compile Include="CustomAI\BasicModelAgent.cs" />
-    <Compile Include="CustomAI\FiniteStates.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Gameplay\Atoms\Bromine.cs" />
     <Compile Include="Gameplay\Atoms\Carbon.cs" />
