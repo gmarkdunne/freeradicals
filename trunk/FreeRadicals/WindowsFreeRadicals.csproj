@@ -104,6 +104,8 @@
     <Compile Include="Rendering\Particle.cs" />
     <Compile Include="Rendering\ParticleSystem.cs" />
     <Compile Include="Rendering\Atmosphere.cs" />
+    <Compile Include="Rendering\RibbonTrail2D.cs" />
+    <Compile Include="Rendering\RibbonTrailComponent.cs" />
     <Compile Include="Rendering\VectorPolygon.cs" />
     <Compile Include="ScreenManager\GameScreen.cs" />
     <Compile Include="ScreenManager\InputState.cs" />

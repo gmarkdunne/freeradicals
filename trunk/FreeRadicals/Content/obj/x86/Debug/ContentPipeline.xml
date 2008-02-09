@@ -38,6 +38,15 @@
       <Time>2008-01-24T11:26:32+00:00</Time>
     </Item>
     <Item>
+      <Source>Effects\effect.fx</Source>
+      <Name>Effects\effect</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\Bryan\Desktop\Free Radicals\FreeRadicals\bin\x86\Debug\Content\Effects\effect.xnb</Output>
+      <Time>2008-02-08T22:43:00.34375+00:00</Time>
+    </Item>
+    <Item>
       <Source>Fonts\Arial.spritefont</Source>
       <Name>Fonts\Arial</Name>
       <Importer>FontDescriptionImporter</Importer>

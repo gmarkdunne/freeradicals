@@ -98,3 +98,4 @@ C:\Documents and Settings\Bryan\Desktop\Free Radicals\FreeRadicals\obj\x86\Debug
 C:\Documents and Settings\Bryan\Desktop\Free Radicals\FreeRadicals\obj\x86\Debug\FreeRadicals.application
 C:\Documents and Settings\Bryan\Desktop\Free Radicals\FreeRadicals\obj\x86\Debug\FreeRadicals.exe
 C:\Documents and Settings\Bryan\Desktop\Free Radicals\FreeRadicals\obj\x86\Debug\FreeRadicals.pdb
+C:\Documents and Settings\Bryan\Desktop\Free Radicals\FreeRadicals\bin\x86\Debug\Content\Effects\effect.xnb
