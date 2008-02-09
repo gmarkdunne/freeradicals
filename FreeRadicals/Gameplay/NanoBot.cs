@@ -11,6 +11,7 @@ using FreeRadicals.Gameplay.JointMolecules;
 using FreeRadicals.Gameplay.GreenhouseGases;
 using FreeRadicals.Gameplay.FreeRadicals;
 using FreeRadicals.Screens;
+using Microsoft.Xna.Framework.Content;
 #endregion
 
 namespace FreeRadicals.Gameplay
@@ -137,6 +138,21 @@ namespace FreeRadicals.Gameplay
         #endregion
 
         #region Fields
+        /// <summary>
+        /// Ribbon Trail
+        /// </summary>
+        GraphicsDeviceManager graphics;
+        ContentManager content;
+        private RibbonTrail2D trail;
+        private RibbonTrail2D trail2;
+        private RibbonTrailComponent ribbonComp;
+        private SpriteBatch batch;
+        private Texture2D ball;
+        private Texture2D bg;
+        private SpriteFont font;
+        private Vector2 position;
+        private Vector2 position2;
+
         /// <summary>
         /// A second polygon for rendering the power-up.
         /// </summary>
